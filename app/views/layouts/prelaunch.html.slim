@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+html lang="en"
+  head
+    meta charset="UTF-8"
+    title Food Delivery In Cyberjaya
+    meta[property="og:title" content="#{ @title || "Online Food Delivery in Cyberjaya - makan.io" }"]
+    meta[property="og:type" content="#{ @og_type || 'website' }"]
+    meta[property="og:url" content="#{ @og_url || request.original_url }"]
+    meta[property="og:image" content="#{ @og_image || asset_url('strange-lasagna.jpg') }"]
+    meta[property="og:description" content="Low cost food delivery to Cyberjaya areas including MMU, Cyberia, and many more."]
+
+    = stylesheet_link_tag 'prelaunch', media: 'all'
+    = javascript_include_tag 'application'
+    = csrf_meta_tags
+    link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'
+
+  body
+    == yield
+    = render "layouts/google_analytics"

@@ -1,0 +1,75 @@
+/*
+ =require twitter-bootstrap-static/bootstrap
+ =require twitter-bootstrap-static/fontawesome
+ */
+$makan_maroon: #9E0000;
+
+body {
+  background: linear-gradient(
+      rgba(158, 0, 0, 0.78), 
+      rgba(158, 0, 0, 0.78)
+    ),url("<%= asset_path("strange-lasagna.jpg") %>");
+  background-size: cover;
+  font-family: Lato, Arial, sans-serif;
+  color: white;
+}
+
+.toolbar{
+  height: 60px;
+  margin: 10px 0px 0px 10px;
+
+  .logotext {
+    font-size: 18pt;
+  }
+}
+
+.container {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  margin-top: -100px;
+ 
+  h1 {
+    text-align: center;
+    font-size: 28pt;
+    margin: 30px auto;
+  }
+
+  h4 {
+    text-align: center;
+    color: #dddddd;
+  }
+}
+
+#mc_embed_signup {
+  width: 534px;
+  margin: 20px auto;
+  position: relative;
+  box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.50);
+
+  #mce-EMAIL {
+    width: 396px;
+    height: 40px;
+    background: #FFFFFF;
+    font-size: 18px;
+    line-height: 22px;
+    border: none;
+    color: black;
+    padding-left: 5px;
+  }
+
+  #mc-embedded-subscribe {
+    width: 135px;
+    height: 40px;
+    background-color: $makan_maroon;
+    color: #FFFFFF;
+    border-radius: 0px;
+    position: absolute;
+    border: 1px solid white;
+    font-size: 20px;
+
+    &:active {
+      
+    }
+  }
+}
