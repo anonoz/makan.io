@@ -51,6 +51,9 @@ GEM
       rack (>= 0.9.0)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
+    bootstrap-sass (3.3.4.1)
+      autoprefixer-rails (>= 5.0.0.1)
+      sass (>= 3.2.19)
     bourbon (3.2.4)
       sass (~> 3.2)
       thor
@@ -321,6 +324,7 @@ DEPENDENCIES
   bcrypt-ruby (~> 3.1.5)
   better_errors
   binding_of_caller
+  bootstrap-sass (~> 3.3.4)
   bourbon
   bullet
   capybara

@@ -28,6 +28,7 @@ gem 'haml-rails'
 gem 'slim-rails'
 gem 'emcee'
 gem 'markdown'
+gem 'bootstrap-sass', '~> 3.3.4'
 
 # Bootstrap
 gem "therubyracer"

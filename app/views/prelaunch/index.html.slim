@@ -7,3 +7,14 @@
   h4 Coming Soon. Be the first to try it out when it is ready.
 
   =render "mailchimp"
+
+  p.text-center
+    a#email_link.talk-to-human
+      | Contact Us 
+      span.glyphicon.glyphicon-comment
+
+javascript:
+  var email_md5 = "#{ Base64.encode64("mailto:anonoz@makan.io").chomp }";
+  $(document).ready(function(){
+    $("#email_link").attr("href", atob(email_md5));
+  });
