@@ -15,6 +15,13 @@ gem 'foreman'
 gem 'passenger'
 gem 'newrelic_rpm'
 
+# Databases
+gem 'pg', '~> 0.17.1'
+
+# Authentication
+gem 'devise'
+gem 'omniauth-facebook'
+
 # HTML CSS JS gems
 gem 'sass-rails', '~> 4.0.2'
 gem 'autoprefixer-rails'
@@ -34,9 +41,6 @@ gem 'bootstrap-sass', '~> 3.3.4'
 gem "therubyracer"
 gem "less-rails"
 gem "twitter-bootstrap-rails"
-
-# Databases
-gem 'pg', '~> 0.17.1'
 
 # Files and Images etc
 gem 'rmagick', '~> 2.13.2', :require => false
