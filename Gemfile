@@ -51,17 +51,19 @@ gem 'heroku'
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.0'
-  gem 'capybara'
   gem 'factory_girl_rails'
   gem 'daemons'
+  gem 'dotenv-rails'
+  gem 'capybara-webkit'
 end
 
 group :test do
   gem 'selenium-webdriver'
+  gem 'capybara'
+  gem 'database_cleaner'
 end
 
 group :development do
-  gem 'dotenv', '~> 1.0'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'bullet'

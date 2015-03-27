@@ -67,6 +67,9 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    capybara-webkit (1.4.1)
+      capybara (>= 2.3.0, < 2.5.0)
+      json
     childprocess (0.5.5)
       ffi (~> 1.0, >= 1.0.11)
     coderay (1.1.0)
@@ -79,6 +82,7 @@ GEM
     coffee-script-source (1.9.1)
     commonjs (0.2.7)
     daemons (1.2.1)
+    database_cleaner (1.4.1)
     debug_inspector (0.0.2)
     devise (3.4.1)
       bcrypt (~> 3.0)
@@ -88,7 +92,9 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
-    dotenv (1.0.2)
+    dotenv (2.0.0)
+    dotenv-rails (2.0.0)
+      dotenv (= 2.0.0)
     emcee (1.0.10)
       nokogiri (~> 1.0)
       nokogumbo (~> 1.1)
@@ -359,10 +365,12 @@ DEPENDENCIES
   bourbon
   bullet
   capybara
+  capybara-webkit
   coffee-rails (~> 4.0.0)
   daemons
+  database_cleaner
   devise
-  dotenv (~> 1.0)
+  dotenv-rails
   emcee
   factory_girl_rails
   foreman
