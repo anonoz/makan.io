@@ -11,10 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150325135959) do
+ActiveRecord::Schema.define(version: 20150327141434) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "customer_addresses", force: :cascade do |t|
+    t.integer  "customer_user_id"
+    t.integer  "place_area_id"
+    t.string   "address"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
 
   create_table "customer_users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -44,14 +52,14 @@ ActiveRecord::Schema.define(version: 20150325135959) do
   add_index "customer_users", ["reset_password_token"], name: "index_customer_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "food_categories", force: :cascade do |t|
-    t.integer  "vendor_id"
+    t.integer  "vendor_vendor_id"
     t.string   "title"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   create_table "food_menus", force: :cascade do |t|
-    t.integer  "vendor_id"
+    t.integer  "vendor_vendor_id"
     t.string   "title"
     t.integer  "base_price"
     t.datetime "created_at",       null: false
@@ -80,6 +88,19 @@ ActiveRecord::Schema.define(version: 20150325135959) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.datetime "deleted_at"
+  end
+
+  create_table "place_areas", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "place_city_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  create_table "place_cities", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "vendor_users", force: :cascade do |t|
