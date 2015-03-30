@@ -20,6 +20,10 @@ RSpec.configure do |config|
     # FactoryGirl.lint
   end
 
+  config.before(:each, js: true) do
+    page.driver.block_unknown_urls
+  end
+
   config.around(:each) do |example|
     DatabaseCleaner.cleaning do
       example.run
