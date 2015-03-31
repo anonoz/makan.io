@@ -35,12 +35,6 @@ module Makan
     end
 
     # Assets
-    config.assets.enabled = true
-    config.assets.initialize_on_precompile = false
-    config.assets.version = "1.1"
-    config.serve_static_assets = true
-    config.static_cache_control = "public, max-age=31536000"
-
     config.action_dispatch.default_headers.merge!({
       'Access-Control-Allow-Origin' => '*',
       'Access-Control-Request-Method' => '*'

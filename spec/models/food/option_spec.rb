@@ -49,13 +49,9 @@ describe Food::Option do
     end
   end
 
-  it "is valid when min is nil" do
-    expect(build(:food_option, min: nil)).to be_valid
-  end
-
   it "is valid when min is 0 or above" do
     (0..3).each do |quantity|
-      expect(build(:food_option, min: quantity)).to be_valid
+      expect(build(:food_option, min: quantity, max: quantity)).to be_valid
     end
   end
 
@@ -64,10 +60,6 @@ describe Food::Option do
     food_option.valid?
     expect(food_option.errors[:min]).to(
       include "must be greater than or equal to 0")
-  end
-
-  it "is valid when max is nil" do
-    expect(build(:food_option, max: nil)).to be_valid
   end
 
   it "is valid when max is 0 or above" do
@@ -87,7 +79,8 @@ describe Food::Option do
     (0..3).each do |num|
       checkbox_option = build(:food_option,
                               jenis: Food::Option::CHECKBOXES,
-                              min: num)
+                              min: num,
+                              max: num)
       expect(checkbox_option).to be_valid
     end
   end
