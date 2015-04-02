@@ -44,6 +44,7 @@ gem "twitter-bootstrap-rails"
 
 # Files and Images etc
 gem 'rmagick', '~> 2.13.2', :require => false
+gem "paperclip", "~> 4.2"
 
 # APIs
 gem 'heroku-api'
