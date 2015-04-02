@@ -2,19 +2,13 @@
   .logotext makan.io
 
 .container
-  h1 All-New Online Food Delivery Web Service In Cyberjaya
+  h1 All-New Food Delivery Web Service Around Setapak
 
-  h4 Coming Soon. Be the first to try it out when it is ready.
+  h4 Coming Soon. Will deliver to Wangsa Maju, Setapak, Sri Rampai and nearby areas.
 
   =render "mailchimp"
 
-  p.text-center
-    a#email_link.talk-to-human
-      | Contact Us 
-      span.glyphicon.glyphicon-comment
-
-javascript:
-  var email_md5 = "#{ Base64.encode64("mailto:anonoz@makan.io").chomp }";
-  $(document).ready(function(){
-    $("#email_link").attr("href", atob(email_md5));
-  });
+  p.text-center.hidden
+    | Powered By 
+    a.fb-fanpage[href="https://www.facebook.com/rmdeliveryservices"]
+      | Running Man Delivery
