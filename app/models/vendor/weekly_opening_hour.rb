@@ -20,12 +20,4 @@ class Vendor::WeeklyOpeningHour < ActiveRecord::Base
             },
             minutes_in_twenty_four_hours: true
 
-  private
-
-  def minutes_check(time_in_24h)
-    if time_in_24h 
-      
-    end
-  end
-
 end
