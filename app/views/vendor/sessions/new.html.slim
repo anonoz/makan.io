@@ -1,0 +1,17 @@
+.login_container
+  h2
+    | Vendor Log in
+  = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+    .field
+      = f.email_field :email, autofocus: true, class: "form-control", placeholder: "E-mail Address", required: true
+    .field
+      = f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "Password", required: true
+    - if devise_mapping.rememberable?
+      .field.checkbox
+        = f.label :remember_me do
+          = f.check_box :remember_me
+          | Remember Me
+        end
+    .actions
+      = f.submit "Log in", class: "login_button"
+  = render "vendor/shared/links"

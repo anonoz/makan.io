@@ -3,8 +3,14 @@ Rails.application.routes.draw do
   constraints(:host => /makanio.herokuapp.com/) do
     match "/(*path)" => redirect {|params, req| "https://www.makan.io/#{params[:path]}"},  via: [:get, :post]
   end
-  
-  devise_for :vendor_users, class_name: "Vendor::User"
-  devise_for :users, class_name: "Customer::User"
+
   root 'prelaunch#index'
+
+  devise_for :vendor, class_name: "Vendor::User"
+  devise_for :user, class_name: "Customer::User"
+
+  namespace "vendor" do
+    get "/" => "main#index", as: :root
+  end
+
 end
