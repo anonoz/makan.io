@@ -1,2 +1,17 @@
-h1 Vendors::Foods#index
-p Find me in app/views/vendors/foods/index.html.slim
+.container_fluid
+  .row
+    .col-xs-1.col-xs-offset-11
+      a.btn.btn-success New
+
+  h1
+
+  table.table
+    tr
+      td.col-xs-1 ID
+      td Menu
+      td Availability
+    - @menus.each do |menu|
+      tr
+        td = menu.id
+        td = menu.title
+        td = "yes"
