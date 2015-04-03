@@ -1,0 +1,11 @@
+.vendor_navbar
+  ul.vendor_navbar_links
+  	li.active
+  	  a[href=vendor_root_path] Dashboard
+  	li
+  	  a[href] Foods
+  	li
+  	  a[href] Orders
+
+  ul.vendor_navbar_links.float_right
+    li = link_to "Sign Out", destroy_vendor_session_path, method: :delete

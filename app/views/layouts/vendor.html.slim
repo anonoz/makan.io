@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+html lang="en"
+  head
+    meta charset="UTF-8"/
+    title = @vendor_name || "makan.io vendor UI"
+    = javascript_include_tag :vendor
+    = stylesheet_link_tag :vendor
+    = csrf_meta_tags
+    link[
+      href='https://fonts.googleapis.com/css?family=Lato'
+      rel='stylesheet'
+      type='text/css'
+    ]
+
+  body
+    = render "layouts/vendor/navbar"
+    ==yield

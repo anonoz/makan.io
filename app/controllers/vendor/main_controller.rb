@@ -1,7 +1,9 @@
 class Vendor::MainController < ApplicationController
+  layout "vendor"
+
+  before_action :authenticate_vendor!
+
   def index
-    unless vendor_signed_in?
-      redirect_to new_vendor_session_path
-    end
+    @vendor = current_vendor.vendor.title
   end
 end

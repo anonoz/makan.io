@@ -10,5 +10,8 @@ Rails.application.config.assets.version = '1.0'
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
 Rails.application.config.assets.precompile += [
   "prelaunch.css",
-  "vendor_sign_in.css"
+  "vendor.css",
+  "vendor_sign_in.css",
+
+  "vendor.js"
 ]

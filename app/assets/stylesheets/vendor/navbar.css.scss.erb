@@ -1,0 +1,32 @@
+.vendor_navbar {
+  background: $makan-orange;
+  width: 100%;
+  height: 40px;
+}
+
+.vendor_navbar_links {
+  float: left;
+  list-style-type: none;
+
+  li {
+    display: inline-block;
+    padding: 8px 10px;
+    font-size: 18px;
+
+    a {
+      color: white;
+    }
+
+    &.active {
+      background: white;
+      
+      a {
+        color: $makan-orange;
+      }
+    }
+  }
+}
+
+.float_right {
+  float: right;
+}

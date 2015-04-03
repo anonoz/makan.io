@@ -1,6 +1,7 @@
 .login_container
-  h2
-    | Vendor Log in
+  h2 Vendor Log in
+  - if alert
+    p.alert.alert-danger = alert
   = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
     .field
       = f.email_field :email, autofocus: true, class: "form-control", placeholder: "E-mail Address", required: true
