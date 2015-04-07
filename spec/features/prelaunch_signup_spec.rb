@@ -13,8 +13,4 @@ feature "Prelaunch Signup Page" do
     expect(page).to have_content "All-New"
   end
 
-  scenario "contact us link has my e-mail", js: true do
-    expect(page).to have_xpath("//a[contains(@href,email)]")
-  end
-
 end

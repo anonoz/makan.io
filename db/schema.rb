@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150402143352) do
+ActiveRecord::Schema.define(version: 20150407093615) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,10 +52,9 @@ ActiveRecord::Schema.define(version: 20150402143352) do
   add_index "customer_users", ["reset_password_token"], name: "index_customer_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "food_categories", force: :cascade do |t|
-    t.integer  "vendor_vendor_id"
     t.string   "title"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "food_menus", force: :cascade do |t|
