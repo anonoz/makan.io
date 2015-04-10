@@ -7,10 +7,10 @@ describe Food::Menu do
   	expect(titleless_menu.errors[:title]).to include "can't be blank"
   end
 
-  it "must be belong to a vendor" do
-    vendorless_menu = build(:food_menu, vendor_vendor: nil)
-    vendorless_menu.valid?
-    expect(vendorless_menu.errors[:vendor_vendor]).to(
+  it "must be belong to a subvendor" do
+    subvendorless_menu = build(:food_menu, vendor_subvendor: nil)
+    subvendorless_menu.valid?
+    expect(subvendorless_menu.errors[:vendor_subvendor]).to(
     	include "can't be blank")
   end
 
