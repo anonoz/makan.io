@@ -1,19 +1,6 @@
 require 'spec_helper'
 
 describe Food::Option do
-  it "is valid when belong to a menu" do
-    food_menu = create(:food_menu)
-    food_option = build(:food_option, food_menu: food_menu)
-    food_option.valid?
-    expect(food_option).to be_valid
-  end
-
-  it "is invalid when it doesnt belong to a food_menu" do
-    food_option = build(:food_option, food_menu: nil)
-    food_option.valid?
-    expect(food_option.errors[:food_menu]).to include "can't be blank"
-  end
-
   it "is valid with a title" do
     expect(build(:food_option)).to be_valid
   end

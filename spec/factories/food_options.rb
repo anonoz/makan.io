@@ -1,6 +1,5 @@
 FactoryGirl.define do
   factory :food_option, :class => 'Food::Option' do
-    food_menu
     title "Blank Option Title"
     jenis 1
 
