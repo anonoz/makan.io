@@ -11,6 +11,7 @@ class Vendor::FoodsController < ApplicationController
   end
 
   def new
+    @menu = @vendor.food_menus.new
   end
 
   def create

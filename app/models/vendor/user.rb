@@ -5,4 +5,6 @@ class Vendor::User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   belongs_to :vendor, class_name: "Vendor::Vendor"
+
+  validates :vendor, presence: true
 end

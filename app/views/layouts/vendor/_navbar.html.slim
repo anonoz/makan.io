@@ -1,11 +1,33 @@
-.vendor_navbar
-  ul.vendor_navbar_links
-  	li.active
-  	  a[href=vendor_root_path] Dashboard
-  	li
-  	  a[href=vendor_foods_path] Foods
-  	li
-  	  a[href] Orders
+/ .vendor_navbar
+/   ul.vendor_navbar_links
+/   	li.active
+/   	  a[href=vendor_root_path] Dashboard
+/   	li
+/   	  a[href=vendor_foods_path] Foods
+/   	li
+/   	  a[href] Orders
 
-  ul.vendor_navbar_links.float_right
-    li = link_to "Sign Out", destroy_vendor_session_path, method: :delete
+/   ul.vendor_navbar_links.float_right
+/     li = link_to "Sign Out", destroy_vendor_session_path, method: :delete
+
+nav.top-bar[data-topbar]
+  ul.title-area
+    li.name
+      h1
+        a[href=vendor_root_path] makan.io vendor
+    li.toggle-topbar.menu-icon
+      a[href="#"]
+        span Menu
+
+  section.top-bar-section
+    ul.left
+      li
+        a[href=vendor_foods_path] Foods
+      li
+        a[href="#"] Orders
+      li
+        a[href="#"] Business Hours
+
+    ul.right
+      li = link_to "Sign Out", destroy_vendor_session_path, method: :delete
+        

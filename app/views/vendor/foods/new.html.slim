@@ -1,2 +1,15 @@
-h1 Vendors::Foods#new
-p Find me in app/views/vendors/foods/new.html.slim
+.container
+  h1 New Menu
+  = form_tag(vendor_foods_path, class: "form-horizontal")
+    .form-group
+      label.col-xs-3.control-label[for="title"] Title
+      .col-xs-6
+        input.form-control#inputTitle[name="title" placeholder="Nasi Lemak"]
+    .form-group
+      label.col-xs-3.control-label[for="title"] Base Price
+      .col-xs-6
+        input.form-control#inputTitle[name="title" placeholder="2.50"]
+
+    .row
+      .col-xs-6.col-xs-offset-3
+        a.btn.btn-primary Create

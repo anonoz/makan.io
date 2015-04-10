@@ -1,17 +1,17 @@
-.container_fluid
-  .row
-    .col-xs-1.col-xs-offset-11
-      a.btn.btn-success New
+.row
+  .right
+    a.button.small.success[href=new_vendor_food_path] New
 
-  h1
-
-  table.table
-    tr
-      td.col-xs-1 ID
-      td Menu
-      td Availability
-    - @menus.each do |menu|
-      tr
-        td = menu.id
-        td = menu.title
-        td = "yes"
+.row
+  table
+    thead
+      tr.row
+        td.small-1 ID
+        td.small-10 Menu
+        td.small-1 Availability
+    tbody
+      - @menus.each do |menu|
+        tr
+          td = menu.id
+          td = menu.title
+          td = "yes"

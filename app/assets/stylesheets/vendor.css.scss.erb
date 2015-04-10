@@ -1,8 +1,25 @@
-@import "bootstrap-sprockets";
-@import "bootstrap";
+@import "foundation_and_overrides";
 @import "global";
 @import "vendor/navbar";
 
 body {
   font-family: "Lato", Helvetica, Arial, sans-serif;
+}
+
+@media #{$small-up} {
+  .container {
+    padding-top: 5px;
+  }
+}
+
+@media #{$medium-up} {
+  .container {
+    padding: 5px;
+  }
+}
+
+@media #{$large-up} {
+  .container {
+    padding: 10px;
+  }
 }

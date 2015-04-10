@@ -3,15 +3,24 @@ html lang="en"
   head
     meta charset="UTF-8"/
     title = @vendor_name || "makan.io vendor UI"
-    = javascript_include_tag :vendor
     = stylesheet_link_tag :vendor
     = csrf_meta_tags
     link[
-      href='https://fonts.googleapis.com/css?family=Lato'
-      rel='stylesheet'
-      type='text/css'
+      href="https://fonts.googleapis.com/css?family=Lato"
+      rel="stylesheet"
+      type="text/css"
+    ]
+    meta[
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
     ]
 
   body
     = render "layouts/vendor/navbar"
-    ==yield
+
+    .container
+      ==yield
+
+    = javascript_include_tag :vendor
+    javascript:
+      $(document).foundation();

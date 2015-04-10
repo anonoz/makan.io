@@ -13,5 +13,6 @@ Rails.application.config.assets.precompile += [
   "vendor.css",
   "vendor_sign_in.css",
 
-  "vendor.js"
+  "vendor.js",
+  "vendor/modernizr.js"
 ]
