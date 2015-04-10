@@ -23,7 +23,7 @@ gem 'devise'
 gem 'omniauth-facebook'
 
 # HTML CSS JS gems
-gem 'sass-rails', '~> 4.0.2'
+gem 'sass-rails', '~> 5.0.1'
 gem 'autoprefixer-rails'
 gem 'bourbon'
 gem 'uglifier', '~> 2.1.1'
@@ -36,6 +36,7 @@ gem 'slim-rails'
 gem 'emcee'
 gem 'markdown'
 gem 'bootstrap-sass', '~> 3.3.4'
+gem 'foundation-rails'
 
 # Bootstrap
 gem "therubyracer"
@@ -70,7 +71,7 @@ group :development do
   gem 'bullet'
   gem 'rails-dev-tweaks', '~> 1.1'
   gem 'sextant'
-  gem 'thin'
+  gem 'puma'
   gem 'traceroute'
   gem 'pry-rails'
   gem 'pry-remote'
