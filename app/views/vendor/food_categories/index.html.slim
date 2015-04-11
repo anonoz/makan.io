@@ -1,0 +1,22 @@
+.row
+  .right
+    / a.button.small.success[href=new_vendor_food_category_path] New
+
+.row
+  table
+    thead
+      tr
+        th.small-1 ID
+        th.small-10 Title
+        th.small-1 Number of Menus
+    tbody
+      - @categories.each do |category|
+        tr
+          td = category.id
+          td = category.title
+          td = "yes"
+      = form_for(@new_category, url: {action: "create"}, remote: false) do |f|
+        tr
+          td New
+          td = f.text_field :title, placeholder: "New Category Name"
+          td = f.submit "Create", class: "button small success"

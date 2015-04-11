@@ -21,8 +21,15 @@ nav.top-bar[data-topbar]
 
   section.top-bar-section
     ul.left
-      li
-        a[href=vendor_foods_path] Foods
+      li.has-dropdown
+        a[href="#"] Foods
+        ul.dropdown
+          li
+            a[href=vendor_food_menus_path] Menus
+          li
+            a[href="#"] Options &amp; Choices
+          li
+            a[href=vendor_food_categories_path] Categories
       li
         a[href="#"] Orders
       li

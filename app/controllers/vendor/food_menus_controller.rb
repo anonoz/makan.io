@@ -1,4 +1,4 @@
-class Vendor::FoodsController < ApplicationController
+class Vendor::FoodMenusController < ApplicationController
   layout "layouts/vendor"
   before_action :set_vendor
 
