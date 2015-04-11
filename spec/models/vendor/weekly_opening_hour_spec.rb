@@ -1,15 +1,15 @@
 require 'spec_helper'
 
 describe Vendor::WeeklyOpeningHour do
-  it "is valid with a vendor_vendor" do
+  it "is valid with a vendor_subvendor" do
     expect(build(:vendor_weekly_opening_hour)).to be_valid
   end
 
-  it "is invalid without a vendor_vendor" do
+  it "is invalid without a vendor_subvendor" do
     vendor_weekly_opening_hour =
-      build(:vendor_weekly_opening_hour, vendor_vendor: nil)
+      build(:vendor_weekly_opening_hour, vendor_subvendor: nil)
     vendor_weekly_opening_hour.valid?
-    expect(vendor_weekly_opening_hour.errors[:vendor_vendor]).to(
+    expect(vendor_weekly_opening_hour.errors[:vendor_subvendor]).to(
       include "can't be blank")
   end
 

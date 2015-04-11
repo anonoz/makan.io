@@ -1,7 +1,7 @@
 class Vendor::WeeklyOpeningHour < ActiveRecord::Base
-  belongs_to :vendor_vendor, class_name: "Vendor::Vendor"
+  belongs_to :vendor_subvendor, class_name: "Vendor::Subvendor"
 
-  validates :vendor_vendor, presence: true
+  validates :vendor_subvendor, presence: true
   validates :wday,
             numericality: {
               greater_than_or_equal_to: 1,

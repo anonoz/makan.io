@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :vendor_weekly_opening_hour, :class => 'Vendor::WeeklyOpeningHour' do
-    vendor_vendor
+    vendor_subvendor
     wday 1
     start_at 800
     end_at 2200
