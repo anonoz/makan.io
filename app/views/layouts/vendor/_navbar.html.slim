@@ -14,7 +14,7 @@ nav.top-bar[data-topbar]
   ul.title-area
     li.name
       h1
-        a[href=vendor_root_path] makan.io vendor
+        a[href=vendor_root_path] makan.io vendor admin
     li.toggle-topbar.menu-icon
       a[href="#"]
         span Menu
@@ -22,19 +22,24 @@ nav.top-bar[data-topbar]
   section.top-bar-section
     ul.left
       li.has-dropdown
-        a[href="#"] Foods
+        a[href=vendor_subvendors_path] Subvendors
         ul.dropdown
           li
-            a[href=vendor_food_menus_path] Menus
+            a[href="#"] Weekly Opening Hours
+          li
+            a[href="#"] Special Closing Hours
+      li.has-dropdown
+        a[href=vendor_food_menus_path] Foods
+        ul.dropdown
           li
             a[href="#"] Options &amp; Choices
           li
             a[href=vendor_food_categories_path] Categories
       li
         a[href="#"] Orders
-      li
-        a[href="#"] Business Hours
 
     ul.right
+      li
+        a[href="#"] Intercom
       li = link_to "Sign Out", destroy_vendor_session_path, method: :delete
         

@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
   namespace "vendor" do
     get "/" => "main#index", as: :root
+    resources :subvendors
     resources :food_menus
     resources :food_categories
     resources :food_options

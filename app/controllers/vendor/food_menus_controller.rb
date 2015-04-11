@@ -1,6 +1,4 @@
-class Vendor::FoodMenusController < ApplicationController
-  layout "layouts/vendor"
-  before_action :set_vendor
+class Vendor::FoodMenusController < Vendor::MainController
 
   def index
     @menus = @vendor.food_menus
@@ -25,10 +23,5 @@ class Vendor::FoodMenusController < ApplicationController
 
   def destroy
   end
-
-  private
-
-  def set_vendor
-    @vendor = current_vendor.vendor
-  end
+  
 end

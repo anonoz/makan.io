@@ -1,6 +1,5 @@
-class Vendor::FoodCategoriesController < ApplicationController
-  layout "layouts/vendor"
-  before_action :set_vendor
+class Vendor::FoodCategoriesController < Vendor::MainController
+  before_action :set_category, only: [:show, :edit, :update, :destroy]
 
   def index
     @categories = @vendor.food_categories
@@ -8,7 +7,6 @@ class Vendor::FoodCategoriesController < ApplicationController
   end
 
   def show
-    set_category
   end
 
   def new
@@ -28,12 +26,9 @@ class Vendor::FoodCategoriesController < ApplicationController
   end
 
   def edit
-    set_category
   end
 
   def update
-    set_category
-
     if @category.update(category_params)
       redirect_to vendor_food_categories_path,
                   flash: {success: "Category #{ @category.title } updated."}
@@ -47,10 +42,6 @@ class Vendor::FoodCategoriesController < ApplicationController
   end
 
   private
-
-  def set_vendor
-    @vendor = current_vendor.vendor
-  end
 
   def set_category
     @category = @vendor.food_categories.find_by_id(params[:id])

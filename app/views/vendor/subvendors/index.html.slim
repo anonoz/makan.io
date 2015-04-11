@@ -1,0 +1,18 @@
+.row
+  table
+    thead
+      th.small-1 ID
+      th.small-10 Title
+      th.small-1
+    tbody 
+      - @subvendors.each do |subvendor|
+        tr
+          td = subvendor.id
+          td = subvendor.title
+          td
+      = form_for(@new_subvendor, url: {action: "create"},
+      	         remote: false) do |f|
+      	tr
+      	  td New
+      	  td = f.text_field :title, placeholder: "Ah Boy Nasi Lemak", required: true
+      	  td = f.submit "Create", class: "button small success"
