@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150411020600) do
+ActiveRecord::Schema.define(version: 20150411101430) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,14 +71,15 @@ ActiveRecord::Schema.define(version: 20150411020600) do
   create_table "food_menus", force: :cascade do |t|
     t.string   "title"
     t.integer  "base_price",                 default: 0
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
     t.integer  "food_category_id"
     t.string   "feature_photo_file_name"
     t.string   "feature_photo_content_type"
     t.integer  "feature_photo_file_size"
     t.datetime "feature_photo_updated_at"
     t.integer  "vendor_subvendor_id"
+    t.boolean  "halal",                      default: true
   end
 
   create_table "food_option_choices", force: :cascade do |t|
