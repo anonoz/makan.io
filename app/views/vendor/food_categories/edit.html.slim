@@ -1,2 +1,10 @@
-h1 Vendors::Foods#edit
-p Find me in app/views/vendors/foods/edit.html.slim
+.row
+  .small-12.medium-8.large-6.medium-centered.columns
+    = form_for @category, url: {action: "update"} do |f|
+      fieldset
+        legend Edit Food Category
+
+        label Title
+        = f.text_field :title, required: true
+
+        = f.submit "Save", class: "button success"

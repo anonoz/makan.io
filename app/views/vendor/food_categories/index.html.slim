@@ -7,16 +7,22 @@
     thead
       tr
         th.small-1 ID
-        th.small-10 Title
+        th.small-9 Title
         th.small-1 Number of Menus
+        th.small-1
     tbody
       - @categories.each do |category|
         tr
           td = category.id
-          td = category.title
-          td = "yes"
+          td
+            span = category.title
+          td = 0
+          td
+            = link_to edit_vendor_food_category_path(category), class: "button tiny"
+              | Edit
       = form_for(@new_category, url: {action: "create"}, remote: false) do |f|
         tr
           td New
           td = f.text_field :title, placeholder: "New Category Name"
+          td
           td = f.submit "Create", class: "button small success"
