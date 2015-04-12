@@ -1,5 +1,5 @@
 class Vendor::Vendor < ActiveRecord::Base
-  validates :title, presence: true
+  acts_as_paranoid
 
   has_many :vendor_subvendors, class_name: "Vendor::Subvendor",
            foreign_key: "vendor_vendor_id"
@@ -8,4 +8,6 @@ class Vendor::Vendor < ActiveRecord::Base
            through: :vendor_subvendors
   has_many :food_categories, class_name: "Food::Category",
            foreign_key: "vendor_vendor_id"
+
+  validates :title, presence: true
 end

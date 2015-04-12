@@ -1,4 +1,6 @@
 class Vendor::WeeklyOpeningHour < ActiveRecord::Base
+  acts_as_paranoid
+  
   belongs_to :vendor_subvendor, class_name: "Vendor::Subvendor"
 
   validates :vendor_subvendor, presence: true

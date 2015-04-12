@@ -1,4 +1,6 @@
 class Food::OptionChoice < ActiveRecord::Base
+  acts_as_paranoid
+  
   belongs_to :food_option, class_name: "Food::Option"
   
   validates :food_option, presence: true

@@ -3,6 +3,7 @@ class Vendor::User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
+  acts_as_paranoid
 
   belongs_to :vendor, class_name: "Vendor::Vendor",
              foreign_key: "vendor_vendor_id"

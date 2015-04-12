@@ -17,6 +17,7 @@ gem 'newrelic_rpm'
 
 # Databases
 gem 'pg', '~> 0.17.1'
+gem 'paranoia'
 
 # Authentication
 gem 'devise'

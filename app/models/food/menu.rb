@@ -1,4 +1,6 @@
 class Food::Menu < ActiveRecord::Base
+  acts_as_paranoid
+  
   belongs_to :food_category, class_name: "Food::Category"
   belongs_to :vendor_subvendor, class_name: "Vendor::Subvendor"
 

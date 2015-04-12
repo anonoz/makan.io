@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150411101856) do
+ActiveRecord::Schema.define(version: 20150412074214) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20150411101856) do
     t.string   "address"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.datetime "deleted_at"
   end
 
   create_table "customer_users", force: :cascade do |t|
@@ -45,6 +46,7 @@ ActiveRecord::Schema.define(version: 20150411101856) do
     t.string   "uid"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   add_index "customer_users", ["confirmation_token"], name: "index_customer_users_on_confirmation_token", unique: true, using: :btree
@@ -56,6 +58,7 @@ ActiveRecord::Schema.define(version: 20150411101856) do
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
     t.integer  "vendor_vendor_id"
+    t.datetime "deleted_at"
   end
 
   create_table "food_menu_options", force: :cascade do |t|
@@ -63,6 +66,7 @@ ActiveRecord::Schema.define(version: 20150411101856) do
     t.integer  "food_option_id"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.datetime "deleted_at"
   end
 
   add_index "food_menu_options", ["food_menu_id"], name: "index_food_menu_options_on_food_menu_id", using: :btree
@@ -80,6 +84,7 @@ ActiveRecord::Schema.define(version: 20150411101856) do
     t.datetime "feature_photo_updated_at"
     t.integer  "vendor_subvendor_id"
     t.boolean  "halal",                      default: true
+    t.datetime "deleted_at"
   end
 
   create_table "food_option_choices", force: :cascade do |t|
@@ -92,6 +97,7 @@ ActiveRecord::Schema.define(version: 20150411101856) do
     t.boolean  "default_chosen"
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
+    t.datetime "deleted_at"
   end
 
   create_table "food_options", force: :cascade do |t|
@@ -109,12 +115,14 @@ ActiveRecord::Schema.define(version: 20150411101856) do
     t.integer  "place_city_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.datetime "deleted_at"
   end
 
   create_table "place_cities", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
   end
 
   create_table "vendor_special_closing_hours", force: :cascade do |t|
@@ -123,6 +131,7 @@ ActiveRecord::Schema.define(version: 20150411101856) do
     t.datetime "end_at"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.datetime "deleted_at"
   end
 
   create_table "vendor_subvendors", force: :cascade do |t|
@@ -130,6 +139,7 @@ ActiveRecord::Schema.define(version: 20150411101856) do
     t.string   "title"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.datetime "deleted_at"
   end
 
   create_table "vendor_users", force: :cascade do |t|
@@ -148,6 +158,7 @@ ActiveRecord::Schema.define(version: 20150411101856) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "vendor_vendor_id"
+    t.datetime "deleted_at"
   end
 
   add_index "vendor_users", ["email"], name: "index_vendor_users_on_email", unique: true, using: :btree
@@ -160,6 +171,7 @@ ActiveRecord::Schema.define(version: 20150411101856) do
     t.string   "phone"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
   end
 
   create_table "vendor_weekly_opening_hours", force: :cascade do |t|
@@ -169,6 +181,7 @@ ActiveRecord::Schema.define(version: 20150411101856) do
     t.integer  "end_at",              default: 0
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
+    t.datetime "deleted_at"
   end
 
 end

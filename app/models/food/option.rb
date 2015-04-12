@@ -4,6 +4,8 @@ class Food::Option < ActiveRecord::Base
   NUMBERS = 2
   RADIO_BUTTONS = 3
 
+  acts_as_paranoid
+
   has_many :choices, class_name: "Food::Option", foreign_key: "food_option_id"
 
   validates :title, presence: true

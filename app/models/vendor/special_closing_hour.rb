@@ -1,4 +1,6 @@
 class Vendor::SpecialClosingHour < ActiveRecord::Base
+  acts_as_paranoid
+  
   belongs_to :vendor_vendor, class_name: "Vendor::Vendor"
 
   validates :vendor_vendor, presence: true

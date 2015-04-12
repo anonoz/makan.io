@@ -212,6 +212,8 @@ GEM
       activesupport (>= 3.0.0)
       cocaine (~> 0.5.3)
       mime-types
+    paranoia (2.1.1)
+      activerecord (~> 4.0)
     passenger (5.0.6)
       rack
       rake (>= 0.8.1)
@@ -402,6 +404,7 @@ DEPENDENCIES
   newrelic_rpm
   omniauth-facebook
   paperclip (~> 4.2)
+  paranoia
   passenger
   pg (~> 0.17.1)
   pry-rails
