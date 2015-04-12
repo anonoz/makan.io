@@ -3,3 +3,7 @@ rvm: 2.2.0
 
 env:
     - SECRET_KEY_BASE=abc123 DEVISE_SECRET_KEY=abc123
+
+before_script:
+    - psql -c 'create database makaniotest;' -U postgres
+    - rake db:migrate
