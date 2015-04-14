@@ -1,0 +1,25 @@
+.row
+  h3 = subvendor.title
+
+  table.small-12
+    thead
+      th.small-3 Weekday
+      th.small-3 Start At
+      th.small-3 Close At
+      th.small-3 Actions
+    tbody
+      - subvendor.weekly_opening_hours.each do |shift|
+        tr
+          td = weekday_string_from_integer shift.wday
+          td = shift.start_at
+          td = shift.end_at
+          td = link_to vendor_subvendors_opening_hour_path(shift),
+            method: :delete
+            .button.tiny.alert Delete
+      = form_for(@new_opening_hours, url: {action: :create}) do |f|
+        = f.hidden_field "vendor_subvendor_id", value: subvendor.id
+        tr
+          td = f.select :wday, @options_of_weekdays
+          td = f.text_field :start_at, placeholder: "hhmm"
+          td = f.text_field :end_at, placeholder: "hhmm"
+          td = f.submit "Save", class: "button tiny success"
