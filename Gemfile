@@ -72,7 +72,7 @@ group :development do
   gem 'bullet'
   gem 'rails-dev-tweaks', '~> 1.1'
   gem 'sextant'
-  gem 'puma'
+  gem 'thin'
   gem 'traceroute'
   gem 'pry-rails'
   gem 'pry-remote'
