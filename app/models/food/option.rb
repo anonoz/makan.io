@@ -6,9 +6,12 @@ class Food::Option < ActiveRecord::Base
 
   acts_as_paranoid
 
+  belongs_to :vendor_vendor, class_name: "Vendor::Vendor"
+
   has_many :choices, class_name: "Food::Option", foreign_key: "food_option_id"
 
   validates :title, presence: true
+  validates :vendor_vendor, presence: true
   validates :jenis, presence: true, inclusion: { in: [1, 2, 3] }
   validates :min,
             numericality: {

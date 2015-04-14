@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :food_option, :class => 'Food::Option' do
     title "Blank Option Title"
+    vendor_vendor
     jenis 1
 
     trait :checkboxes do

@@ -11,6 +11,12 @@ describe Food::Option do
     expect(nameless_option.errors[:title]).to include "can't be blank"
   end
 
+  it "is invalid without belonging to vendor" do
+    vendorless_option = build(:food_option, vendor_vendor: nil)
+    vendorless_option.valid?
+    expect(vendorless_option.errors[:vendor_vendor]).to include "can't be blank"
+  end
+
   it "is valid with a jenis" do
     option_with_checkboxes = build(:food_option_with_checkboxes)
     expect(option_with_checkboxes).to be_valid
