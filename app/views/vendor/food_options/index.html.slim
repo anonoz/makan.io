@@ -1,0 +1,24 @@
+.row
+  table.small-12
+    thead
+      th.small-0.medium-1 ID
+      th.small-8.medium-6 Option
+      th.small-4.medium-3 Type
+      th.small-2.medium-2
+    tbody
+      - @food_options.each do |food_option|
+        tr
+          td = food_option.id
+          td = food_option.title
+          td = Food::Option.jenis_from_integer(food_option.jenis)
+          td
+            = link_to vendor_food_option_path(food_option)
+              .button.tiny.default Edit
+            = link_to vendor_food_option_path(food_option), method: :delete
+              .button.tiny.alert Delete
+      = form_for @new_food_option, url: {action: :create} do |f|
+        tr
+          td New
+          td = f.text_field :title, placeholder: "Drinks? Egg? Spiciness?", required: true
+          td = f.select :jenis, @jenis_options
+          td = f.submit "Save", class: "button tiny success"

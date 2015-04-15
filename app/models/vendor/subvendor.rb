@@ -1,4 +1,5 @@
 class Vendor::Subvendor < ActiveRecord::Base
+  FKEY = "vendor_subvendor_id"
   acts_as_paranoid
   
   belongs_to :vendor_vendor, class_name: "Vendor::Vendor"

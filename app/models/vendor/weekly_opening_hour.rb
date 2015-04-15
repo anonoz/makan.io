@@ -1,5 +1,5 @@
 class Vendor::WeeklyOpeningHour < ActiveRecord::Base
-  WEEKDAYS_FROM_INTEGER = {
+  WEEKDAYS = {
     1 => "Monday",
     2 => "Tuesday",
     3 => "Wednesday",
@@ -35,10 +35,10 @@ class Vendor::WeeklyOpeningHour < ActiveRecord::Base
   default_scope { order(wday: :asc, start_at: :asc) }
 
   def self.get_options_of_weekdays
-    WEEKDAYS_FROM_INTEGER.each_pair.collect {|day| day.reverse}
+    WEEKDAYS.each_pair.collect {|day| day.reverse}
   end
 
   def self.weekdays_from_integer(wday_int = 1)
-    WEEKDAYS_FROM_INTEGER[wday_int]
+    WEEKDAYS[wday_int]
   end
 end

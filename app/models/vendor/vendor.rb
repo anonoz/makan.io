@@ -10,6 +10,8 @@ class Vendor::Vendor < ActiveRecord::Base
            through: :vendor_subvendors
   has_many :food_categories, class_name: "Food::Category",
            foreign_key: "vendor_vendor_id"
+  has_many :food_options, class_name: "Food::Option",
+           foreign_key: "vendor_vendor_id"
 
   validates :title, presence: true
 end
