@@ -4,26 +4,26 @@ FactoryGirl.define do
     vendor_vendor
     jenis 1
 
-    trait :checkboxes do
+    trait :choose_multiple do
       jenis 1
       title "Meats"
       min   0   # You can have no meat at all
       max   2   # Or at most 2 you carnivore
     end
 
-    trait :numbers do
+    trait :choose_one do # radio button
       jenis 2
-      title "Eggs"
-    end
-
-    trait :radio_buttons do # radio button
-      jenis 3
       title "Sambal"
     end
 
-    factory :food_option_with_checkboxes, traits: [:checkboxes]
-    factory :food_option_with_numbers, traits: [:numbers]
-    factory :food_option_with_radio_buttons, traits: [:radio_buttons]
+    trait :quantities do
+      jenis 3
+      title "Eggs"
+    end
+
+    factory :food_option_with_choose_multiple, traits: [:choose_multiple]
+    factory :food_option_with_choose_one, traits: [:choose_one]
+    factory :food_option_with_quantities, traits: [:quantities]
   end
 
 end

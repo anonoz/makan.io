@@ -18,7 +18,7 @@ describe Food::Option do
   end
 
   it "is valid with a jenis" do
-    option_with_checkboxes = build(:food_option_with_checkboxes)
+    option_with_checkboxes = build(:food_option_with_choose_multiple)
     expect(option_with_checkboxes).to be_valid
   end
 
@@ -70,8 +70,7 @@ describe Food::Option do
 
   it "is valid when jenis is checkbox, min is not nil" do
     (0..3).each do |num|
-      checkbox_option = build(:food_option,
-                              jenis: Food::Option::CHECKBOXES,
+      checkbox_option = build(:food_option_with_choose_multiple,
                               min: num,
                               max: num)
       expect(checkbox_option).to be_valid
@@ -80,8 +79,7 @@ describe Food::Option do
 
   it "is valid when jenis is checkbox, max is nil or above 0" do
     [nil, 0, 1, 2].each do |num|
-      checkbox_option = build(:food_option,
-                              jenis: Food::Option::CHECKBOXES,
+      checkbox_option = build(:food_option_with_choose_multiple,
                               max: num)
       expect(checkbox_option).to be_valid
     end

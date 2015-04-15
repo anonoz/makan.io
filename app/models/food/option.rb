@@ -1,8 +1,14 @@
 class Food::Option < ActiveRecord::Base
   # Jenis-jenis
-  CHECKBOXES = 1
-  NUMBERS = 2
-  RADIO_BUTTONS = 3
+  CHOOSE_MULTIPLE = 1
+  CHOOSE_ONE = 2
+  QUANTITIES = 3
+
+  JENISES = {
+    1 => "Choose Multiple",
+    2 => "Choose One",
+    3 => "Quantities"
+  }
 
   acts_as_paranoid
 
@@ -23,5 +29,13 @@ class Food::Option < ActiveRecord::Base
               greater_than_or_equal_to: ->(option){ option.min || 0 }
             },
             allow_nil: true
+
+  def self.get_options_from_jenises
+    JENISES.each_pair.collect { |jenis| jenis.reverse }
+  end
+
+  def self.jenis_from_integer(jenis_int = 1)
+    JENISES[jenis_int]
+  end
 
 end
