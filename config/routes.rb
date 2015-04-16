@@ -15,7 +15,9 @@ Rails.application.routes.draw do
     resources :subvendors_opening_hours
     resources :food_menus
     resources :food_categories
-    resources :food_options
+    resources :food_options do
+      resources :choices
+    end
     resources :vendor_users
   end
 
