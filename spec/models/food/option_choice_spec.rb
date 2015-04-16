@@ -32,7 +32,7 @@ describe Food::OptionChoice do
   end
 
   it "is valid with unit amount of 0 and above" do
-    [0, 100].each do |num|
+    [0, 1, 1.5].each do |num|
       expect(build(:food_option_choice, unit_amount: num)).to be_valid
     end
   end

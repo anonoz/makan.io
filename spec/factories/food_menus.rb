@@ -3,7 +3,7 @@ FactoryGirl.define do
   	association :vendor_subvendor
   	association :food_category
     title "Nasi Lemak Ayam Rendang"
-    base_price 150
+    base_price 1.5
   end
 
 end

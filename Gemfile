@@ -19,6 +19,9 @@ gem 'newrelic_rpm'
 gem 'pg', '~> 0.17.1'
 gem 'paranoia'
 
+# Model matters
+gem 'money-rails'
+
 # Authentication
 gem 'devise'
 gem 'omniauth-facebook'

@@ -1,5 +1,6 @@
 class Food::Menu < ActiveRecord::Base
   acts_as_paranoid
+  monetize :base_price_cents
   
   belongs_to :food_category, class_name: "Food::Category"
   belongs_to :vendor_subvendor, class_name: "Vendor::Subvendor"
@@ -11,7 +12,7 @@ class Food::Menu < ActiveRecord::Base
   validates :food_category, presence: true
   validates :vendor_subvendor, presence: true
   validates :title, presence: true
-  validates :base_price, presence: true, numericality: true
+  validates :base_price_cents, presence: true, numericality: true
 
   has_attached_file :feature_photo,
                     styles: {

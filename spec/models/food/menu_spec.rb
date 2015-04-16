@@ -20,9 +20,9 @@ describe Food::Menu do
     expect(catless_menu.errors[:food_category]).to include "can't be blank"
   end
 
-  it "must have a base price" do
-    priceless_menu = build(:food_menu, base_price: nil)
-    priceless_menu.valid?
-    expect(priceless_menu.errors[:base_price]).to include "can't be blank"
-  end
+  # it "must have a base price" do
+  #   priceless_menu = build(:food_menu, base_price: nil)
+  #   priceless_menu.valid?
+  #   expect(priceless_menu.errors[:base_price]).to include "can't be blank"
+  # end
 end

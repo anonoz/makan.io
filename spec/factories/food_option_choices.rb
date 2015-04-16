@@ -4,14 +4,14 @@ FactoryGirl.define do
     title "Food Option Choice Title"
     min 0
     max 0
-    unit_amount 100
+    unit_amount 1.00
     default_quantity 0
     default_chosen false
 
     trait :for_checkboxes do
       association :food_option_choice, :checkboxes
       title "Chicken Rendang"
-      unit_amount 350
+      unit_amount 3.50
       default_chosen false
     end
 

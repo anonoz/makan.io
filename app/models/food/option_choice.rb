@@ -1,5 +1,6 @@
 class Food::OptionChoice < ActiveRecord::Base
   acts_as_paranoid
+  monetize :unit_amount_cents
   
   belongs_to :food_option, class_name: "Food::Option"
   
@@ -9,7 +10,7 @@ class Food::OptionChoice < ActiveRecord::Base
             numericality: { greater_than_or_equal_to: 0 }
   validates :max,
             numericality: { greater_than_or_equal_to: 0 }
-  validates :unit_amount,
+  validates :unit_amount_cents,
             numericality: { greater_than_or_equal_to: 0 }
   validates :default_quantity,
             numericality: { greater_than_or_equal_to: 0 }
