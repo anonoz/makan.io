@@ -15,11 +15,11 @@
           td = shift.end_at
           td = link_to vendor_subvendors_opening_hour_path(shift),
             method: :delete
-            .button.tiny.alert Delete
+            .button.tiny.expand.alert Delete
       = form_for(@new_opening_hours, url: {action: :create}) do |f|
         = f.hidden_field "vendor_subvendor_id", value: subvendor.id
         tr
           td = f.select :wday, @options_of_weekdays
           td = f.text_field :start_at, placeholder: "hhmm"
           td = f.text_field :end_at, placeholder: "hhmm"
-          td = f.submit "Save", class: "button tiny success"
+          td = f.submit "Save", class: "button tiny expand success"

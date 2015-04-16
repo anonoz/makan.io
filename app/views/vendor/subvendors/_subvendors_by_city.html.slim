@@ -1,9 +1,9 @@
 .row
-  table
+  table.small-12
     thead
       th.small-1 ID
-      th.small-10 Title
-      th.small-1
+      th.small-9 Title
+      th.small-2
     tbody 
       - city.subvendors.each do |subvendor|
         tr
@@ -16,4 +16,4 @@
       	tr
       	  td New
       	  td = f.text_field :title, placeholder: "Ah Boy Nasi Lemak", required: true
-      	  td = f.submit "Create", class: "button small success"
+      	  td = f.submit "Create", class: "button tiny expand success"
