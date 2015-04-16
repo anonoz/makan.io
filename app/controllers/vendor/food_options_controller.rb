@@ -4,7 +4,7 @@ class Vendor::FoodOptionsController < Vendor::MainController
   def index
     @food_options = @vendor.food_options
     @new_food_option = Food::Option.new
-    @jenis_options = Food::Option.get_options_from_jenises
+    @food_option_kind_options = Food::Option.get_kind_options
   end
 
   def show
@@ -52,7 +52,7 @@ class Vendor::FoodOptionsController < Vendor::MainController
   end
 
   def food_option_params
-    params.require(:food_option).permit(:title, :jenis)
+    params.require(:food_option).permit(:title, :kind)
   end
 
 end

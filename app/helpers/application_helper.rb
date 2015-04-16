@@ -3,7 +3,7 @@ module ApplicationHelper
     Vendor::WeeklyOpeningHour.weekdays_from_integer(wday_int)
   end
 
-  def jenis_string_from_integer(jenis_int = 1)
-    Food::Option.jenis_from_integer(jenis_int)
+  def food_option_kind_string(kind_id = 1)
+    Food::Option.food_option_kind_string(kind_id)
   end
 end

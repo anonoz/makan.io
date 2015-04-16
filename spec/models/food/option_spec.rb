@@ -17,26 +17,26 @@ describe Food::Option do
     expect(vendorless_option.errors[:vendor_vendor]).to include "can't be blank"
   end
 
-  it "is valid with a jenis" do
+  it "is valid with a kind" do
     option_with_checkboxes = build(:food_option_with_choose_multiple)
     expect(option_with_checkboxes).to be_valid
   end
 
-  it "is invalid without a jenis" do
-    traitless_option = build(:food_option, jenis: nil)
+  it "is invalid without a kind" do
+    traitless_option = build(:food_option, kind: nil)
     traitless_option.valid?
-    expect(traitless_option.errors[:jenis]).to include "can't be blank"
+    expect(traitless_option.errors[:kind]).to include "can't be blank"
   end
 
-  it "is valid when jenis is from 1 to 3" do
-    (1..3).each do |jenis_id|
-      expect(build(:food_option, jenis: jenis_id)).to be_valid
+  it "is valid when kind is from 1 to 3" do
+    (1..3).each do |kind_id|
+      expect(build(:food_option, kind: kind_id)).to be_valid
     end
   end
 
-  it "is invalid when jenis is outside 1, 2, 3" do
-    [-1, 0, 4, 5].each do |invalid_jenis_id|
-      food_option = build(:food_option, jenis: invalid_jenis_id)
+  it "is invalid when kind is outside 1, 2, 3" do
+    [-1, 0, 4, 5].each do |invalid_kind_id|
+      food_option = build(:food_option, kind: invalid_kind_id)
       food_option.valid?
       expect(food_option).to be_invalid
     end
@@ -68,7 +68,7 @@ describe Food::Option do
       include "must be greater than or equal to 0")
   end
 
-  it "is valid when jenis is checkbox, min is not nil" do
+  it "is valid when kind is checkbox, min is not nil" do
     (0..3).each do |num|
       checkbox_option = build(:food_option_with_choose_multiple,
                               min: num,
@@ -77,7 +77,7 @@ describe Food::Option do
     end
   end
 
-  it "is valid when jenis is checkbox, max is nil or above 0" do
+  it "is valid when kind is checkbox, max is nil or above 0" do
     [nil, 0, 1, 2].each do |num|
       checkbox_option = build(:food_option_with_choose_multiple,
                               max: num)

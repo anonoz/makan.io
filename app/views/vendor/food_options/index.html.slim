@@ -10,7 +10,7 @@
         tr
           td = food_option.id
           td = food_option.title
-          td = Food::Option.jenis_from_integer(food_option.jenis)
+          td = food_option_kind_string(food_option.kind)
           td
             = link_to vendor_food_option_path(food_option)
               .button.tiny.default Edit
@@ -20,5 +20,5 @@
         tr
           td New
           td = f.text_field :title, placeholder: "Drinks? Egg? Spiciness?", required: true
-          td = f.select :jenis, @jenis_options
+          td = f.select :kind, @food_option_kind_options
           td = f.submit "Save", class: "button tiny success"

@@ -1,10 +1,10 @@
 class Food::Option < ActiveRecord::Base
-  # Jenis-jenis
+  # kind-kind
   CHOOSE_MULTIPLE = 1
   CHOOSE_ONE = 2
   QUANTITIES = 3
 
-  JENISES = {
+  KINDS = {
     1 => "Choose Multiple",
     2 => "Choose One",
     3 => "Quantities"
@@ -18,7 +18,7 @@ class Food::Option < ActiveRecord::Base
 
   validates :title, presence: true
   validates :vendor_vendor, presence: true
-  validates :jenis, presence: true, inclusion: { in: [1, 2, 3] }
+  validates :kind, presence: true, inclusion: { in: [1, 2, 3] }
   validates :min,
             numericality: {
               greater_than_or_equal_to: 0
@@ -30,12 +30,12 @@ class Food::Option < ActiveRecord::Base
             },
             allow_nil: true
 
-  def self.get_options_from_jenises
-    JENISES.each_pair.collect { |jenis| jenis.reverse }
+  def self.get_kind_options
+    KINDS.each_pair.collect { |kind| kind.reverse }
   end
 
-  def self.jenis_from_integer(jenis_int = 1)
-    JENISES[jenis_int]
+  def self.food_option_kind_string(kind_id = 1)
+    KINDS[kind_id]
   end
 
 end
