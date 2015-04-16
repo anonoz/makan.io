@@ -1,0 +1,33 @@
+.row
+  .small-12.medium-6.columns
+    h3 Food Option
+
+    fieldset
+      = form_for @food_option, url: {action: :update} do |f|
+
+        label
+          | Title
+          = f.text_field :title, required: true
+
+        label
+          | Kind
+          = text_field_tag :kind_text, food_option_kind_string(@food_option.kind), disabled: true
+
+        - if @food_option.kind == Food::Option::CHOOSE_MULTIPLE
+          .row
+            .small-6.columns
+              label
+                | Min
+                = f.text_field :min
+
+            .small-6.columns
+              label
+                | Max
+                = f.text_field :max
+          .row
+            small.small-12.columns Min/Max Choose Multiple Only, leave 0 by default for no limit.
+
+        = f.submit "Update", class: "button expand success"
+
+  .small-12.medium-6.columns
+    h3 Choices

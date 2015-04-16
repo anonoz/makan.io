@@ -8,7 +8,8 @@ class Vendor::FoodOptionsController < Vendor::MainController
   end
 
   def show
-
+    @food_option_kind_options = Food::Option.get_kind_options
+    @choices = @food_option.choices
   end
 
   def new
@@ -32,7 +33,13 @@ class Vendor::FoodOptionsController < Vendor::MainController
   end
 
   def update
-
+    if @food_option.update(food_option_params)
+      redirect_to vendor_food_option_path(@food_option),
+                  flash: {success: "#{ @food_option.title } updated."}
+    else
+      redirect_to vendor_food_option_path(@food_option),
+                  flash: {error: @food_option.errors.full_messages.to_sentence}
+    end
   end
 
   def destroy
