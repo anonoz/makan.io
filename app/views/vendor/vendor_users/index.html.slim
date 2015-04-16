@@ -1,0 +1,31 @@
+.row
+  table.small-12
+    thead
+      th.small-12.medium-9 E-mail
+      th.small-0.medium-3
+    tbody
+    - @vendor_users.each do |user|
+      tr
+        td = user.email
+        td = link_to vendor_vendor_user_path(user), method: :delete
+          .button.tiny.alert Delete
+    
+.row
+  .small-12.medium-8.large-6.medium-centered.columns
+    = form_for Vendor::User.new, url: {action: :create} do |f|
+      fieldset
+        legend New Admin User
+
+        label
+          | E-mail
+          = f.email_field :email
+
+        label
+          | Password
+          = f.password_field :password
+
+        label
+          | Confirm Password
+          = f.password_field :password_confirmation
+
+        = f.submit "Create", class: "button expand success"
