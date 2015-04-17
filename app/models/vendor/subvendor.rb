@@ -9,6 +9,8 @@ class Vendor::Subvendor < ActiveRecord::Base
            foreign_key: "vendor_subvendor_id"
   has_many :weekly_opening_hours, class_name: "Vendor::WeeklyOpeningHour",
            foreign_key: "vendor_subvendor_id"
+  has_many :special_closing_hours, class_name: "Vendor::SpecialClosingHour",
+           foreign_key: "vendor_subvendor_id"
 
   validates :vendor_vendor, presence: true
   validates :place_city, presence: true

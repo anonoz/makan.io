@@ -1,16 +1,16 @@
 require 'spec_helper'
 
 describe Vendor::SpecialClosingHour do
-  it "is valid with a vendor_vendor" do
+  it "is valid with a vendor_subvendor" do
     special_closing_hour = build(:vendor_special_closing_hour)
     expect(special_closing_hour).to be_valid
   end
 
-  it "is invalid without a vendor_vendor" do
+  it "is invalid without a vendor_subvendor" do
     special_closing_hour =
-      build(:vendor_special_closing_hour, vendor_vendor: nil)
+      build(:vendor_special_closing_hour, vendor_subvendor: nil)
     special_closing_hour.valid?
-    expect(special_closing_hour.errors[:vendor_vendor]).to(
+    expect(special_closing_hour.errors[:vendor_subvendor]).to(
       include "can't be blank")
   end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150417030532) do
+ActiveRecord::Schema.define(version: 20150417064758) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -127,11 +127,11 @@ ActiveRecord::Schema.define(version: 20150417030532) do
   end
 
   create_table "vendor_special_closing_hours", force: :cascade do |t|
-    t.integer  "vendor_vendor_id"
+    t.integer  "vendor_subvendor_id"
     t.datetime "start_at"
     t.datetime "end_at"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
     t.datetime "deleted_at"
   end
 
