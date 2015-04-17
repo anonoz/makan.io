@@ -1,0 +1,25 @@
+table.small-12
+  thead
+    th.small-7 Title
+    th.small-1 Default Option
+    th.small-2 Unit Amount
+    th.small-2
+  tbody
+    - @choices.each do |choice|
+      tr
+        td = choice.title
+        td = humanized_money_with_symbol choice.unit_amount
+        td ON
+        td = link_to vendor_food_option_choice_path(@food_option, choice)
+          .button.tiny.expand.alert Archive
+    = form_for Food::OptionChoice.new, url: {action: :create} do |f|
+      tr
+        td = f.text_field :title, placeholder: "New Choice Title", required: true
+        td
+        td
+          .row.collapse.prefix-radius
+            .small-3.columns
+              span.prefix = currency_symbol
+            .small-9.columns
+              = f.text_field :unit_amount, placeholder: "2.50", required: true
+        td = f.submit "Save", class: "button tiny expand success"

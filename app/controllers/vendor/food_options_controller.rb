@@ -59,7 +59,7 @@ class Vendor::FoodOptionsController < Vendor::MainController
   end
 
   def food_option_params
-    params.require(:food_option).permit(:title, :kind)
+    params.require(:food_option).permit(:title, :kind, :min, :max)
   end
 
 end
