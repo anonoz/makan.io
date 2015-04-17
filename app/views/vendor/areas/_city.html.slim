@@ -1,0 +1,21 @@
+.row
+  h2 = city.name
+
+  .row
+    table.small-12
+      thead
+        th.small-10 Area
+        th.small-2
+      tbody
+        - city.areas.each do |area|
+          tr
+            td = area.name
+            td 
+              - if true
+                = link_to vendor_area_path(area), method: :delete
+                  .button.tiny.expand.alert Delete!
+        = form_for Place::Area.new, url: {action: :create} do |f|
+          = f.hidden_field :place_city_id, value: city.id
+          tr
+            td = f.text_field :name
+            td = f.submit "Save", class: "button tiny expand success"
