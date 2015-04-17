@@ -1,0 +1,10 @@
+.row
+  .panel.callout.radius
+    h2
+      | Today is 
+      = Time.now.strftime "%D"
+
+.row
+  .small-12.medium-centered.columns
+    - @subvendors.each do |subvendor|
+      = render "closing_hours", subvendor: subvendor

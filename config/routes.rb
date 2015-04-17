@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     get "/" => "main#index", as: :root
     resources :subvendors
     resources :subvendors_opening_hours
+    resources :subvendors_closing_hours
     resources :food_menus
     resources :food_categories
     resources :food_options do

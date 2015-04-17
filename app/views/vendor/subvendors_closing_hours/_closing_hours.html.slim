@@ -1,0 +1,25 @@
+.row
+  h3 = subvendor.title
+
+  table.small-12
+    thead
+      th.small-1 ID
+      th.small-4 Start At
+      th.small-4 Close At
+      th.small-3 Actions
+    tbody
+      - subvendor.special_closing_hours.each do |shift|
+        tr
+          td = shift.id
+          td = shift.start_at
+          td = shift.end_at
+          td = link_to vendor_subvendors_opening_hour_path(shift),
+            method: :delete
+            .button.tiny.expand.alert Delete
+      = form_for Vendor::SpecialClosingHour.new, url: {action: :create} do |f|
+        = f.hidden_field "vendor_subvendor_id", value: subvendor.id
+        tr
+          td New
+          td = f.datetime_local_field :start_at
+          td = f.datetime_local_field :end_at
+          td = f.submit "Save", class: "button tiny expand success"

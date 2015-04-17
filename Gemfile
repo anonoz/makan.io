@@ -19,6 +19,7 @@ gem 'newrelic_rpm'
 gem 'pg', '~> 0.17.1'
 gem 'paranoia'
 gem 'paper_trail', '~> 3.0.7'
+gem "default_value_for", "~> 3.0.0"
 
 # Model matters
 gem 'money-rails'
