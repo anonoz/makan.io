@@ -8,8 +8,8 @@ table.small-12
     - @choices.each do |choice|
       tr
         td = choice.title
-        td = humanized_money_with_symbol choice.unit_amount
         td ON
+        td = humanized_money_with_symbol choice.unit_amount
         td = link_to vendor_food_option_choice_path(@food_option, choice)
           .button.tiny.expand.alert Archive
     = form_for Food::OptionChoice.new, url: {action: :create} do |f|
