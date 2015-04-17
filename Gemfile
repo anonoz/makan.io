@@ -18,6 +18,7 @@ gem 'newrelic_rpm'
 # Databases
 gem 'pg', '~> 0.17.1'
 gem 'paranoia'
+gem 'paper_trail', '~> 3.0.7'
 
 # Model matters
 gem 'money-rails'
