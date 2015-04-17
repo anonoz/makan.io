@@ -17,7 +17,7 @@
           - @choices.each do |choice|
             tr
               td = choice.title
-              td = choice.amount
+              td = humanized_money_with_symbol choice.unit_amount
 
     = link_to vendor_food_option_choices_path(@food_option)
       .button.expand.success Edit Choices
