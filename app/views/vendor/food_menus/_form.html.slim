@@ -1,0 +1,67 @@
+= form_for @menu, url: {action: :create}, multipart: true do |f|
+  
+  / fieldset
+    / legend New Food Menu
+
+  .row
+      .small-12.large-6.columns
+        fieldset
+          legend Basic Info
+
+          / Food Title
+          .row
+          .small-3.columns
+            label.right.inline[for="food_menu_title"] Title
+          .small-9.columns
+            = f.text_field :title, placeholder: "Nasi Goreng", required: true
+
+          / $_$
+          .row
+          .small-3.columns
+            label.right.inline[for="food_menu_base_price"] Base Price
+          .small-9.columns
+            .row.collapse.prefix-radius
+              .small-3.columns
+                span.prefix = currency_symbol
+              .small-9.columns
+                = f.text_field :base_price, required: true
+
+          / Category
+          .row
+          .small-3.columns
+            label.right.inline[for="food_menu_food_category_id"] Category
+          .small-9.columns
+            = f.collection_select :food_category_id, @vendor.food_categories, :id, :title
+
+          / Subvendor
+          .row
+          .small-3.columns
+            label.right.inline[for="food_menu_vendor_subvendor_id"] Subvendor
+          .small-9.columns
+            = f.collection_select :vendor_subvendor_id, @vendor.subvendors, :id, :title
+
+          .row
+          .small-3.columns
+            label.right.inline[for="food_menu_feature_photo"] Shashin
+          .small-9.columns
+            = f.file_field :feature_photo
+
+      .small-12.large-6.columns
+
+        .row
+          fieldset
+            legend Options
+            
+            - @vendor_food_options.each do |option|
+              = check_box_tag "food_menu[food_option_ids][]", option.id,
+                              @menu.food_option_ids.include?(option.id),
+                              id: dom_id(option)
+              = label_tag dom_id(option), option.title
+              br
+        .row
+          fieldset
+            legend Allergens
+
+  .row
+    .small-12.large-8.large-centered.columns
+      = f.submit "Save", class: "button success expand"

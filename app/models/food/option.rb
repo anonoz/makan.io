@@ -16,6 +16,8 @@ class Food::Option < ActiveRecord::Base
   belongs_to :vendor_vendor, class_name: "Vendor::Vendor"
 
   has_many :choices, class_name: "Food::OptionChoice", foreign_key: "food_option_id"
+  has_many :food_menu_options, class_name: "Food::MenuOption", foreign_key: "food_option_id"
+  has_many :food_menus, through: :food_menu_options
 
   validates :title, presence: true
   validates :vendor_vendor, presence: true

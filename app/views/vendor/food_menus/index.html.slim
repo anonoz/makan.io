@@ -5,13 +5,23 @@
 .row
   table
     thead
-      tr.row
-        td.small-1 ID
-        td.small-10 Menu
-        td.small-1 Availability
+      th.small-1 ID
+      th.small-1 Photo
+      th.small-3 Title
+      th.small-2 Category
+      th.small-2 Allergens
+      th.small-1 Base Price
+      th.small-1 Availability
+      th.small-1
     tbody
       - @menus.each do |menu|
         tr
           td = menu.id
+          td = image_tag menu.feature_photo.url :thumb
           td = menu.title
+          td = menu.food_category.title
+          td
+          td = humanized_money_with_symbol menu.base_price
           td = "yes"
+          td = link_to vendor_food_menu_path(menu), method: :delete
+            .button.expand.alert Delete

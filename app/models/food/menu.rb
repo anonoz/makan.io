@@ -6,9 +6,10 @@ class Food::Menu < ActiveRecord::Base
   belongs_to :food_category, class_name: "Food::Category"
   belongs_to :vendor_subvendor, class_name: "Vendor::Subvendor"
 
-  has_many :menu_options, class_name: "Food::MenuOption"
-  has_many :options, class_name: "Food::Option",
-           through: :menu_options
+  has_many :food_menu_options, class_name: "Food::MenuOption",
+           foreign_key: "food_menu_id"
+  has_many :food_options, class_name: "Food::Option",
+           through: :food_menu_options
 
   validates :food_category, presence: true
   validates :vendor_subvendor, presence: true
