@@ -32,6 +32,8 @@ class Vendor::VendorUsersController < Vendor::MainController
   end
 
   def update
+    authorize! :manage, @vendor_user
+    
     if @vendor_user.update(user_params)
       redirect_to vendor_vendor_users_path,
                   flash: {success: "Admin user #{ @vendor_user.email } updated."}

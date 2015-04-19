@@ -6,6 +6,7 @@ FactoryGirl.define do
     password_confirmation "iknowright"
     name "Anonoz Chong"
     phone "017-3009142"
+    permission_level 100
   end
 
 end
