@@ -1,17 +1,16 @@
 class Vendor::FoodMenusController < Vendor::MainController
   before_action :set_menu, only: [:show, :edit, :update, :destroy]
+  before_action :set_food_options, only: [:new, :edit]
 
   def index
     @menus = @vendor.food_menus
   end
 
   def show
-    @menu = @vendor.food_menus.find_by_id(params[:id])
+    redirect_to action: :edit
   end
 
   def new
-    @vendor_food_options = @vendor.food_options
-
     if session[:food_menu]
       @menu = Food::Menu.new(session[:food_menu])
       session[:food_menu] = nil
@@ -33,9 +32,19 @@ class Vendor::FoodMenusController < Vendor::MainController
   end
 
   def edit
+    if session[:food_menu]
+      @menu = session[:food_menu]
+      session[:food_menu] = nil
+    end
   end
 
   def update
+    if @menu.update(menu_params)
+      redirect_to vendor_food_menus_path, flash: {success: "#{ @menu.title } updated."}
+    else
+      session[:food_menu] = params[:food_menu]
+      redirect_to edit_vendor_food_menu_path(@menu), flash: {error: @menu.errors.full_messages.to_sentence}
+    end
   end
 
   def destroy
@@ -50,6 +59,10 @@ class Vendor::FoodMenusController < Vendor::MainController
 
   def set_menu
     @menu = @vendor.food_menus.find_by_id params[:id]
+  end
+
+  def set_food_options
+    @vendor_food_options = @vendor.food_options
   end
 
   def menu_params

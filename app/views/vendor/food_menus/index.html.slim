@@ -18,7 +18,7 @@
         tr
           td = menu.id
           td = image_tag menu.feature_photo.url :thumb
-          td = menu.title
+          td = link_to menu.title, [:edit, :vendor, menu]
           td = menu.food_category.title
           td
           td = humanized_money_with_symbol menu.base_price
