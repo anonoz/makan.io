@@ -84,7 +84,9 @@ Rails.application.configure do
       :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
       :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
     },
-    :path => ":attachment/:id/:style.:extension"
+    :path => ":attachment/:id/:style.:extension",
+    :url => ":s3_domain_url",
+    :preserve_files => true
   }
   
 end

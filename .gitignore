@@ -122,3 +122,6 @@ bower.json
 
 # Phusion Passenger
 passenger*
+
+# File uploads
+feature_photos/*
