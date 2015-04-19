@@ -37,10 +37,14 @@ nav.top-bar[data-topbar]
             a[href=vendor_food_options_path] Options &amp; Choices
           li
             a[href=vendor_food_categories_path] Categories
-      li
-        a[href=vendor_vendor_users_path] Admin Users
-      li
-        a[href=vendor_areas_path] Areas
+          li
+            a[href="#"] Allergens
+      - if can? :manage, Place::Area
+        li
+          a[href=vendor_areas_path] Areas
+      - if can? :manage, Vendor::User
+        li
+          a[href=vendor_vendor_users_path] Admin Users
 
     ul.right
       li

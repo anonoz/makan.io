@@ -27,6 +27,7 @@ gem 'money-rails'
 # Authentication
 gem 'devise'
 gem 'omniauth-facebook'
+gem "cancancan"
 
 # HTML CSS JS gems
 gem 'sass-rails', '~> 5.0.1'

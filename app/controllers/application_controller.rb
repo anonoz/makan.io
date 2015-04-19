@@ -15,4 +15,13 @@ class ApplicationController < ActionController::Base
       "application"
     end
   end
+
+  def current_ability
+    if vendor_signed_in?
+      @current_ability ||= VendorAbility.new(current_vendor)
+    else
+      @current_ability ||= CustomerAbility.new(current_user)
+    end
+  end
+  
 end

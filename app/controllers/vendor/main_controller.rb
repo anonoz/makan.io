@@ -3,7 +3,7 @@ class Vendor::MainController < ApplicationController
   before_action :authenticate_vendor!, :set_vendor
 
   def index
-    @vendor = current_vendor.vendor.title
+    @vendor_title = current_vendor.vendor.title
   end
 
   private
