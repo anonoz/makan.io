@@ -22,6 +22,7 @@ RSpec.configure do |config|
 
   config.before(:each, js: true) do
     page.driver.block_unknown_urls
+    DatabaseCleaner.start
   end
 
   config.around(:each) do |example|

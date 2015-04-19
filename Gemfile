@@ -20,6 +20,7 @@ gem 'pg', '~> 0.17.1'
 gem 'paranoia'
 gem 'paper_trail', '~> 3.0.7'
 gem "default_value_for", "~> 3.0.0"
+gem 'enumerize'
 
 # Model matters
 gem 'money-rails'
@@ -45,6 +46,9 @@ gem 'markdown'
 gem 'bootstrap-sass', '~> 3.3.4'
 gem 'foundation-rails'
 
+# View
+gem 'simple_form'
+
 # Bootstrap
 gem "therubyracer"
 gem "less-rails"
@@ -65,6 +69,7 @@ group :development, :test do
   gem 'daemons'
   gem 'dotenv-rails'
   gem 'capybara-webkit'
+  gem 'faker'
 end
 
 group :test do
