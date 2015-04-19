@@ -3,6 +3,7 @@ class Vendor::VendorUsersController < Vendor::MainController
 
   def index
     @vendor_users = @vendor.users
+    @vendor_user = Vendor::User.new
   end
 
   def show
@@ -24,9 +25,21 @@ class Vendor::VendorUsersController < Vendor::MainController
   end
 
   def edit
+    if session[:vendor_user]
+      @vendor_user = session[:vendor_user] 
+      session[:vendor_user] = nil
+    end
   end
 
   def update
+    if @vendor_user.update(user_params)
+      redirect_to vendor_vendor_users_path,
+                  flash: {success: "Admin user #{ @vendor_user.email } updated."}
+    else
+      session[:vendor_user] = params[:vendor_user]
+      redirect_to vendor_vendor_user_path(@vendor_user),
+                  flash: {error: @vendor_user.errors.full_messages.to_sentence }
+    end
   end
 
   def destroy
@@ -46,7 +59,8 @@ class Vendor::VendorUsersController < Vendor::MainController
   end
 
   def user_params
-    params.require(:vendor_user).permit(:email, :password, :password_confirmation)
+    params.require(:vendor_user).
+           permit(:email, :password, :password_confirmation, :permission_level)
   end
 
 end

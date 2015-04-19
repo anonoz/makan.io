@@ -29,7 +29,7 @@ class VendorAbility
     # See the wiki for details:
     # https://github.com/ryanb/cancan/wiki/Defining-Abilities
     if user.permission_level >= 100
-      can :manage, Vendor::User
+      can :manage, :all
     end
 
     if user.permission_level >= 80

@@ -1,0 +1,35 @@
+= form_for @vendor_user, url: {action: :create} do |f|
+  fieldset
+    legend Vendor User
+ 
+    label
+      | E-mail
+      = f.email_field :email
+ 
+    label
+      | Permission Level
+      = f.text_field :permission_level
+
+    .panel
+      h5 Permission Level explanation
+      ul
+        li
+          | 100 = Can manage vendor users. Godlike.
+        li
+          | 80 = Can manage subvendors and areas.
+        li
+          | 60 = Can manage food categories, options and menus.
+        li
+          | 40 = Can manage food availability and subvendors' opening/closing hours.
+        li
+          | < 40 = Peasant. Can only manage orders.
+
+    label
+      | Password
+      = f.password_field :password
+ 
+    label
+      | Confirm Password
+      = f.password_field :password_confirmation
+ 
+    = f.submit "Save", class: "button expand success" 
