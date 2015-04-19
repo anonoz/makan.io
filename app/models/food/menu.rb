@@ -21,9 +21,7 @@ class Food::Menu < ActiveRecord::Base
                       medium: "280x210>",
                       thumb: "100x100>"
                     },
-                    default_url: "/images/:style/dddddd.png",
-                    url: ":s3_domain_url",
-                    preserve_files: true
+                    default_url: "/images/:style/dddddd.png"
                     
   validates_attachment_content_type :feature_photo,
                                     content_type: /\Aimage\/.*\Z/

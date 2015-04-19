@@ -7,19 +7,20 @@
     thead
       tr
         th.small-1 ID
-        th.small-9 Title
-        th.small-1 Number of Menus
+        th.small-8 Title
+        th.small-2 Number of Menus
         th.small-1
     tbody
       - @categories.each do |category|
+        - food_menus_count = category.food_menus.count
         tr
           td = category.id
-          td
-            span = category.title
-          td = 0
-          td
-            = link_to edit_vendor_food_category_path(category), class: "button tiny"
-              | Edit
+          td = link_to category.title, [:edit, :vendor, category]
+          td = food_menus_count
+          td 
+            - if food_menus_count == 0
+              = link_to [:vendor, category], method: :delete
+                .button.tiny.expand.alert Archive
       = form_for(@new_category, url: {action: "create"}, remote: false) do |f|
         tr
           td New

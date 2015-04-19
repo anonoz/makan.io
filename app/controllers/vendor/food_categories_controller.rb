@@ -39,6 +39,13 @@ class Vendor::FoodCategoriesController < Vendor::MainController
   end
 
   def destroy
+    if @category.destroy
+      redirect_to vendor_food_categories_path, 
+                  flash: {success: "Category #{ @category.title } is destroyed."}
+    else
+      redirect_to vendor_food_categories_path,
+                  flash: {error: @category.errors.full_messages.to_sentence}
+    end
   end
 
   private
