@@ -10,4 +10,16 @@ RSpec.describe Food::Category do
   it "is valid with a vendor and a name" do
     expect(build(:food_category)).to be_valid
   end
+
+  it "doesn't throw exception when being deleted without food menu under it" do
+  	category = create(:food_category)
+  	category.destroy
+    expect(category.deleted_at).to_not be_nil
+  end
+
+  it "cannot be deleted with food menus under it" do
+    category = create(:food_category)
+    food_menu = create(:food_menu, food_category: category)
+    expect(category.destroy).to be false
+  end
 end
