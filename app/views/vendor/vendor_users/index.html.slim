@@ -7,7 +7,7 @@
     - @vendor_users.each do |user|
       tr
         td = link_to user.email, [:edit, :vendor, user]
-        td = link_to [:vendor, user], method: :delete
+        td = link_to [:vendor, user], method: :delete, data: {confirm: "Sure delete ah?"}
           .button.tiny.alert Delete
     
 .row

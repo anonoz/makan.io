@@ -14,7 +14,7 @@
           td = shift.start_at
           td = shift.end_at
           td = link_to vendor_subvendors_opening_hour_path(shift),
-            method: :delete
+            method: :delete, data: {confirm: "Sure delete ah?"}
             .button.tiny.expand.alert Delete
       = form_for(@new_opening_hours, url: {action: :create}) do |f|
         = f.hidden_field "vendor_subvendor_id", value: subvendor.id

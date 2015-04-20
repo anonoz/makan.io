@@ -12,7 +12,7 @@
             td = area.name
             td 
               - if true
-                = link_to vendor_area_path(area), method: :delete
+                = link_to vendor_area_path(area), method: :delete, data: {confirm: "Sure delete ah?"}
                   .button.tiny.expand.alert Delete!
         = form_for Place::Area.new, url: {action: :create} do |f|
           = f.hidden_field :place_city_id, value: city.id

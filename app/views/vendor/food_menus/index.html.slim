@@ -27,7 +27,7 @@
               .switch
                 = f.check_box :availability, id: dom_id(menu, :availability)
                 label[for=dom_id(menu, :availability)]
-          td = link_to vendor_food_menu_path(menu), method: :delete
+          td = link_to vendor_food_menu_path(menu), method: :delete, data: {confirm: "Sure delete ah?"}
             .button.expand.alert Delete
 
 coffee:

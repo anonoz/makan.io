@@ -9,7 +9,7 @@ table.small-12
         td = choice.title
         td = humanized_money_with_symbol choice.unit_amount
         td = link_to vendor_food_option_choice_path(@food_option, choice),
-             method: :delete
+             method: :delete, data: {confirm: "Sure delete ah?"}
           .button.tiny.expand.alert Archive
     = form_for Food::OptionChoice.new, url: {action: :create} do |f|
       tr

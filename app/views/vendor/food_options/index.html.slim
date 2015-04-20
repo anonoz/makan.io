@@ -14,7 +14,7 @@
           td
             = link_to vendor_food_option_path(food_option)
               .button.tiny.default Edit
-            = link_to vendor_food_option_path(food_option), method: :delete
+            = link_to vendor_food_option_path(food_option), method: :delete, data: {confirm: "Sure delete ah?"}
               .button.tiny.alert Delete
       = form_for @new_food_option, url: {action: :create} do |f|
         tr

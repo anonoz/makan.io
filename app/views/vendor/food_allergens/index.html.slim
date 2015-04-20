@@ -9,7 +9,7 @@
           td = link_to allergen.title, [:vendor, allergen]
           td 
             - if allergen.food_menus.empty?
-              = link_to [:vendor, allergen], method: :delete
+              = link_to [:vendor, allergen], method: :delete, data: {confirm: "Sure delete ah?"}
                 .button.tiny.expand.alert Archive
       = form_for Food::Allergen.new, url: {action: :create} do |f|
         tr
