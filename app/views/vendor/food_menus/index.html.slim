@@ -9,7 +9,7 @@
       th.small-1 Photo
       th.small-3 Title
       th.small-2 Category
-      th.small-2 Allergens
+      th.small-2 Subvendor
       th.small-1 Base Price
       th.small-1 Availability
       th.small-1
@@ -20,8 +20,17 @@
           td = image_tag menu.feature_photo.url :thumb
           td = link_to menu.title, [:edit, :vendor, menu]
           td = menu.food_category.title
-          td
+          td = menu.subvendor.title
           td = humanized_money_with_symbol menu.base_price
-          td = "yes"
+          td
+            = form_for [:vendor, menu] do |f|
+              .switch
+                = f.check_box :availability, id: dom_id(menu, :availability)
+                label[for=dom_id(menu, :availability)]
           td = link_to vendor_food_menu_path(menu), method: :delete
             .button.expand.alert Delete
+
+coffee:
+  $(document).ready ->
+    $("form.edit_food_menu input[name='food_menu[availability]'").change (el)->
+      this.form.submit()

@@ -3,7 +3,7 @@ class Vendor::FoodMenusController < Vendor::MainController
   before_action :set_food_options_and_allergens, only: [:new, :edit]
 
   def index
-    @menus = @vendor.food_menus
+    @menus = @vendor.food_menus.includes(:vendor_subvendor, :food_category)
   end
 
   def show
@@ -70,6 +70,7 @@ class Vendor::FoodMenusController < Vendor::MainController
     params.require(:food_menu).
            permit(:title, :base_price, :food_category_id, :vendor_subvendor_id,
                   :halal, :kena_gst, :kena_delivery_fee, :feature_photo,
+                  :availability,
                   :food_option_ids => [], :food_allergen_ids => [])
   end
   
