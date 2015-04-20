@@ -69,8 +69,8 @@ class Vendor::FoodMenusController < Vendor::MainController
   def menu_params
     params.require(:food_menu).
            permit(:title, :base_price, :food_category_id, :vendor_subvendor_id,
-                  :feature_photo, :food_option_ids => [],
-                  :food_allergen_ids => [])
+                  :halal, :kena_gst, :kena_delivery_fee, :feature_photo,
+                  :food_option_ids => [], :food_allergen_ids => [])
   end
   
 end

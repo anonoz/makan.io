@@ -48,6 +48,18 @@
 
         .row
           .small-3.columns
+          .small-9.columns
+            = f.check_box :kena_gst
+            label[for="food_menu_kena_gst"] Kena GST 6%
+
+        .row
+          .small-3.columns
+          .small-9.columns
+            = f.check_box :kena_delivery_fee
+            label[for="food_menu_kena_delivery_fee"] Kena Delivery Fee 10%
+
+        .row
+          .small-3.columns
             label.right.inline[for="food_menu_feature_photo"] Shashin
           .small-9.columns
             = f.file_field :feature_photo
