@@ -40,8 +40,9 @@ nav.top-bar[data-topbar]
           - if can? :manage, Food::Category
             li
               a[href=vendor_food_categories_path] Categories
-          li
-            a[href="#"] Allergens
+          - if can? :manage, Food::Allergen
+            li
+              a[href=vendor_food_allergens_path] Allergens
       - if can? :manage, Place::Area
         li
           a[href=vendor_areas_path] Areas

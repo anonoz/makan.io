@@ -14,6 +14,8 @@ class Vendor::Vendor < ActiveRecord::Base
            foreign_key: "vendor_vendor_id"
   has_many :food_options, class_name: "Food::Option",
            foreign_key: "vendor_vendor_id"
+  has_many :food_allergens, class_name: "Food::Allergen",
+           foreign_key: "vendor_vendor_id"
   has_many :vendor_users, class_name: "Vendor::User",
            foreign_key: "vendor_vendor_id"
   alias_method :users, :vendor_users

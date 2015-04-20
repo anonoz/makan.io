@@ -10,6 +10,9 @@ class Food::Menu < ActiveRecord::Base
            foreign_key: "food_menu_id"
   has_many :food_options, class_name: "Food::Option",
            through: :food_menu_options
+  has_many :food_allergy_tags, class_name: "Food::AllergyTag",
+           foreign_key: "food_menu_id"
+  has_many :food_allergens, through: :food_allergy_tags
 
   validates :food_category, presence: true
   validates :vendor_subvendor, presence: true
@@ -25,4 +28,5 @@ class Food::Menu < ActiveRecord::Base
                     
   validates_attachment_content_type :feature_photo,
                                     content_type: /\Aimage\/.*\Z/
+
 end

@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     resources :food_options do
       resources :choices
     end
+    resources :food_allergens
     resources :vendor_users
     resources :areas
   end

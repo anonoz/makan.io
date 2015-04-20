@@ -1,0 +1,17 @@
+.row
+  table.small-12
+    thead
+      th Allergen
+      th[width=150] Action
+    tbody
+      - @allergens.each do |allergen|
+        tr 
+          td = link_to allergen.title, [:vendor, allergen]
+          td 
+            - if allergen.food_menus.empty?
+              = link_to [:vendor, allergen], method: :delete
+                .button.tiny.expand.alert Archive
+      = form_for Food::Allergen.new, url: {action: :create} do |f|
+        tr
+          td = f.text_field :title, placeholder: "Lactose", required: true
+          td = f.submit "Save", class: "button tiny expand success"
