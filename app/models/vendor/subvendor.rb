@@ -1,5 +1,7 @@
 class Vendor::Subvendor < ActiveRecord::Base
   FKEY = "vendor_subvendor_id"
+
+  include OpeningTimeable
   acts_as_paranoid
 
   before_destroy :check_if_no_food_menus

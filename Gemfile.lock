@@ -379,6 +379,7 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (1.4.1)
+    timecop (0.7.3)
     traceroute (0.4.0)
       rails (>= 3.0.0)
     twitter-bootstrap-rails (3.2.0)
@@ -463,6 +464,7 @@ DEPENDENCIES
   slim-rails
   therubyracer
   thin
+  timecop
   traceroute
   twitter-bootstrap-rails
   uglifier (~> 2.1.1)

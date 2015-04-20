@@ -27,4 +27,31 @@ describe Vendor::Subvendor do
     expect(subvendor.destroy).to be false
   end
 
+  it "is open in 12PM if it normally opens from 11AM-3PM" do
+    subvendor = create(:vendor_subvendor)
+    create(:vendor_weekly_opening_hour, vendor_subvendor: subvendor)
+
+    Timecop.freeze Time.local 2015, 3, 2, 12, 00
+    expect(subvendor.open?).to be_truthy
+    Timecop.return
+  end
+
+  it "is closed in 10AM if it normally opens from 11AM-3PM" do
+    subvendor = create(:vendor_subvendor)
+    create(:vendor_weekly_opening_hour, vendor_subvendor: subvendor)
+
+    Timecop.freeze Time.local 2015, 3, 2, 10, 00
+    expect(subvendor.open?).to be_falsy
+    Timecop.return
+  end
+
+  it "is closed if it normally opens but closed for daughter wedding" do
+    subvendor = create(:vendor_subvendor)
+    create(:vendor_special_closing_hour, vendor_subvendor: subvendor)
+
+    Timecop.freeze Time.local 2015, 3, 31, 8
+    expect(subvendor.open?).to be_falsy
+    Timecop.return
+  end
+    
 end
