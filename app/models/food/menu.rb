@@ -5,6 +5,7 @@ class Food::Menu < ActiveRecord::Base
   
   belongs_to :food_category, class_name: "Food::Category"
   belongs_to :vendor_subvendor, class_name: "Vendor::Subvendor"
+  alias_method :subvendor, :vendor_subvendor
 
   has_many :food_menu_options, class_name: "Food::MenuOption",
            foreign_key: "food_menu_id"
@@ -29,4 +30,7 @@ class Food::Menu < ActiveRecord::Base
   validates_attachment_content_type :feature_photo,
                                     content_type: /\Aimage\/.*\Z/
 
+  def available?
+    subvendor.open? && availability
+  end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150420102525) do
+ActiveRecord::Schema.define(version: 20150420130626) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -103,6 +103,7 @@ ActiveRecord::Schema.define(version: 20150420102525) do
     t.datetime "deleted_at"
     t.boolean  "kena_gst",                   default: false
     t.boolean  "kena_delivery_fee",          default: false
+    t.boolean  "availability",               default: true
   end
 
   create_table "food_option_choices", force: :cascade do |t|
