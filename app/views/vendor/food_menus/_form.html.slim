@@ -62,6 +62,13 @@
           fieldset
             legend Allergens
 
+            - @vendor_food_allergens.each do |allergen|
+              = check_box_tag "food_menu[food_allergen_ids][]", allergen.id,
+                              @menu.food_allergen_ids.include?(allergen.id),
+                              id: dom_id(allergen)
+              = label_tag dom_id(allergen), allergen.title
+              br
+
   .row
     .small-12.large-8.large-centered.columns
       = f.submit "Save", class: "button success expand"

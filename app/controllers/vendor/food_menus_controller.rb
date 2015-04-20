@@ -1,6 +1,6 @@
 class Vendor::FoodMenusController < Vendor::MainController
   before_action :set_menu, only: [:show, :edit, :update, :destroy]
-  before_action :set_food_options, only: [:new, :edit]
+  before_action :set_food_options_and_allergens, only: [:new, :edit]
 
   def index
     @menus = @vendor.food_menus
@@ -61,14 +61,16 @@ class Vendor::FoodMenusController < Vendor::MainController
     @menu = @vendor.food_menus.find_by_id params[:id]
   end
 
-  def set_food_options
+  def set_food_options_and_allergens
     @vendor_food_options = @vendor.food_options
+    @vendor_food_allergens = @vendor.food_allergens
   end
 
   def menu_params
     params.require(:food_menu).
            permit(:title, :base_price, :food_category_id, :vendor_subvendor_id,
-                  :feature_photo, :food_option_ids => [])
+                  :feature_photo, :food_option_ids => [],
+                  :food_allergen_ids => [])
   end
   
 end
