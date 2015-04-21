@@ -21,7 +21,12 @@
           td = link_to menu.title, [:edit, :vendor, menu]
           td = menu.food_category.title
           td = menu.subvendor.title
-          td = humanized_money_with_symbol menu.base_price
+          td 
+            = humanized_money_with_symbol menu.base_price
+            - if menu.kena_gst?
+              br: small + 6% GST
+            - if menu.kena_delivery_fee?
+              small + 10% GST
           td
             = form_for [:vendor, menu] do |f|
               .switch
