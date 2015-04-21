@@ -14,10 +14,10 @@ class Vendor::SubvendorsClosingHoursController < Vendor::MainController
     @closing_hour = Vendor::SpecialClosingHour.new closing_hour_params
 
     if @closing_hour.save
-      redirect_to vendor_subvendor_closing_hours_path,
+      redirect_to vendor_subvendors_closing_hours_path,
                   flash: { success: "Closing Hour saved." }
     else
-      redirect_to vendor_subvendor_closing_hours_path,
+      redirect_to vendor_subvendors_closing_hours_path,
                   flash: { error: @closing_hour.errors.full_messages.to_sentence }
     end
   end
