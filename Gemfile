@@ -58,6 +58,7 @@ gem "twitter-bootstrap-rails"
 gem 'rmagick', '~> 2.13.2', :require => false
 gem "paperclip", "~> 4.2"
 gem 'aws-sdk', '~> 1.5.7'
+gem 'activesupport-json_encoder'
 
 # APIs
 gem 'heroku-api'

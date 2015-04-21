@@ -9,7 +9,12 @@
         tr
           td = subvendor.id
           td = subvendor.title
-          td
+          td 
+            - if subvendor.food_menus.empty?
+              = link_to vendor_subvendor_path(subvendor), method: :delete
+                .button.tiny.expand.alert Archive
+            - else
+              = "Still Got #{ subvendor.food_menus.count } Foods"
       = form_for(@new_subvendor, url: {action: "create"},
       	         remote: false) do |f|
         = f.hidden_field :place_city_id, value: city.id

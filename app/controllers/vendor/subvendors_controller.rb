@@ -31,6 +31,13 @@ class Vendor::SubvendorsController < Vendor::MainController
   end
 
   def destroy
+    if @subvendor.destroy
+      redirect_to vendor_subvendors_path,
+                  flash: {success: "Subvendor #{ @subvendor.title } deleted."}
+    else
+      redirect_to vendor_subvendors_path,
+                  flash: {error: @subvendor.errors.full_messages.to_sentence}
+    end
   end
 
   private
