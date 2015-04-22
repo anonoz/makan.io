@@ -11,7 +11,7 @@
           td = subvendor.title
           td 
             - if subvendor.food_menus.empty?
-              = link_to vendor_subvendor_path(subvendor), method: :delete
+              = link_to vendor_subvendor_path(subvendor), method: :delete, data: {confirm: "Sure delete ah?"}
                 .button.tiny.expand.alert Archive
             - else
               = "Still Got #{ subvendor.food_menus.count } Foods"
