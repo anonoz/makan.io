@@ -1,6 +1,6 @@
 class Food::Menu < ActiveRecord::Base
   acts_as_paranoid
-  has_paper_trail
+  has_paper_trail on: [:update], ignore: [:availability]
   monetize :base_price_cents
   
   belongs_to :food_category, class_name: "Food::Category"
