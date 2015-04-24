@@ -2,7 +2,8 @@ class Vendor::SubvendorsController < Vendor::MainController
   before_action :set_subvendor, only: [:show, :edit, :update, :destroy]
 
   def index
-    @cities = Place::City.includes(:vendor_subvendors)
+    @cities = Place::Area.city.values
+    @subvendors = @vendor.subvendors
     @new_subvendor = Vendor::Subvendor.new
   end
 

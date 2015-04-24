@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150420130626) do
+ActiveRecord::Schema.define(version: 20150424184705) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -145,17 +145,10 @@ ActiveRecord::Schema.define(version: 20150420130626) do
 
   create_table "place_areas", force: :cascade do |t|
     t.string   "name"
-    t.integer  "place_city_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
     t.datetime "deleted_at"
-  end
-
-  create_table "place_cities", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "deleted_at"
+    t.integer  "city",       default: 1
   end
 
   create_table "vendor_special_closing_hours", force: :cascade do |t|
@@ -173,7 +166,7 @@ ActiveRecord::Schema.define(version: 20150420130626) do
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
     t.datetime "deleted_at"
-    t.integer  "place_city_id"
+    t.integer  "city"
   end
 
   create_table "vendor_users", force: :cascade do |t|

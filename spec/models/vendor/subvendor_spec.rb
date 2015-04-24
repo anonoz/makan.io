@@ -8,11 +8,22 @@ describe Vendor::Subvendor do
       include "can't be blank")
   end
 
-  it "is invalid without belonging to place_city" do
-    cityless_sub = build(:vendor_subvendor, place_city: nil)
+  it "is invalid without belonging to city" do
+    cityless_sub = build(:vendor_subvendor, city: nil)
     cityless_sub.valid?
-    expect(cityless_sub.errors[:place_city]).to(
+    expect(cityless_sub.errors[:city]).to(
       include "can't be blank")
+  end
+
+  it "is valid if its in Setapak" do
+    expect(build(:vendor_subvendor, city: :setapak)).to be_valid
+    expect(build(:vendor_subvendor, city: "setapak")).to be_valid
+  end
+
+  it "is invalid if its in unlisted cities such as Penang" do
+    georgetown = build(:vendor_subvendor, city: :penang)
+    georgetown.valid?
+    expect(georgetown.errors[:city]).to include "is not included in the list"
   end
 
   it "can be deleted if got no food menus under them" do

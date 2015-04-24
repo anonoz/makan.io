@@ -5,7 +5,7 @@
       th.small-9 Title
       th.small-2
     tbody 
-      - city.subvendors.each do |subvendor|
+      - @subvendors.in_city(city).each do |subvendor|
         tr
           td = subvendor.id
           td = subvendor.title
@@ -17,7 +17,7 @@
               = "Still Got #{ subvendor.food_menus.count } Foods"
       = form_for(@new_subvendor, url: {action: "create"},
       	         remote: false) do |f|
-        = f.hidden_field :place_city_id, value: city.id
+        = f.hidden_field :city, value: city
       	tr
       	  td New
       	  td = f.text_field :title, placeholder: "Ah Boy Nasi Lemak", required: true

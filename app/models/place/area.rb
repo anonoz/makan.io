@@ -1,8 +1,9 @@
 class Place::Area < ActiveRecord::Base
+  extend Enumerize
+  enumerize :city, in: {setapak: 1}, default: :setapak, scope: :in_city
+
   acts_as_paranoid
   
-  belongs_to :place_city, class_name: "Place::City"
-  
-  validates :place_city, presence: true
   validates :name, presence: true
+  validates :city, presence: true
 end

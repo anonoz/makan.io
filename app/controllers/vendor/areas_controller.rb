@@ -1,6 +1,7 @@
 class Vendor::AreasController < Vendor::MainController
   def index
-    @cities = Place::City.includes(:areas)
+    @areas = Place::Area.all
+    @cities = Place::Area.city.values
   end
 
   def show
