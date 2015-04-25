@@ -7,4 +7,8 @@ class Order::ItemExtra < ActiveRecord::Base
   validates :quantity, numericality: {
     greater_than_or_equal_to: 0
   }
+
+  def amount
+    quantity * food_option_choice.unit_amount
+  end
 end

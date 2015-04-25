@@ -21,4 +21,16 @@ describe Order::ItemExtra do
     expect(abomination.errors[:quantity]).to(
       include "must be greater than or equal to 0")
   end
+
+  it "has amount of $1 if its chosen with food option choice of $1" do
+    choice = create(:food_option_choice, unit_amount: 1)
+    extra = build(:order_item_extra, food_option_choice: choice)
+    expect(extra.amount).to eq(1)
+  end
+
+  it "has amount of $2 if 2 of it are chosen with food option choice of $1" do
+    choice = create(:food_option_choice, unit_amount: 1)
+    extra = build(:order_item_extra, food_option_choice: choice, quantity: 2)
+    expect(extra.amount).to eq(2)
+  end
 end
