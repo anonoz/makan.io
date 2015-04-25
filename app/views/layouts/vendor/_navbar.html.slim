@@ -26,29 +26,23 @@ nav.top-bar[data-topbar]
       li.has-dropdown
         a[href=vendor_subvendors_path] Subvendors
         ul.dropdown
-          - if can? :manage, Vendor::WeeklyOpeningHour
-            li
-              a[href=vendor_subvendors_opening_hours_path] Weekly Opening Hours
-            li
-              a[href=vendor_subvendors_closing_hours_path] Special Closing Hours
+          li
+            a[href=vendor_subvendors_opening_hours_path] Weekly Opening Hours
+          li
+            a[href=vendor_subvendors_closing_hours_path] Special Closing Hours
       li.has-dropdown
         a[href=vendor_food_menus_path] Foods
         ul.dropdown
-          - if can? :manage, Food::Option
-            li
-              a[href=vendor_food_options_path] Options &amp; Choices
-          - if can? :manage, Food::Category
-            li
-              a[href=vendor_food_categories_path] Categories
-          - if can? :manage, Food::Allergen
-            li
-              a[href=vendor_food_allergens_path] Allergens
-      - if can? :manage, Place::Area
-        li
-          a[href=vendor_areas_path] Areas
-      - if can? :manage, Vendor::User
-        li
-          a[href=vendor_vendor_users_path] Admin Users
+          li
+            a[href=vendor_food_options_path] Options &amp; Choices
+          li
+            a[href=vendor_food_categories_path] Categories
+          li
+            a[href=vendor_food_allergens_path] Allergens
+      li
+        a[href=vendor_areas_path] Areas
+      li
+        a[href=vendor_vendor_users_path] Admin Users
 
     ul.right
       li

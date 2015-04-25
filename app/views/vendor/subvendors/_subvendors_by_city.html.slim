@@ -11,14 +11,18 @@
           td = subvendor.title
           td 
             - if subvendor.food_menus.empty?
-              = link_to vendor_subvendor_path(subvendor), method: :delete, data: {confirm: "Sure delete ah?"}
-                .button.tiny.expand.alert Archive
+              - if can? :destroy, subvendor
+                = link_to vendor_subvendor_path(subvendor), method: :delete, data: {confirm: "Sure delete ah?"}
+                  .button.tiny.expand.alert Archive
+              - else
+                | Not permitted to archive
             - else
               = "Still Got #{ subvendor.food_menus.count } Foods"
-      = form_for(@new_subvendor, url: {action: "create"},
-      	         remote: false) do |f|
-        = f.hidden_field :city, value: city
-      	tr
-      	  td New
-      	  td = f.text_field :title, placeholder: "Ah Boy Nasi Lemak", required: true
-      	  td = f.submit "Create", class: "button tiny expand success"
+      - if can? :create, Vendor::Subvendor
+        = form_for(@new_subvendor, url: {action: "create"},
+      	           remote: false) do |f|
+          = f.hidden_field :city, value: city
+      	  tr
+      	    td New
+      	    td = f.text_field :title, placeholder: "Ah Boy Nasi Lemak", required: true
+      	    td = f.submit "Create", class: "button tiny expand success"
