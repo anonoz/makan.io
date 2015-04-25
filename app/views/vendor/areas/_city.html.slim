@@ -11,11 +11,12 @@
           tr
             td = area.name
             td 
-              - if true
+              - if can? :destroy, area
                 = link_to vendor_area_path(area), method: :delete, data: {confirm: "Sure delete ah?"}
                   .button.tiny.expand.alert Delete!
-        = form_for Place::Area.new, url: {action: :create} do |f|
-          = f.hidden_field :city, value: city
-          tr
-            td = f.text_field :name
-            td = f.submit "Save", class: "button tiny expand success"
+        - if can? :create, Place::Area                  
+          = form_for Place::Area.new, url: {action: :create} do |f|
+            = f.hidden_field :city, value: city
+            tr
+              td = f.text_field :name
+              td = f.submit "Save", class: "button tiny expand success"
