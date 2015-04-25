@@ -3,7 +3,7 @@ class Vendor::SubvendorsController < Vendor::MainController
 
   def index
     @cities = Place::Area.city.values
-    @subvendors = @vendor.subvendors
+    @subvendors = @vendor.subvendors.includes(:food_menus)
     @new_subvendor = Vendor::Subvendor.new
   end
 
