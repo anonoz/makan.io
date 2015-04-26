@@ -28,8 +28,8 @@ describe Food::Option do
     expect(traitless_option.errors[:kind]).to include "can't be blank"
   end
 
-  it "is valid when kind is from 1 to 3" do
-    (1..3).each do |kind_id|
+  it "is valid when kind is in the list" do
+    Food::Option.kind.values.each do |kind_id|
       expect(build(:food_option, kind: kind_id)).to be_valid
     end
   end
