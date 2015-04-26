@@ -18,12 +18,13 @@
           td = link_to category.title, [:edit, :vendor, category]
           td = food_menus_count
           td 
-            - if food_menus_count == 0
+            - if food_menus_count == 0 && can?(:destroy, category)
               = link_to [:vendor, category], method: :delete
                 .button.tiny.expand.alert Archive
-      = form_for(@new_category, url: {action: "create"}, remote: false) do |f|
-        tr
-          td New
-          td = f.text_field :title, placeholder: "New Category Name"
-          td
-          td = f.submit "Create", class: "button small success"
+      - if can? :create, Food::Category
+        = form_for(@new_category, url: {action: "create"}, remote: false) do |f|
+          tr
+            td New
+            td = f.text_field :title, placeholder: "New Category Name"
+            td
+            td = f.submit "Create", class: "button small success"

@@ -16,6 +16,7 @@ class VendorAbility
       can :manage, Food::Category
       can :manage, Food::Option
       can :manage, Food::OptionChoice
+      can :manage, Food::Allergen
     end
 
     if user.permission_level >= 40

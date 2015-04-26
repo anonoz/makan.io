@@ -8,10 +8,11 @@
         tr 
           td = link_to allergen.title, [:vendor, allergen]
           td 
-            - if allergen.food_menus.empty?
+            - if allergen.food_menus.empty? && can?(:destroy, Food::Allergen)
               = link_to [:vendor, allergen], method: :delete, data: {confirm: "Sure delete ah?"}
                 .button.tiny.expand.alert Archive
-      = form_for Food::Allergen.new, url: {action: :create} do |f|
-        tr
-          td = f.text_field :title, placeholder: "Lactose", required: true
-          td = f.submit "Save", class: "button tiny expand success"
+      - if can? :create, Food::Allergen
+        = form_for Food::Allergen.new, url: {action: :create} do |f|
+          tr
+            td = f.text_field :title, placeholder: "Lactose", required: true
+            td = f.submit "Save", class: "button tiny expand success"
