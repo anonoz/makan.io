@@ -18,6 +18,8 @@ class Vendor::Vendor < ActiveRecord::Base
            foreign_key: "vendor_vendor_id"
   has_many :vendor_users, class_name: "Vendor::User",
            foreign_key: "vendor_vendor_id"
+  has_many :order_chits, class_name: "Order::Chit",
+           foreign_key: "vendor_vendor_id"
   alias_method :users, :vendor_users
 
   validates :title, presence: true
