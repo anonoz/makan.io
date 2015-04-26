@@ -3,7 +3,7 @@ class VendorAbility
 
   def initialize(user)
     if user.permission_level >= 100
-      can :manage, :all
+      can :manage, Vendor::User, vendor_vendor_id: user.vendor_vendor_id
     end
 
     if user.permission_level >= 80

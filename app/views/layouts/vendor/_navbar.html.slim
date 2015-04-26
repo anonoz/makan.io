@@ -41,8 +41,9 @@ nav.top-bar[data-topbar]
             a[href=vendor_food_allergens_path] Allergens
       li
         a[href=vendor_areas_path] Areas
-      li
-        a[href=vendor_vendor_users_path] Admin Users
+      - if can? :manage, Vendor::User
+        li
+          a[href=vendor_vendor_users_path] Admin Users
 
     ul.right
       li
