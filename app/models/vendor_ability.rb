@@ -22,7 +22,7 @@ class VendorAbility
     if user.permission_level >= 40
       can :manage, Vendor::WeeklyOpeningHour
       can :manage, Vendor::SpecialClosingHour
-      can :manage, Food::Menu
+      can :update, Food::Menu
     end
 
     # can :manage, ::Order::Invoice
