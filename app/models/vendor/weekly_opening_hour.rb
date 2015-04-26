@@ -1,15 +1,16 @@
 class Vendor::WeeklyOpeningHour < ActiveRecord::Base
-  WEEKDAYS = {
-    1 => "Monday",
-    2 => "Tuesday",
-    3 => "Wednesday",
-    4 => "Thursday",
-    5 => "Friday",
-    6 => "Saturday",
-    7 => "Sunday"
-  }
-
+  extend Enumerize
   acts_as_paranoid
+
+  enumerize :wday, in: {
+    "Monday" => 1,
+    "Tuesday" => 2,
+    "Wednesday" => 3,
+    "Thursday" => 4,
+    "Friday" => 5,
+    "Saturday" => 6,
+    "Sunday" => 7
+  }
   
   belongs_to :vendor_subvendor, class_name: "Vendor::Subvendor"
 
@@ -33,12 +34,4 @@ class Vendor::WeeklyOpeningHour < ActiveRecord::Base
             minutes_in_twenty_four_hours: true
 
   default_scope { order(wday: :asc, start_at: :asc) }
-
-  def self.get_options_of_weekdays
-    WEEKDAYS.each_pair.collect {|day| day.reverse}
-  end
-
-  def self.weekdays_from_integer(wday_int = 1)
-    WEEKDAYS[wday_int]
-  end
 end

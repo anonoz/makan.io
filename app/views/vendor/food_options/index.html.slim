@@ -10,15 +10,15 @@
         tr
           td = food_option.id
           td = food_option.title
-          td = food_option_kind_string(food_option.kind)
+          td = food_option.kind
           td
             = link_to vendor_food_option_path(food_option)
               .button.tiny.default Edit
             = link_to vendor_food_option_path(food_option), method: :delete, data: {confirm: "Sure delete ah?"}
               .button.tiny.alert Delete
-      = form_for @new_food_option, url: {action: :create} do |f|
+      = simple_form_for [:vendor, @new_food_option] do |f|
         tr
           td New
-          td = f.text_field :title, placeholder: "Drinks? Egg? Spiciness?", required: true
-          td = f.select :kind, @food_option_kind_options
+          td = f.input :title, placeholder: "Drinks? Egg? Spiciness?", required: true, label: false
+          td = f.input :kind, collection: Food::Option.kind.values, required: true, label: false
           td = f.submit "Save", class: "button tiny success"

@@ -1,14 +1,14 @@
-= form_for @food_option, url: {action: :update} do |f|
+= simple_form_for @food_option, url: {action: :update} do |f|
 
   label
     | Title
-    = f.text_field :title, required: true
+    = f.input :title, label: false, required: true
 
   label
     | Kind
-    = text_field_tag :kind_text, food_option_kind_string(@food_option.kind), disabled: true
+    = f.input :kind, collection: Food::Option.kind.values, disabled: true, label: false
 
-  - if @food_option.kind == Food::Option::CHOOSE_MULTIPLE
+  - if @food_option.kind == :choose_multiple
     .row
       .small-6.columns
         label

@@ -10,7 +10,7 @@
     tbody
       - subvendor.weekly_opening_hours.each do |shift|
         tr
-          td = weekday_string_from_integer shift.wday
+          td = shift.wday
           td = shift.start_at
           td = shift.end_at
           td 
@@ -19,10 +19,10 @@
                         method: :delete, data: {confirm: "Sure delete ah?"}
                 .button.tiny.expand.alert Delete
       - if can? :create, Vendor::WeeklyOpeningHour
-        = form_for(@new_opening_hours, url: {action: :create}) do |f|
+        = simple_form_for(@new_opening_hours, url: {action: :create}) do |f|
           = f.hidden_field "vendor_subvendor_id", value: subvendor.id
           tr
-            td = f.select :wday, @options_of_weekdays
-            td = f.text_field :start_at, placeholder: "hhmm"
-            td = f.text_field :end_at, placeholder: "hhmm"
+            td = f.input :wday, collection: Vendor::WeeklyOpeningHour.wday.values, label: false
+            td = f.input :start_at, placeholder: "hhmm", label: false
+            td = f.input :end_at, placeholder: "hhmm", label: false
             td = f.submit "Save", class: "button tiny expand success"

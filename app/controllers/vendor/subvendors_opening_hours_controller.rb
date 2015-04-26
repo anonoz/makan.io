@@ -4,7 +4,6 @@ class Vendor::SubvendorsOpeningHoursController < Vendor::MainController
   def index
     @subvendors = @vendor.subvendors.includes(:weekly_opening_hours)
     @new_opening_hours = Vendor::WeeklyOpeningHour.new
-    @options_of_weekdays = Vendor::WeeklyOpeningHour.get_options_of_weekdays
   end
 
   def show

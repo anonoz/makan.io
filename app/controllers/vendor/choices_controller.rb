@@ -5,9 +5,9 @@ class Vendor::ChoicesController < Vendor::MainController
   def index
     @choices = @food_option.choices
     @table_partial = case @food_option.kind
-      when Food::Option::CHOOSE_MULTIPLE then "choices_for_multiple_choices"
-      when Food::Option::CHOOSE_ONE then "choices_for_single_choice"
-      when Food::Option::QUANTITIES then "choices_for_quantities"
+      when "choose_multiple" then "choices_for_multiple_choices"
+      when "choose_one" then "choices_for_single_choice"
+      when "quantities" then "choices_for_quantities"
     end
   end
 

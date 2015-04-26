@@ -4,11 +4,9 @@ class Vendor::FoodOptionsController < Vendor::MainController
   def index
     @food_options = @vendor.food_options
     @new_food_option = Food::Option.new
-    @food_option_kind_options = Food::Option.get_kind_options
   end
 
   def show
-    @food_option_kind_options = Food::Option.get_kind_options
     @choices = @food_option.choices
   end
 

@@ -3,7 +3,17 @@ class Vendor::FoodMenusController < Vendor::MainController
   before_action :set_food_options_and_allergens, only: [:new, :edit]
 
   def index
-    @menus = @vendor.food_menus.includes(:vendor_subvendor, :food_category)
+    @menus = @vendor.food_menus
+
+    respond_to do |format|
+      format.html {
+        @menus.includes(:vendor_subvendor, :food_category)
+      }
+
+      format.json {
+        render json: @menus.includes(:food_options)
+      }
+    end
   end
 
   def show
