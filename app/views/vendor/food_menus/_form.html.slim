@@ -1,4 +1,4 @@
-= form_for [:vendor, @menu], multipart: true do |f|
+= simple_form_for [:vendor, @menu] do |f|
   
   / fieldset
     / legend New Food Menu
@@ -13,7 +13,7 @@
           .small-3.columns
             label.right.inline[for="food_menu_title"] Title
           .small-9.columns
-            = f.text_field :title, placeholder: "Nasi Goreng", required: true
+            = f.input :title, placeholder: "Nasi Goreng", required: true, label: false
 
         / $_$
         .row
@@ -24,45 +24,42 @@
               .small-3.columns
                 span.prefix = currency_symbol
               .small-9.columns
-                = f.text_field :base_price, required: true
+                = f.input :base_price, required: true, label: false
 
         / Category
         .row
           .small-3.columns
             label.right.inline[for="food_menu_food_category_id"] Category
           .small-9.columns
-            = f.collection_select :food_category_id, @vendor.food_categories, :id, :title
+            = f.input :food_category_id, collection: @vendor.food_categories, required: true, label: false
 
         / Subvendor
         .row
           .small-3.columns
             label.right.inline[for="food_menu_vendor_subvendor_id"] Subvendor
           .small-9.columns
-            = f.collection_select :vendor_subvendor_id, @vendor.subvendors, :id, :title
+            = f.input :vendor_subvendor_id, collection: @vendor.subvendors, required: true, label: false
 
         .row
           .small-3.columns
           .small-9.columns
-            = f.check_box :halal
-            label[for="food_menu_halal"] Halal
+            = f.input :halal
 
         .row
           .small-3.columns
           .small-9.columns
-            = f.check_box :kena_gst
-            label[for="food_menu_kena_gst"] Kena GST 6%
+            = f.input :kena_gst
 
         .row
           .small-3.columns
           .small-9.columns
-            = f.check_box :kena_delivery_fee
-            label[for="food_menu_kena_delivery_fee"] Kena Delivery Fee 10%
+            = f.input :kena_delivery_fee
 
         .row
           .small-3.columns
             label.right.inline[for="food_menu_feature_photo"] Shashin
           .small-9.columns
-            = f.file_field :feature_photo
+            = f.input :feature_photo, as: :file, label: false
 
     .small-12.large-6.columns
 
@@ -70,22 +67,13 @@
         fieldset
           legend Options
           
-          - @vendor_food_options.each do |option|
-            = check_box_tag "food_menu[food_option_ids][]", option.id,
-                            @menu.food_option_ids.include?(option.id),
-                            id: dom_id(option)
-            = label_tag dom_id(option), option.title
-            br
+          = f.association :food_options, as: :check_boxes, label: false
+
       .row
         fieldset
           legend Allergens
 
-          - @vendor_food_allergens.each do |allergen|
-            = check_box_tag "food_menu[food_allergen_ids][]", allergen.id,
-                            @menu.food_allergen_ids.include?(allergen.id),
-                            id: dom_id(allergen)
-            = label_tag dom_id(allergen), allergen.title
-            br
+          = f.association :food_allergens, as: :check_boxes, label: false
 
   .row
     .small-12.large-8.large-centered.columns

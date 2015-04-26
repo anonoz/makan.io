@@ -32,8 +32,10 @@ class Vendor::FoodMenusController < Vendor::MainController
   end
 
   def edit
+    @menu = @vendor.food_menus.find_by_id params[:id]
+
     if session[:food_menu]
-      @menu = session[:food_menu]
+      @menu.attributes = session[:food_menu]
       session[:food_menu] = nil
     end
   end
@@ -42,7 +44,7 @@ class Vendor::FoodMenusController < Vendor::MainController
     if @menu.update(menu_params)
       redirect_to vendor_food_menus_path, flash: {success: "#{ @menu.title } updated."}
     else
-      session[:food_menu] = params[:food_menu]
+      session[:food_menu] = menu_params
       redirect_to edit_vendor_food_menu_path(@menu), flash: {error: @menu.errors.full_messages.to_sentence}
     end
   end
