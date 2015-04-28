@@ -33,4 +33,18 @@ describe Order::ItemExtra do
     extra = build(:order_item_extra, food_option_choice: choice, quantity: 2)
     expect(extra.amount).to eq(2)
   end
+
+  it "won't change amount even if the choice's amount has changed", versioning: true do
+    Timecop.travel Time.parse "January 1"
+    choice = create(:food_option_choice, unit_amount: 1)
+
+    Timecop.travel Time.parse "January 7"
+    extra = create(:order_item_extra, food_option_choice: choice, quantity: 1)
+
+    Timecop.travel Time.parse "January 14"
+    choice.update(unit_amount: 2)
+    expect(extra.amount).to eq 1
+
+    Timecop.return
+  end
 end

@@ -9,6 +9,13 @@ class Order::ItemExtra < ActiveRecord::Base
   }
 
   def amount
-    quantity * food_option_choice.unit_amount
+    set_food_option_choice_correct_version
+    quantity * @choice.unit_amount
+  end
+
+  private
+
+  def set_food_option_choice_correct_version
+    @choice = food_option_choice.version_at(created_at)
   end
 end

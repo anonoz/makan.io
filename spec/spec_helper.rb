@@ -2,10 +2,17 @@
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
+require 'paper_trail/frameworks/rspec'
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
 ActiveRecord::Migration.maintain_test_schema!
+
+current_behavior = ActiveSupport::Deprecation.behavior
+ActiveSupport::Deprecation.behavior = lambda do |message, callstack|
+  return if message =~ /`serialized_attributes` is deprecated without replacement/ && callstack.any? { |m| m =~ /paper_trail/ }
+  Array.wrap(current_behavior).each { |behavior| behavior.call(message, callstack) }
+end
 
 RSpec.configure do |config|
   config.infer_base_class_for_anonymous_controllers = false

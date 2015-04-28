@@ -71,4 +71,91 @@ describe Order::Item do
 
     expect(nasi_lemak_line.amount).to eq(7.54)
   end
+
+  it "won't change the amount on older chit if base price changes later", versioning: true do
+    Timecop.travel Time.parse "November 10"
+    food_menu = create(:food_menu, base_price: 6.50)
+
+    Timecop.travel Time.parse "November 25"
+    order_chit = create(:order_chit)
+    order_item = create(:order_item, food_menu: food_menu, order_chit: order_chit)
+
+    Timecop.travel Time.parse "December 25"
+    food_menu.update(base_price: 10.00)
+    old_order_item = order_item.reload
+    expect(old_order_item.amount).to eq 6.50
+
+    Timecop.return
+  end
+
+  it "won't change the amount on older chit if GST kicks in later", versioning: true do
+    Timecop.travel Time.parse "April 1"
+    food_menu = create(:food_menu, base_price: 1)
+    order_chit = create(:order_chit)
+    order_item = create(:order_item, food_menu: food_menu, order_chit: order_chit)
+
+    Timecop.travel Time.parse "May 1"
+    food_menu.update(kena_gst: true)
+
+    expect(order_item.amount).to eq 1
+  end
+
+  it "won't change the amount on older chit if delivery fee kicks in later", versioning: true do
+    Timecop.travel Time.parse "April 1"
+    food_menu = create(:food_menu, base_price: 1)
+    order_chit = create(:order_chit)
+    order_item = create(:order_item, food_menu: food_menu, order_chit: order_chit)
+
+    Timecop.travel Time.parse "May 1"
+    food_menu.update(kena_delivery_fee: true)
+
+    expect(order_item.amount).to eq 1
+  end
+
+  it "won't change the amount on older chit if both fees and price hike kick in later", versioning: true do
+    Timecop.travel Time.parse "January 1"
+    food_menu = create(:food_menu, base_price: 6.50, kena_gst: false, kena_delivery_fee: false)
+
+    Timecop.travel Time.parse "February 1"
+    order_chit = create(:order_chit)
+    order_item = create(:order_item, food_menu: food_menu, order_chit: order_chit)
+
+    Timecop.travel Time.parse "March 1"
+    food_menu.update(base_price: 10.00)
+    expect(order_item.amount).to eq 6.50
+
+    Timecop.travel Time.parse "April 1"
+    food_menu.update(kena_gst: true)
+    expect(order_item.amount).to eq 6.50
+
+    Timecop.travel Time.parse "May 1"
+    food_menu.update(kena_delivery_fee: true)
+    expect(order_item.amount).to eq 6.50
+
+    Timecop.return
+  end
+
+  it "won't change the amount on older chit if price drops and fees are abolished later", versioning: true do
+    Timecop.travel Time.parse "January 1"
+    food_menu = create(:food_menu, base_price: 10, kena_gst: true, kena_delivery_fee: true)
+
+    Timecop.travel Time.parse "February 1"
+    order_chit = create(:order_chit)
+    order_item = create(:order_item, food_menu: food_menu, order_chit: order_chit)
+
+    Timecop.travel Time.parse "March 1"
+    food_menu.update(base_price: 6.50)
+    expect(order_item.amount).to eq 11.6
+
+    Timecop.travel Time.parse "April 1"
+    food_menu.update(kena_gst: true)
+    expect(order_item.amount).to eq 11.6
+
+    Timecop.travel Time.parse "May 1"
+    food_menu.update(kena_delivery_fee: true)
+    expect(order_item.amount).to eq 11.6
+
+    Timecop.return
+  end
+
 end
