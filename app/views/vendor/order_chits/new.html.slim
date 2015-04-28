@@ -1,0 +1,64 @@
+.row
+  = simple_form_for [:vendor, Order::Chit.new] do |f|
+
+    fieldset
+      legend Customer Info
+
+      = f.input :offline_customer_name, wrapper: :horizontal_form,
+                placeholder: "Ah Beng", required: true
+      = f.input :offline_customer_address, wrapper: :horizontal_form,
+                placeholder: "PV10 Block C 101-A"
+      = f.input :offline_customer_phone, wrapper: :horizontal_form,
+                placeholder: "012-3425678"
+
+    fieldset
+      legend Items
+
+      table
+        thead
+          th[width=800] Item
+          th Cost
+        tbody
+
+
+      a.button.success.expand[href="#" data-reveal-id="add_item_modal"] Add Item
+
+    a.button.expand Order
+
+#add_item_modal.reveal-modal[data-reveal role="dialog"]
+  form#add_item_form
+    .step1
+      .row
+        label
+          p Step 1: Choose a Food
+          = select_tag :food_menu_id, content_tag(:option,'select one...',:value=>"")+options_from_collection_for_select(@vendor.food_menus, :id, :title), id: :food_menu_id_selector
+
+    .step2
+      .row
+        p Step 2: Customize it
+
+        #food_customizer
+
+          .row
+
+script#choose_multiple_form[type="text/x-handlebars-template"]
+  .row
+    .small-12
+      h5
+        | {{ title }}
+
+      .row
+        .small-11.small-offset-1
+          | {{#each choices}}
+          .row
+            = check_box_tag "[order_chit][][order_items][][order_items_extras][][food_option_choice_id]", "{{ id }}", false,:id => "food_option_choice_{{ id }}"
+            label[for="food_option_choice_{{ id }}"] {{ title }} - {{ price }}
+          | {{/each}}
+      
+script#food_menus_data[type="application/json"]
+  = @food_menus.to_json(include: :food_options).html_safe
+
+script#food_options_data[type="application/json"]
+  = @food_options_json.html_safe
+
+= javascript_include_tag "vendors/order_chit"

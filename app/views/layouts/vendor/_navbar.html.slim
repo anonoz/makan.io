@@ -22,7 +22,7 @@ nav.top-bar[data-topbar]
   section.top-bar-section
     ul.left
       li
-        a[href="#"] Orders
+        a[href=vendor_order_chits_path] Orders
       li.has-dropdown
         a[href=vendor_subvendors_path] Subvendors
         ul.dropdown
@@ -46,7 +46,6 @@ nav.top-bar[data-topbar]
           a[href=vendor_vendor_users_path] Admin Users
 
     ul.right
-      li
-        a[href="#"] Intercom
+      li: a.button.success[href=new_vendor_order_chit_path] New Order
       li = link_to "Sign Out", destroy_vendor_session_path, method: :delete
         

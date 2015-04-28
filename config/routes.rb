@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
   namespace "vendor" do
     get "/" => "main#index", as: :root
+    resources :order_chits
     resources :subvendors
     resources :subvendors_opening_hours
     resources :subvendors_closing_hours
@@ -22,6 +23,14 @@ Rails.application.routes.draw do
     resources :food_allergens
     resources :vendor_users
     resources :areas
+
+    resource :cart do
+      resources :items
+    end
+  end
+
+  if Rails.env.development?
+    match "dojo" => "dojo#main", via: [:get, :post]
   end
 
 end

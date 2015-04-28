@@ -14,6 +14,8 @@ class Vendor::Vendor < ActiveRecord::Base
            foreign_key: "vendor_vendor_id"
   has_many :food_options, class_name: "Food::Option",
            foreign_key: "vendor_vendor_id"
+  has_many :food_option_choices, class_name: "Food::OptionChoice",
+           through: :food_options
   has_many :food_allergens, class_name: "Food::Allergen",
            foreign_key: "vendor_vendor_id"
   has_many :vendor_users, class_name: "Vendor::User",

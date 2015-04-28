@@ -1,0 +1,13 @@
+.row
+  table
+    thead
+      th ID
+      th[width=500] Customer Info
+      th[width=500] Items
+      th[width=200] $$
+      th Status
+      th
+    tbody
+      - @order_chits.each do |chit|
+        tr
+          td = chit.id

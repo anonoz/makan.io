@@ -24,6 +24,7 @@ gem 'enumerize'
 
 # Model matters
 gem 'money-rails'
+gem 'active_model_serializers'
 
 # Authentication
 gem 'devise'
@@ -38,16 +39,14 @@ gem 'uglifier', '~> 2.1.1'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails', '~> 2.2.1'
 gem 'bcrypt-ruby', '~> 3.1.5'
-gem 'haml'
-gem 'haml-rails'
 gem 'slim-rails'
-gem 'emcee'
 gem 'markdown'
 gem 'bootstrap-sass', '~> 3.3.4'
 gem 'foundation-rails'
 
 # View
 gem 'simple_form'
+gem "nested_form"
 
 # Bootstrap
 gem "therubyracer"
@@ -59,10 +58,6 @@ gem 'rmagick', '~> 2.13.2', :require => false
 gem "paperclip", "~> 4.2"
 gem 'aws-sdk', '~> 1.5.7'
 gem 'activesupport-json_encoder'
-
-# APIs
-gem 'heroku-api'
-gem 'heroku'
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.0'
