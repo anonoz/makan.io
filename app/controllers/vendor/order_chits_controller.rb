@@ -12,7 +12,9 @@ class Vendor::OrderChitsController < Vendor::MainController
     @food_menus = @vendor.food_menus.includes(:food_options)
     @food_options = @vendor.food_options.includes(:food_option_choices)
 
-    @food_options_json = ActiveModel::ArraySerializer.new(@food_options, each_serializer: Food::OptionSerializer).to_json
+    @food_options_json = ActiveModel::ArraySerializer.
+                           new(@food_options, each_serializer: Food::OptionSerializer).
+                           to_json
   end
 
   def create

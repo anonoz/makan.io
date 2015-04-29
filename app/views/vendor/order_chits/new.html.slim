@@ -25,36 +25,8 @@
 
     a.button.expand Order
 
-#add_item_modal.reveal-modal[data-reveal role="dialog"]
-  form#add_item_form
-    .step1
-      .row
-        label
-          p Step 1: Choose a Food
-          = select_tag :food_menu_id, content_tag(:option,'select one...',:value=>"")+options_from_collection_for_select(@vendor.food_menus, :id, :title), id: :food_menu_id_selector
+== render "add_item_modal"
 
-    .step2
-      .row
-        p Step 2: Customize it
-
-        #food_customizer
-
-          .row
-
-script#choose_multiple_form[type="text/x-handlebars-template"]
-  .row
-    .small-12
-      h5
-        | {{ title }}
-
-      .row
-        .small-11.small-offset-1
-          | {{#each choices}}
-          .row
-            = check_box_tag "[order_chit][][order_items][][order_items_extras][][food_option_choice_id]", "{{ id }}", false,:id => "food_option_choice_{{ id }}"
-            label[for="food_option_choice_{{ id }}"] {{ title }} - {{ price }}
-          | {{/each}}
-      
 script#food_menus_data[type="application/json"]
   = @food_menus.to_json(include: :food_options).html_safe
 

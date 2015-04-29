@@ -1,0 +1,70 @@
+#add_item_modal.reveal-modal[data-reveal role="dialog"]
+  form#add_item_form
+    .step1
+      .row
+        fieldset
+          legend Step 1: Choose a Food
+          = select_tag :food_menu_id, content_tag(:option,'select one...',:value=>"")+options_from_collection_for_select(@vendor.food_menus, :id, :title), id: :food_menu_id_selector
+
+    .step2
+      .row
+        fieldset
+          legend Step 2: Customize
+          #food_customizer
+            h4 Choose a food first
+
+    .row
+      fieldset
+        legend Sum
+        #amount_sum RM 0
+
+script#choose_multiple_form[type="text/x-handlebars-template"]
+    h5
+      | {{ title }}
+
+      .row
+        .small-offset-1.small-11
+          | {{#each choices}}
+          .row
+            / = check_box_tag "choices_for_{{ ../id }}", "{{ id }}", false, :id => "food_option_choice_{{ id }}", class: "choose_multiple_input"
+            input.choose_multiple_input[
+              type="checkbox"
+              name="choices_for_{{ ../id }}"
+              value="{{ id }}"
+              id="food_option_choice_{{ id }}"
+            ]
+            label[for="food_option_choice_{{ id }}"] {{ title }} - {{ price }}
+          | {{/each}}
+
+script#choose_one_form[type="text/x-handlebars-template"]
+    h5
+      | {{ title }}
+
+    .row
+      .small-offset-1.small-11
+        | {{#each choices}}
+        .row
+          input.choose_one_input[
+            type="radio"
+            name="choices_for_{{ ../id }}"
+            id="food_option_choice_{{ id }}"
+            data-food-option-id="{{ ../id }}"
+            value="{{ id }}"
+          ]
+          label[for="food_option_choice_{{ id }}"] {{ title }} - {{ price }}
+        | {{/each}}
+
+script#quantities_form[type="text/x-handlebars-template"]
+    h5
+      | {{ title }}
+
+      .row
+        .small-12
+          | {{#each choices}}
+          .row
+            .small-1.columns
+              input.quantities_input[name="choices_for_{{ ../id }}" id="food_option_choice_{{ id }}" type="number" value="0"]
+            .small-3.columns.end
+              label.inline
+                | {{ title }} - {{ price }}
+          | {{/each}}
