@@ -1,9 +1,7 @@
 #= require underscore-min
 #= require handlebars-v3.0.1
 
-Handlebars.registerHelper('ringgit', (amount, options)->
-  currencify amount
-)
+Handlebars.registerHelper 'ringgit', (amount, options)-> currencify amount
 
 $(document).ready ->
 
@@ -144,6 +142,8 @@ $(document).ready ->
         quantity: 1
         extras: extras
         title: chosen_menu.title
+        kena_gst: chosen_menu.kena_gst
+        kena_delivery_fee: chosen_menu.kena_delivery_fee
         amount_cents: count_item_amount chosen_menu, extras, false
 
       # Store the cart in somewhere
@@ -151,14 +151,38 @@ $(document).ready ->
 
       # Populate table
       items_list.append Handlebars.compile($('#chow_item_row').html()) item
+      $("#total_amount").change()
 
       # Handle input change
-      # $("fieldset[data-order-item-temp-id=temp_id] input.chit_row_qty_input").change ->
-      #   item.quantity = this.value
+      item_fieldset = $("fieldset[data-order-item-temp-id=#{ item.temp_id }]")
+      item_fieldset.find("input.chit_row_qty_input").change ->
+        item.quantity = Number this.value
+        $("#total_amount").change()
+
+      # Bind remove
+      item_fieldset.find(".item_remove_button").click ->
+        window.cart = _.reject window.cart, (cart_item)->
+          cart_item.temp_id == item.temp_id
+        $("#total_amount").change()
+        item_fieldset.remove()
 
       # TODO: Close modal
+      customizer.html ""
       $("#add_item_modal").foundation "reveal", "close"
 
+  # The element itself doesn't actuallt change, but it's the 
+  # total amount in model changing, liddis code more DRY,
+  # albeit inappropriate lah.
+  $("#total_amount").change ->
+    # Calculate food
+    total_amount_cents = _.reduce cart, (memo, nu)->
+      memo + (nu.quantity * nu.amount_cents)
+    , 0
+
+    # Update the counter
+    $("#total_amount").text currencify total_amount_cents
+
+# Method to calculate charge for a single item
 count_item_amount = (food_menu = {base_price_cents: 0}, extras = [], element = $("#amount_sum"))->
   # Base price
   original_price = food_menu.base_price_cents
@@ -178,5 +202,4 @@ count_item_amount = (food_menu = {base_price_cents: 0}, extras = [], element = $
 
   return final_price
 
-currencify = (cents = 0)->
-  "RM #{ (cents/100).toFixed 2 }"
+currencify = (cents = 0)-> "RM #{ (cents/100).toFixed 2 }"
