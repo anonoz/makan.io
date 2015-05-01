@@ -16,7 +16,10 @@
     .row
       fieldset
         legend Sum
-        #amount_sum RM 0
+        .small-6.columns
+          #amount_sum RM 0
+        .small-6.columns.right
+          a.button.expand#food_menu_confirm[href="#"]Confirm
 
 script#choose_multiple_form[type="text/x-handlebars-template"]
     h5
@@ -63,7 +66,14 @@ script#quantities_form[type="text/x-handlebars-template"]
           | {{#each choices}}
           .row
             .small-1.columns
-              input.quantities_input[name="choices_for_{{ ../id }}" id="food_option_choice_{{ id }}" type="number" value="0"]
+              input.quantities_input[
+                name="choices_for_{{ ../id }}"
+                id="food_option_choice_{{ id }}"
+                type="number"
+                value="0"
+                min="0"
+                data-food-option-choice-id="{{ id }}"
+              ]
             .small-3.columns.end
               label.inline
                 | {{ title }} - {{ price }}
