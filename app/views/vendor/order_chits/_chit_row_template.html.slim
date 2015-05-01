@@ -1,0 +1,58 @@
+script#chow_item_row[type="text/x-handlebars-template"]
+  li: fieldset[
+    data-order-item-temp-id="{{ temp_id }}"
+  ]
+    .row
+      .small-12.large-4.columns
+        h3
+          | {{ title }}
+        p Extras:
+        ul
+          | {{#each extras}}
+          li
+            | {{ title }}
+          | {{/each}}
+      .small-12.large-4.columns
+        textarea[
+          name="order_chit[items][][remarks]"
+          placeholder="Remarks. Eg. tak mau telur."
+          rows="5"
+        ]
+      .small-12.large-4.columns
+        h3.chit_row_amount
+          | {{ ringgit amount_cents }}
+        ul
+          | {{#if kena_gst}}
+          li 6% GST included
+          li 10% Delivery Fee included
+          | {{/if}}
+        .row
+          .small-3.columns
+            label.right.inline Quantity
+          .small-9.columns
+            input[
+              name="order_chit[items][][quantity]"
+              type="number"
+              value="{{ quantity }}"
+              min="1"
+            ]
+    .row
+      .small-12.large-4.large-offset-8.columns
+        a.button.alert.expand Remove
+  
+  / form
+  .hide
+    input[
+      name="order_chit[items][][food_menu_id]"
+      value="{{ food_menu_id }}"
+    ]
+    | {{#each extras}}
+    input[
+      name="order_chit[items][][extras][][food_option_choice_id]"
+      value="{{ food_option_choice_id }}"
+    ]
+    input.chit_row_qty_input[
+      name="order_chit[items][][extras][][quantity]"
+      value="{{ quantity }}"
+    ]
+    | {{/each}}

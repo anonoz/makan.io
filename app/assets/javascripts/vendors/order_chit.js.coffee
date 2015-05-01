@@ -1,14 +1,22 @@
 #= require underscore-min
 #= require handlebars-v3.0.1
+
+Handlebars.registerHelper('ringgit', (amount, options)->
+  currencify amount
+)
+
 $(document).ready ->
 
   window.cart = []
+  window.temp_id = 0
   
   # Unpack the data
   food_menus = JSON.parse $('#food_menus_data').text()
   food_options = JSON.parse $('#food_options_data').text()
+  all_food_option_choices = _.flatten _.pluck food_options, "choices"
 
   customizer = $('#food_customizer')
+  items_list = $('#items_list')
 
   $("a[data-reveal-id=add_item_modal]").click ->
     food_menu_id_selector = $("#food_menu_id_selector")
@@ -17,20 +25,30 @@ $(document).ready ->
 
   # In modal
   $("#food_menu_id_selector").change ->
-    chosen_menu =  _.findWhere(food_menus, {id: Number $(this).val()})
+    window.chosen_menu =  _.findWhere(food_menus, {id: Number $(this).val()})
     console.log chosen_menu
 
     # RESET
     extras = []
     base_amount = chosen_menu && chosen_menu.base_price_cents || 0
-    extras_amount = 0
-    $("#amount_sum").text("RM " + String((base_amount + extras_amount) / 100))
+    count_item_amount chosen_menu, extras
 
     # Display the form in step 2
     customizer.html("")
+    $("#food_menu_confirm").off "click"
+    $("#kena_gst, #kena_delivery_fee").addClass "hide"
 
-    # If no food chosen
-    chosen_menu || customizer.html("<p>Choose some food first.</p>")
+    if chosen_menu
+      $("#food_menu_confirm").show()
+
+      if chosen_menu.kena_gst
+        $("#kena_gst").removeClass("hide")
+
+      if chosen_menu.kena_delivery_fee
+        $("#kena_delivery_fee").removeClass "hide"
+    else
+      customizer.html("<p>Choose some food first.</p>")
+      $("#food_menu_confirm").hide()
 
     # Only do so if got food chosen to avoid undefined error
     chosen_menu && for food_option in chosen_menu.food_options
@@ -49,10 +67,12 @@ $(document).ready ->
     $(".choose_multiple_input").change ->
       element = this
       if element.checked
+        choice = _.findWhere(food_option.choices, {id: Number this.value})
         extras.push
           food_option_choice_id: Number this.value
           quantity: 1
-          unit_amount_cents: _.findWhere(food_option.choices, {id: Number this.value}).unit_amount_cents
+          amount_cents: choice.unit_amount_cents
+          title: "#{ choice.title } - #{ currencify choice.unit_amount_cents }"
       else
         extras = _.reject extras, (choice)->
           console.log choice
@@ -62,8 +82,7 @@ $(document).ready ->
         memo + nu.unit_amount_cents
       , 0
 
-      $("#amount_sum").text "RM #{ String((base_amount + extras_amount) / 100) }"
-      console.log extras
+      count_item_amount chosen_menu, extras
 
     # Bind choose one
     $(".choose_one_input").change ->
@@ -76,17 +95,18 @@ $(document).ready ->
         console.log choice.food_option_choice_id
         other_choices_ids.indexOf(choice.food_option_choice_id) > -1
 
+      choice = _.findWhere(all_food_option_choices, {id: Number this.value})
       extras.push
         food_option_choice_id: Number this.value
         quantity: 1
-        unit_amount_cents: _.findWhere(other_choices, {id: Number this.value}).unit_amount_cents
+        amount_cents: choice.unit_amount_cents
+        title: "#{choice.title} - #{ currencify choice.unit_amount_cents }"
 
       extras_amount = _.reduce extras, (memo, nu)->
         memo + nu.unit_amount_cents
       , 0
 
-      $("#amount_sum").text "RM #{ String((base_amount + extras_amount) / 100) }"
-      console.log extras
+      count_item_amount chosen_menu, extras
 
     # Bind quantities
     $(".quantities_input").change ->
@@ -102,27 +122,61 @@ $(document).ready ->
 
       # Add it back
       if quantity > 0
+        amount_cents = _.findWhere(choices, {id: choice_id}).unit_amount_cents * quantity
         extras.push
           food_option_choice_id: choice_id
           quantity: quantity
-          unit_amount_cents: _.findWhere(choices, {id: choice_id}).unit_amount_cents * quantity
+          amount_cents: amount_cents
+          title: "#{chosen_menu.title } x#{ quantity } - #{ currencify amount_cents }"
       
       extras_amount = _.reduce extras, (memo, nu)->
         memo + nu.unit_amount_cents
       , 0
 
-      $("#amount_sum").text "RM #{ String((base_amount + extras_amount) / 100) }"
-      console.log extras
+      count_item_amount chosen_menu, extras
 
     # Upon submission of order item
     $("#food_menu_confirm").click ->
-
-      # Store the cart in somewhere
-      window.cart.push
+      # Item as hash
+      console.log item =
+        temp_id: ++temp_id
         food_menu_id: chosen_menu.id
         quantity: 1
         extras: extras
+        title: chosen_menu.title
+        amount_cents: count_item_amount chosen_menu, extras, false
+
+      # Store the cart in somewhere
+      window.cart.push item
 
       # Populate table
+      items_list.append Handlebars.compile($('#chow_item_row').html()) item
+
+      # Handle input change
+      # $("fieldset[data-order-item-temp-id=temp_id] input.chit_row_qty_input").change ->
+      #   item.quantity = this.value
 
       # TODO: Close modal
+      $("#add_item_modal").foundation "reveal", "close"
+
+count_item_amount = (food_menu = {base_price_cents: 0}, extras = [], element = $("#amount_sum"))->
+  # Base price
+  original_price = food_menu.base_price_cents
+
+  # Extras
+  original_price += _.reduce extras, (memo, nu)->
+    memo + nu.amount_cents
+  , 0
+
+  # GST and delivery fee
+  final_price = original_price
+  final_price += original_price * 0.06 if food_menu.kena_gst
+  final_price += original_price * 0.10 if food_menu.kena_delivery_fee
+
+  # Update element
+  element && element.text currencify final_price
+
+  return final_price
+
+currencify = (cents = 0)->
+  "RM #{ (cents/100).toFixed 2 }"
