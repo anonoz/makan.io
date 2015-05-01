@@ -9,7 +9,6 @@ class Order::Item < ActiveRecord::Base
 
   accepts_nested_attributes_for :extras
 
-  validates :order_chit, presence: true
   validates :food_menu, presence: true
 
   # delegate :kena_gst?, :kena_delivery_fee?, to: :food_menu

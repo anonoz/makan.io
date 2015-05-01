@@ -18,6 +18,13 @@ class Vendor::OrderChitsController < Vendor::MainController
   end
 
   def create
+    @order_chit = @vendor.order_chits.new(new_order_chit_params)
+
+    if @order_chit.save
+      render json: @order_chit
+    else
+      render json: @order_chit.errors
+    end
   end
 
   def edit
@@ -33,5 +40,24 @@ class Vendor::OrderChitsController < Vendor::MainController
 
   def set_order_chit
     @order_chit = @vendor.order_chits.find_by_id params[:id]
+  end
+
+  def new_order_chit_params
+    params.require(:order_chit).permit(
+      :customer_user_id,
+      :customer_address_id,
+      :offline_customer_name,
+      :offline_customer_address,
+      :offline_customer_phone,
+      :items_attributes => [
+        :food_menu_id,
+        :quantity,
+        :remarks,
+        :extras_attributes => [
+          :food_option_choice_id,
+          :quantity
+        ]
+      ]
+    )
   end
 end

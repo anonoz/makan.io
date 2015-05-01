@@ -16,7 +16,7 @@ script#chow_item_row[type="text/x-handlebars-template"]
           | {{/each}}
       .small-12.large-4.columns
         textarea[
-          name="order_chit[items][][remarks]"
+          name="order_chit[items_attributes][][remarks]"
           placeholder="Remarks. Eg. tak mau telur."
           rows="5"
         ]
@@ -33,7 +33,7 @@ script#chow_item_row[type="text/x-handlebars-template"]
             label.right.inline Quantity
           .small-9.columns
             input.chit_row_qty_input[
-              name="order_chit[items][][quantity]"
+              name="order_chit[items_attributes][][quantity]"
               type="number"
               value="{{ quantity }}"
               min="1"
@@ -45,16 +45,16 @@ script#chow_item_row[type="text/x-handlebars-template"]
   / form
   .hide
     input[
-      name="order_chit[items][][food_menu_id]"
+      name="order_chit[items_attributes][][food_menu_id]"
       value="{{ food_menu_id }}"
     ]
     | {{#each extras}}
     input[
-      name="order_chit[items][][extras][][food_option_choice_id]"
+      name="order_chit[items_attributes][][extras][][food_option_choice_id]"
       value="{{ food_option_choice_id }}"
     ]
     input[
-      name="order_chit[items][][extras][][quantity]"
+      name="order_chit[items_attributes][][extras][][quantity]"
       value="{{ quantity }}"
     ]
     | {{/each}}

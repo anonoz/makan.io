@@ -23,7 +23,7 @@
     h1.text-center
       span#total_amount RM 0.00
 
-    a.button.expand Order
+    = f.submit "Order", class: "button expand"
 
 == render "add_item_modal"
 == render "chit_row_template"
