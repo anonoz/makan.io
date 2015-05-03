@@ -13,29 +13,17 @@ describe Vendor::WeeklyOpeningHour do
       include "can't be blank")
   end
 
-  it "is valid with wday of 1 to 7" do
-    (1..7).each do |day|
-      expect(build(:vendor_weekly_opening_hour, wday: day)).to be_valid
+  it "is valid with wday of sunday till saturday" do
+    [:monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :sunday].each do |weekday|
+      expect(build(:vendor_weekly_opening_hour, wday: weekday)).to be_valid
     end
   end
 
-  it "is invalid with wday of 0 and lower" do
-    (-1..0).each do |day|
-      vendor_weekly_opening_hour =
-        build(:vendor_weekly_opening_hour, wday: day)
-      vendor_weekly_opening_hour.valid?
-      expect(vendor_weekly_opening_hour.errors[:wday]).to(
-        include "must be greater than or equal to 1")
-    end
-  end
-
-  it "is invalid with wday of above 7" do
-    (8..9).each do |day|
-      vendor_weekly_opening_hour =
-        build(:vendor_weekly_opening_hour, wday: day)
-      vendor_weekly_opening_hour.valid?
-      expect(vendor_weekly_opening_hour.errors[:wday]).to(
-        include "must be less than or equal to 7")
+  it "is invalid with wday of thorsday" do
+    [:thorsday].each do |weekday|
+      thorsday = build(:vendor_weekly_opening_hour, wday: weekday)
+      thorsday.valid?
+      expect(thorsday.errors[:wday]).to include "is not included in the list"
     end
   end
 
