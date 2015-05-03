@@ -5,12 +5,20 @@ module OpeningTimeable
                                time.wday, hourmin, hourmin).any?
   end
 
+  def normally_closed?(time = Time.now)
+    !normally_open?(time)
+  end
+
   def specially_closed?(time = Time.now)
     special_closing_hours.where("start_at <= ? and end_at >= ?", time, time).
                           any?
   end
 
   def open?(time = Time.now)
-    normally_open? && !specially_closed?
+    normally_open?(time) && !specially_closed?(time)
+  end
+
+  def closed?(time = Time.now)
+    !open?(time)
   end
 end

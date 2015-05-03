@@ -33,4 +33,14 @@ class Food::Menu < ActiveRecord::Base
   def available?
     subvendor.open? && availability
   end
+
+  def unavailability_reason
+    if availability == false
+      return "temporarily unavailable"
+    end
+
+    if subvendor.closed?
+      return "subvendor #{ subvendor.closure_reason }"
+    end
+  end
 end

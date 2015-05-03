@@ -26,4 +26,18 @@ class Vendor::Subvendor < ActiveRecord::Base
       return false
     end
   end
+
+  def closure_reason
+    if normally_closed?
+      "normally closed"
+    elsif specially_closed?
+      "specially closed"
+    else
+      # This isn't supposed to happen
+      raise CurrentlyOpenYouIdiot,
+            subvendor_id: id, subvendor_title: title
+    end
+  end
+
+  class CurrentlyOpenYouIdiot < StandardError; end
 end
