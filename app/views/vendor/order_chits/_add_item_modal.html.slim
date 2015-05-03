@@ -1,28 +1,34 @@
-#add_item_modal.reveal-modal[data-reveal role="dialog"]
+#add_item_modal.reveal-modal.large[data-reveal role="dialog"]
   form#add_item_form
-    .step1
+    .small-12.large-8.columns
+      .step1
+        .row
+          fieldset
+            legend Step 1: Choose a Food
+            #food_menu_selector
+              input#food_menu_typeahead[
+                type="text"
+                placeholder="Search Food Menu"
+              ]
+
+      .step2
+        .row
+          fieldset
+            legend Step 2: Customize
+            #food_customizer
+              h4 Choose a food first
+
+    .small-12.large-4.columns
       .row
         fieldset
-          legend Step 1: Choose a Food
-          = select_tag :food_menu_id, content_tag(:option,'select one...',:value=>"")+options_from_collection_for_select(@vendor.food_menus, :id, :title), id: :food_menu_id_selector
-
-    .step2
-      .row
-        fieldset
-          legend Step 2: Customize
-          #food_customizer
-            h4 Choose a food first
-
-    .row
-      fieldset
-        legend Sum
-        .small-6.columns
-          h3#amount_sum RM 0
-          ul
-            li#kena_gst.small.hide + GST 6%
-            li#kena_delivery_fee.small.hide + Delivery 10%
-        .small-6.columns.right
-          a.button.expand#food_menu_confirm[href="#"]Confirm
+          legend Sum
+          .small-12.columns
+            h3#amount_sum RM 0
+            ul
+              li#kena_gst.small.hide + GST 6%
+              li#kena_delivery_fee.small.hide + Delivery 10%
+          .small-12.columns
+            a.button.expand#food_menu_confirm[href="#"]Confirm
 
 script#choose_multiple_form[type="text/x-handlebars-template"]
     h5

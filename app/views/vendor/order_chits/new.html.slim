@@ -29,7 +29,7 @@
 == render "chit_row_template"
 
 script#food_menus_data[type="application/json"]
-  = @food_menus.to_json(include: :food_options).html_safe
+  = @food_menus_json.html_safe
 
 script#food_options_data[type="application/json"]
   = @food_options_json.html_safe

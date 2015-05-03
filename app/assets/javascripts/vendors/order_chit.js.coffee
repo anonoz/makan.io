@@ -1,5 +1,6 @@
 #= require underscore-min
 #= require handlebars-v3.0.1
+#= require typeahead.bundle
 
 Handlebars.registerHelper 'ringgit', (amount, options)-> currencify amount
 
@@ -17,14 +18,42 @@ $(document).ready ->
   items_list = $('#items_list')
 
   $("a[data-reveal-id=add_item_modal]").click ->
-    food_menu_id_selector = $("#food_menu_id_selector")
-    food_menu_id_selector.val("")
-    food_menu_id_selector.change()
+    # Reset
+    $("#food_menu_typeahead").typeahead "val", null
+    onFoodMenuChange null
+
+  # Typeahead for food menu
+  food_menu_typeahead_engine = new Bloodhound
+    local: food_menus
+    identify: (menu)-> menu.id
+    datumTokenizer: Bloodhound.tokenizers.obj.whitespace("title")
+    queryTokenizer: Bloodhound.tokenizers.whitespace
+
+  console.log food_menu_typeahead_engine
+
+  $("#food_menu_typeahead").typeahead {
+    hint: true
+  }, {
+    name: "food_menus"
+    display: "title"
+    source: food_menu_typeahead_engine
+    templates:
+      empty: "<h4> Food not found </h4>"
+      suggestion: Handlebars.compile [
+          "{{#if available}}",
+            "<div>{{ title }}</div>",
+          "{{else}}",
+            "<div class='food_unavailable'>{{ title }} (Not Available)</div>",
+          "{{/if}}"
+        ].join "\n"
+  }
+
+  $("#food_menu_typeahead").bind "typeahead:select", (e, suggestion)->
+    onFoodMenuChange suggestion
 
   # In modal
-  $("#food_menu_id_selector").change ->
-    window.chosen_menu =  _.findWhere(food_menus, {id: Number $(this).val()})
-    console.log chosen_menu
+  onFoodMenuChange = (food_menu = null)->
+    window.chosen_menu = food_menu
 
     # RESET
     extras = []
@@ -37,7 +66,10 @@ $(document).ready ->
     $("#kena_gst, #kena_delivery_fee").addClass "hide"
 
     if chosen_menu
-      $("#food_menu_confirm").show()
+      if chosen_menu.available 
+        $("#food_menu_confirm").show()
+      else
+        $("#food_menu_confirm").hide()
 
       if chosen_menu.kena_gst
         $("#kena_gst").removeClass("hide")

@@ -1,13 +1,6 @@
 require 'spec_helper'
 
 describe Order::Item do
-  it "is invalid without belong to order chit" do
-    chitless_item = build(:order_item, order_chit: nil)
-    chitless_item.valid?
-    expect(chitless_item.errors[:order_chit]).to(
-      include "can't be blank")
-  end
-
   it "is invalid without belong to food menu" do
     foodless_item = build(:order_item, food_menu: nil)
     foodless_item.valid?

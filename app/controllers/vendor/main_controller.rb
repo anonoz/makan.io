@@ -11,4 +11,11 @@ class Vendor::MainController < ApplicationController
   def set_vendor
     @vendor = current_vendor.vendor
   end
+
+  def user_for_paper_trail
+    if vendor_signed_in?
+      "vendor_#{ current_vendor.id } #{ current_vendor.email }"
+    end
+  end
+
 end

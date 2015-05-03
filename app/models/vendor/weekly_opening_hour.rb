@@ -3,13 +3,13 @@ class Vendor::WeeklyOpeningHour < ActiveRecord::Base
   acts_as_paranoid
 
   enumerize :wday, in: {
+    "Sunday" => 0,
     "Monday" => 1,
     "Tuesday" => 2,
     "Wednesday" => 3,
     "Thursday" => 4,
     "Friday" => 5,
-    "Saturday" => 6,
-    "Sunday" => 7
+    "Saturday" => 6
   }
   
   belongs_to :vendor_subvendor, class_name: "Vendor::Subvendor"
@@ -17,8 +17,8 @@ class Vendor::WeeklyOpeningHour < ActiveRecord::Base
   validates :vendor_subvendor, presence: true
   validates :wday,
             numericality: {
-              greater_than_or_equal_to: 1,
-              less_than_or_equal_to: 7
+              greater_than_or_equal_to: 0,
+              less_than_or_equal_to: 6
             }
   validates :start_at,
             numericality: {

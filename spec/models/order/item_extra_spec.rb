@@ -1,13 +1,6 @@
 require 'spec_helper'
 
 describe Order::ItemExtra do
-  it "is invalid without belonging to order item" do
-    itemless_extra = build(:order_item_extra, order_item: nil)
-    itemless_extra.valid?
-    expect(itemless_extra.errors[:order_item]).to(
-      include "can't be blank")
-  end
-
   it "is invalid without belonging to food option choice" do
   	choiceless_extra = build(:order_item_extra, food_option_choice: nil)
   	choiceless_extra.valid?

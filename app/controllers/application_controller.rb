@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   layout :layout_by_resource
 
+  before_action :set_locale
+
   protected
 
   def layout_by_resource
@@ -24,4 +26,9 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  private
+
+  def set_locale
+    I18n.locale = params[:locale] || I18n.default_locale
+  end
 end

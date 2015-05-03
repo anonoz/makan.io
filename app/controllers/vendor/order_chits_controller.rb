@@ -6,12 +6,19 @@ class Vendor::OrderChitsController < Vendor::MainController
   end
 
   def show
+    respond_to do |format|
+      format.html
+      format.json { render json: @order_chit, serializer: Order::ChitSerializer }
+    end
   end
 
   def new
-    @food_menus = @vendor.food_menus.includes(:food_options)
+    @food_menus = @vendor.food_menus.includes(:vendor_subvendor, :food_options => [:food_option_choices])
     @food_options = @vendor.food_options.includes(:food_option_choices)
 
+    @food_menus_json = ActiveModel::ArraySerializer.
+                         new(@food_menus, each_serializer: Food::MenuSerializer).
+                         to_json
     @food_options_json = ActiveModel::ArraySerializer.
                            new(@food_options, each_serializer: Food::OptionSerializer).
                            to_json
