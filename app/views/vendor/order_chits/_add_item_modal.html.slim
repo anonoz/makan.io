@@ -74,7 +74,7 @@ script#quantities_form[type="text/x-handlebars-template"]
         .small-12
           | {{#each choices}}
           .row
-            .small-1.columns
+            .small-2.columns
               input.quantities_input[
                 name="choices_for_{{ ../id }}"
                 id="food_option_choice_{{ id }}"
@@ -83,7 +83,7 @@ script#quantities_form[type="text/x-handlebars-template"]
                 min="0"
                 data-food-option-choice-id="{{ id }}"
               ]
-            .small-3.columns.end
+            .small-10.columns.end
               label.inline
                 | {{ title }} - {{ price }}
           | {{/each}}

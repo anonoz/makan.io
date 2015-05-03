@@ -43,7 +43,7 @@ $(document).ready ->
           "{{#if available}}",
             "<div>{{ title }}</div>",
           "{{else}}",
-            "<div class='food_unavailable'>{{ title }} (Not Available)</div>",
+            "<div class='food_unavailable'>{{ title }} ({{ unavailability_reason }})</div>",
           "{{/if}}"
         ].join "\n"
   }
