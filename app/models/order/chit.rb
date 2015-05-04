@@ -17,4 +17,22 @@ class Order::Chit < ActiveRecord::Base
             default: :draft, predicates: { prefix: true }
 
   validates :vendor_vendor, presence: true
+
+  def delivery_destination_info
+    if customer_user.present? && customer_address.present?
+      {
+        web: true,
+        name: customer_user.name,
+        address: customer_address.human_readable,
+        phone: customer_user.phone
+      }
+    else
+      {
+        web: false,
+        name: offline_customer_name,
+        address: offline_customer_address,
+        phone: offline_customer_phone
+      }
+    end
+  end
 end

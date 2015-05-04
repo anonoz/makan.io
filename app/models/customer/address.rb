@@ -7,4 +7,8 @@ class Customer::Address < ActiveRecord::Base
   validates :customer_user, presence: true
   validates :place_area, presence: true
   validates :address, presence: true
+
+  def human_readable
+    "#{ place_area.name } - #{ address }"
+  end
 end

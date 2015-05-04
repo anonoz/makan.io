@@ -22,4 +22,10 @@ describe Customer::Address do
     doorless_address.valid?
     expect(doorless_address.errors[:address]).to include "can't be blank"
   end
+
+  it "returns 'PV10 - E-101-A' from human_readable method if its in PV10 area and has E-101-A as address" do
+    pv10 = create(:place_area, name: "PV10")
+    e101a = build(:customer_address, place_area: pv10, address: "E-101-A")
+    expect(e101a.human_readable).to eq "PV10 - E-101-A"
+  end
 end
