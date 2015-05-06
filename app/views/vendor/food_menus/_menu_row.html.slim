@@ -9,7 +9,7 @@ tr
       - if menu.kena_gst?
         li: small 6% GST
       - if menu.kena_delivery_fee?
-        li: small 10% GST
+        li: small 10% Delivery
   td
     - if can? :update, menu
       = form_for [:vendor, menu] do |f|
