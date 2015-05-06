@@ -5,7 +5,7 @@ tr
   td = menu.subvendor.title
   td 
     = humanized_money_with_symbol menu.base_price
-      ul
+    ul
       - if menu.kena_gst?
         li: small 6% GST
       - if menu.kena_delivery_fee?
