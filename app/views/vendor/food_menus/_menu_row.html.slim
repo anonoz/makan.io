@@ -1,0 +1,23 @@
+tr
+  td = menu.id
+  td = image_tag menu.feature_photo.url :thumb
+  td = link_to menu.title, [:edit, :vendor, menu]
+  td = menu.subvendor.title
+  td 
+    = humanized_money_with_symbol menu.base_price
+      ul
+      - if menu.kena_gst?
+        li: small 6% GST
+      - if menu.kena_delivery_fee?
+        li: small 10% GST
+  td
+    - if can? :update, menu
+      = form_for [:vendor, menu] do |f|
+        .switch
+          = f.check_box :availability, id: dom_id(menu, :availability)
+          label[for=dom_id(menu, :availability)]
+    - else
+      = menu.availability? ? "Yes" : "no"
+  - if can? :destroy, menu
+    td = link_to vendor_food_menu_path(menu), method: :delete, data: {confirm: "Sure delete ah?"}
+      .button.expand.alert Delete

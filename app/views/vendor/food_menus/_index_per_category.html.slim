@@ -1,0 +1,16 @@
+.row
+  h3 = category.title
+
+.row
+  table
+    thead
+      th.small-1 ID
+      th.small-1 Photo
+      th.small-3 Title
+      th.small-3 Subvendor
+      th.small-1 Base Price
+      th.small-1 Availability
+      th.small-1
+    tbody
+      - category.food_menus.each do |menu|
+        == render "menu_row", menu: menu
