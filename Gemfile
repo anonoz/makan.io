@@ -25,6 +25,8 @@ gem 'enumerize'
 # Model matters
 gem 'money-rails'
 gem 'active_model_serializers'
+gem 'will_paginate'
+gem 'aasm'
 
 # Authentication
 gem 'devise'

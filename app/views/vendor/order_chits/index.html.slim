@@ -1,5 +1,5 @@
 .row
-  table
+  table[valign="top"]
     thead
       th ID
       th[width=500] Customer Info
@@ -9,5 +9,7 @@
       th
     tbody
       - @order_chits.each do |chit|
-        tr
-          td = chit.id
+        == render "chit", chit: chit
+
+.row
+  = will_paginate @order_chits

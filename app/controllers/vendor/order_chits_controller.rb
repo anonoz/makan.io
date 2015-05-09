@@ -2,7 +2,11 @@ class Vendor::OrderChitsController < Vendor::MainController
   before_action :set_order_chit, except: [:index, :new, :create]
   
   def index
-    @order_chits = @vendor.order_chits.order(created_at: :desc)
+    @order_chits = @vendor.order_chits.
+                           paginate(page: params[:page]).
+                           includes(:customer_user,
+                                    :items => [:food_menu, :extras]).
+                           order(created_at: :desc)
   end
 
   def show

@@ -1,0 +1,17 @@
+tr[valign="top"]
+  td = chit.id
+  td
+    div
+      p: b = chit.delivery_destination_info[:name]
+      p = chit.delivery_destination_info[:address]
+      p = chit.delivery_destination_info[:phone]
+  td
+    ul
+      - chit.items.each do |item|
+        li
+          = "#{item.food_menu.title} x #{item.quantity}"
+          ul
+            - item.extras.each do |extra|
+              li = "#{extra.food_option_choice.title} x #{extra.quantity}"
+  td = humanized_money_with_symbol chit.subtotal
+  td = chit.status

@@ -2,6 +2,8 @@ class Order::Chit < ActiveRecord::Base
   extend Enumerize
   acts_as_paranoid
   has_paper_trail
+  monetize :subtotal_cents
+  self.per_page = 30
 
   belongs_to :vendor_vendor, class_name: "Vendor::Vendor"
   alias_method :vendor, :vendor_vendor
@@ -14,9 +16,11 @@ class Order::Chit < ActiveRecord::Base
   }, allow_destroy: true
 
   enumerize :status, in: [:draft, :ordered, :rejected, :accepted, :delivered],
-            default: :draft, predicates: { prefix: true }
+            default: :ordered, predicates: { prefix: true }
 
   validates :vendor_vendor, presence: true
+
+   # :update_subtotal
 
   def delivery_destination_info
     if customer_user.present? && customer_address.present?
@@ -34,5 +38,14 @@ class Order::Chit < ActiveRecord::Base
         phone: offline_customer_phone
       }
     end
+  end
+
+  def calculate_subtotal
+    items.collect(&:amount).reduce(:+) || 0
+  end
+
+  def update_subtotal
+    subtotal = calculate_subtotal
+    save!
   end
 end

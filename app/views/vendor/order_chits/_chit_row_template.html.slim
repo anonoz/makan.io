@@ -50,11 +50,11 @@ script#chow_item_row[type="text/x-handlebars-template"]
     ]
     | {{#each extras}}
     input[
-      name="order_chit[items_attributes][][extras][][food_option_choice_id]"
+      name="order_chit[items_attributes][][extras_attributes][][food_option_choice_id]"
       value="{{ food_option_choice_id }}"
     ]
     input[
-      name="order_chit[items_attributes][][extras][][quantity]"
+      name="order_chit[items_attributes][][extras_attributes][][quantity]"
       value="{{ quantity }}"
     ]
     | {{/each}}
