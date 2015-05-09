@@ -4,7 +4,7 @@ class Order::Item < ActiveRecord::Base
   after_save :check_if_quantity_zero_then_delete
 
   belongs_to :order_chit, class_name: "Order::Chit"
-  belongs_to :food_menu, class_name: "Food::Menu"
+  belongs_to :food_menu, -> { with_deleted }, class_name: "Food::Menu"
   has_many :extras, class_name: "Order::ItemExtra", foreign_key: "order_item_id"
 
   accepts_nested_attributes_for :extras
