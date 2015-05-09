@@ -206,9 +206,6 @@ GEM
       mime-types
     paranoia (2.1.2)
       activerecord (~> 4.0)
-    passenger (5.0.7)
-      rack
-      rake (>= 0.8.1)
     pg (0.17.1)
     props (1.1.2)
     pry (0.10.1)
@@ -220,6 +217,8 @@ GEM
     pry-remote (0.1.8)
       pry (~> 0.9)
       slop (~> 3.0)
+    puma (2.11.2)
+      rack (>= 1.1, < 2.0)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
     rack (1.6.0)
@@ -401,10 +400,10 @@ DEPENDENCIES
   paper_trail (~> 3.0.7)
   paperclip (~> 4.2)
   paranoia
-  passenger
   pg (~> 0.17.1)
   pry-rails
   pry-remote
+  puma
   quiet_assets
   rails (~> 4.2)
   rails-dev-tweaks (~> 1.1)

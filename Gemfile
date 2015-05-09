@@ -12,7 +12,7 @@ gem 'raygun4ruby'
 
 # Server
 gem 'foreman'
-gem 'passenger'
+gem 'puma'
 gem 'newrelic_rpm'
 
 # Databases
