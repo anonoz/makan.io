@@ -1,5 +1,6 @@
 class Order::Chit < ActiveRecord::Base
   extend Enumerize
+  include AASM
   acts_as_paranoid
   has_paper_trail
   monetize :subtotal_cents
@@ -15,12 +16,36 @@ class Order::Chit < ActiveRecord::Base
     attrs["food_menu_id"].blank?
   }, allow_destroy: true
 
-  enumerize :status, in: [:draft, :ordered, :rejected, :accepted, :delivered],
-            default: :ordered, predicates: { prefix: true }
+  # enumerize :status, in: [:draft, :ordered, :rejected, :accepted, :delivered],
+  #           default: :ordered, predicates: { prefix: true }
+
+  aasm column: :status do
+    state :draft
+    state :ordered, initial: true
+    state :rejected
+    state :accepted
+    state :delivered
+
+    ##
+    # Rejected order can be edited
+    event :reject do
+      transitions from: :ordered, to: :rejected
+    end
+
+    ##
+    # Accepted order gets sent into pending mode
+    event :accept do
+      transitions from: [:ordered, :rejected], to: :accepted
+    end
+
+    ##
+    # Delivered order is not modifiable
+    event :deliver do
+      transitions from: :accepted, to: :delivered
+    end
+  end
 
   validates :vendor_vendor, presence: true
-
-   # :update_subtotal
 
   def delivery_destination_info
     if customer_user.present? && customer_address.present?
