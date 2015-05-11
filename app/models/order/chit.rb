@@ -19,7 +19,7 @@ class Order::Chit < ActiveRecord::Base
   # enumerize :status, in: [:draft, :ordered, :rejected, :accepted, :delivered],
   #           default: :ordered, predicates: { prefix: true }
 
-  aasm column: :status do
+  aasm column: :status, no_direct_assignment: true do
     state :draft
     state :ordered, initial: true
     state :rejected
@@ -27,7 +27,7 @@ class Order::Chit < ActiveRecord::Base
     state :delivered
 
     ##
-    # Rejected order can be edited
+    # Rejected order can be edited, and thus accepted later on
     event :reject do
       transitions from: :ordered, to: :rejected
     end

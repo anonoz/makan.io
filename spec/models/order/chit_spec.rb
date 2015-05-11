@@ -13,27 +13,16 @@ describe Order::Chit do
     expect(build(:order_chit_for_offline_guest)).to be_valid
   end
 
-  it "is valid with status keywords: draft, ordered, rejected, accepted, delivered" do
-    [:draft, :ordered, :rejected, :accepted, :delivered].each do |status|
-      expect(build(:order_chit, status: status)).to be_valid
-    end
-  end
-
-  it "is invalid with invalid status keywords" do
-    order_chit = build(:order_chit, status: :wrong)
-    order_chit.valid?
-    expect(order_chit.errors[:status]).to include "is invalid"
-  end
-
   it "jumps from ordered to rejected when reject event happens" do
     order_chit = build(:order_chit)
     order_chit.reject
     expect(order_chit.status).to eq "rejected"
   end
 
-  it "forbids jumping from rejected to delivered" do
-    order_chit = build(:order_chit, status: :rejected)
-    expect {order_chit.deliver}.to raise_error AASM::InvalidTransition
+  it "disallows direct assignment on order chit status" do
+    expect {
+      build(:order_chit).update(status: :delivered)
+    }.to raise_error AASM::NoDirectAssignmentError
   end
 
   it "returns delivery destination info correctly for offline customer" do

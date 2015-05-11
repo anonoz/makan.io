@@ -3,7 +3,6 @@ FactoryGirl.define do
     vendor_vendor
     customer_user
     customer_address
-    status :ordered
     remarks ""
 
     trait :offline_guest do
