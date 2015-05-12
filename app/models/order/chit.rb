@@ -16,9 +16,6 @@ class Order::Chit < ActiveRecord::Base
     attrs["food_menu_id"].blank?
   }, allow_destroy: true
 
-  # enumerize :status, in: [:draft, :ordered, :rejected, :accepted, :delivered],
-  #           default: :ordered, predicates: { prefix: true }
-
   aasm column: :status, no_direct_assignment: true do
     state :draft
     state :ordered, initial: true
@@ -47,6 +44,8 @@ class Order::Chit < ActiveRecord::Base
 
   validates :vendor_vendor, presence: true
 
+  before_update :check_if_delivered
+
   def delivery_destination_info
     if customer_user.present? && customer_address.present?
       {
@@ -70,7 +69,12 @@ class Order::Chit < ActiveRecord::Base
   end
 
   def update_subtotal
-    subtotal = calculate_subtotal
-    save!
+    update subtotal: calculate_subtotal
+  end
+
+  private
+
+  def check_if_delivered
+    status_changed? || !delivered?
   end
 end

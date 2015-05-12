@@ -51,5 +51,17 @@ describe Order::Chit do
     expect(info[:address]).to eq address.human_readable
     expect(info[:phone]).to eq user.phone
   end
+
+  it "allows updates if order is not yet delivered" do
+    order_chit = create(:order_chit)
+    expect(order_chit.update(offline_customer_name: "Test")).to be_truthy
+  end
+
+  it "disallows update if order is delivered" do
+    order_chit = create(:order_chit)
+    order_chit.accept!
+    order_chit.deliver!
+    expect(order_chit.update(offline_customer_name: "Test")).to be_falsy
+  end
   
 end
