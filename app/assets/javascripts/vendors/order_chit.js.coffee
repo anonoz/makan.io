@@ -214,6 +214,43 @@ $(document).ready ->
     # Update the counter
     $("#total_amount").text currencify total_amount_cents
 
+  # For edit page, we prepolate the form and cart
+  if $("#items_data").length > 0
+    items = JSON.parse $("#items_data").html()
+
+    # First start with cart[]
+    for item in items
+      console.log item
+      window.cart.push
+        temp_id: ++temp_id
+        item_id: item.id
+        quantity: item.quantity
+        extras: item.extras
+        title: item.food_menu.title
+        kena_gst: item.food_menu.kena_gst
+        kena_delivery_fee: item.food_menu.kena_delivery_fee
+        amount_cents: count_item_amount item.food_menu, item.extras, false
+
+    # Inflate DOM for each items & Bind quantity + remove
+    for item in window.cart
+      items_list.append Handlebars.compile($('#chow_item_row').html()) item
+
+      # Update quantity
+      item_fieldset = $("fieldset[data-order-item-temp-id=#{ item.temp_id }]")
+      item_fieldset.find("input.chit_row_qty_input").change ->
+        item.quantity = Number this.value
+        $("#total_amount").change()
+
+      # Remove item in cart
+      item_fieldset.find(".item_remove_button").click ->
+        window.cart = _.reject window.cart, (cart_item)->
+          cart_item.temp_id == item.temp_id
+        $("#total_amount").change()
+        item_fieldset.remove()
+
+    # Update subtotal
+    $("#total_amount").change()
+
 # Method to calculate charge for a single item
 count_item_amount = (food_menu = {base_price_cents: 0}, extras = [], element = $("#amount_sum"))->
   # Base price

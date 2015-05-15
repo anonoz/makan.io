@@ -1,0 +1,41 @@
+.row
+  = simple_form_for [:vendor, @order_chit] do |f|
+
+    fieldset
+      legend Customer Info
+
+      = f.input :offline_customer_name, wrapper: :horizontal_form,
+                placeholder: "Ah Beng", required: true
+      = f.input :offline_customer_address, wrapper: :horizontal_form,
+                placeholder: "PV10 Block C 101-A", required: true
+      = f.input :offline_customer_phone, wrapper: :horizontal_form,
+                placeholder: "012-3425678", required: true
+      = f.input :remarks, wrapper: :horizontal_form
+
+    fieldset
+      legend Items
+
+      ul#items_list
+
+      .small-12.large-4.columns
+        a.button.success.expand[href="#" data-reveal-id="add_item_modal"] Add Item
+
+    h1.text-center
+      span#total_amount RM 0.00
+
+    = f.submit "Order", class: "button expand"
+
+== render "add_item_modal"
+== render "chit_row_template"
+
+script#food_menus_data[type="application/json"]
+  = @food_menus_json.html_safe
+
+script#food_options_data[type="application/json"]
+  = @food_options_json.html_safe
+
+- if @items_json.present?
+  script#items_data[type="application/json"]
+    = @items_json.html_safe
+
+= javascript_include_tag "vendors/order_chit"

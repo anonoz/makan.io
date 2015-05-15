@@ -1,4 +1,5 @@
 class Vendor::OrderChitsController < Vendor::MainController
+  before_action :set_data_for_forms, only: [:new, :edit]
   before_action :set_order_chit, except: [:index, :new, :create]
   
   def index
@@ -17,6 +18,35 @@ class Vendor::OrderChitsController < Vendor::MainController
   end
 
   def new
+    @order_chit = Order::Chit.new
+  end
+
+  def create
+    @order_chit = @vendor.order_chits.new(new_order_chit_params)
+
+    if @order_chit.save
+      redirect_to vendor_order_chits_path, flash: {success: "Ordered"}
+    else
+      render json: @order_chit.errors
+    end
+  end
+
+  def edit
+    @items = @order_chit.items.includes(:food_menu)
+    @items_json = ActiveModel::ArraySerializer.
+                    new(@items, each_serializer: Order::ItemSerializer).
+                    to_json
+  end
+
+  def update
+  end
+
+  def destroy
+  end
+
+  private
+
+  def set_data_for_forms
     @food_menus = @vendor.food_menus.includes(:vendor_subvendor, :food_options => [:food_option_choices])
     @food_options = @vendor.food_options.includes(:food_option_choices)
 
@@ -28,45 +58,29 @@ class Vendor::OrderChitsController < Vendor::MainController
                            to_json
   end
 
-  def create
-    @order_chit = @vendor.order_chits.new(new_order_chit_params)
-
-    if @order_chit.save
-      render json: @order_chit
-    else
-      render json: @order_chit.errors
-    end
-  end
-
-  def edit
-  end
-
-  def update
-  end
-
-  def destroy
-  end
-
-  private
-
   def set_order_chit
     @order_chit = @vendor.order_chits.find_by_id params[:id]
   end
 
   def new_order_chit_params
     params.require(:order_chit).permit(
+      :id,
       :customer_user_id,
       :customer_address_id,
       :offline_customer_name,
       :offline_customer_address,
       :offline_customer_phone,
       :items_attributes => [
+        :id,
         :food_menu_id,
         :quantity,
         :remarks,
+        :_destroy,
         :extras_attributes => [
+          :id,
           :food_option_choice_id,
-          :quantity
+          :quantity,
+          :_destroy
         ]
       ]
     )

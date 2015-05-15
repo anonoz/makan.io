@@ -32,4 +32,8 @@ class Order::Item < ActiveRecord::Base
   def set_correct_version_of_food_menu
     @food_menu = food_menu.version_at(created_at)
   end
+
+  def check_if_order_chit_delivered
+    !order_chit.delivered?
+  end
 end
