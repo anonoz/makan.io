@@ -23,7 +23,10 @@
     h1.text-center
       span#total_amount RM 0.00
 
-    = f.submit "Order", class: "button expand"
+    - if params[:action] == "new"
+      = f.submit "Order", class: "button expand"
+    - else
+      = f.submit "Update and Accept", class: "button expand"
 
 == render "add_item_modal"
 == render "chit_row_template"

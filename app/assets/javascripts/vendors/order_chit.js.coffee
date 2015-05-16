@@ -218,12 +218,20 @@ $(document).ready ->
   if $("#items_data").length > 0
     items = JSON.parse $("#items_data").html()
 
-    # First start with cart[]
+    # First we fill up cart[]
     for item in items
-      console.log item
-      window.cart.push
+      
+      # Dirty hack for extras
+      for extra in item.extras
+        choice = extra.food_option_choice
+        extra.title = "#{ choice.title } - #{currencify choice.unit_amount_cents}"
+        extra.amount_cents = extra.quantity * choice.unit_amount_cents
+
+      cart.push
         temp_id: ++temp_id
         item_id: item.id
+        edit_mode: true
+        food_menu_id: item.food_menu.id
         quantity: item.quantity
         extras: item.extras
         title: item.food_menu.title
@@ -246,7 +254,10 @@ $(document).ready ->
         window.cart = _.reject window.cart, (cart_item)->
           cart_item.temp_id == item.temp_id
         $("#total_amount").change()
-        item_fieldset.remove()
+
+        # In this case, we keep the form, but we check _destroy
+        item_fieldset.addClass("hide")
+        item_fieldset.find(".destroy_checkbox").prop("checked", true)
 
     # Update subtotal
     $("#total_amount").change()
@@ -258,6 +269,7 @@ count_item_amount = (food_menu = {base_price_cents: 0}, extras = [], element = $
 
   # Extras
   original_price += _.reduce extras, (memo, nu)->
+    console.log [memo, nu]
     memo + nu.amount_cents
   , 0
 

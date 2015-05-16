@@ -39,6 +39,12 @@ class Vendor::OrderChitsController < Vendor::MainController
   end
 
   def update
+    @order_chit.attributes = update_order_chit_params
+    if @order_chit.save
+      render json: @order_chit
+    else
+      render json: @order_chit.errors
+    end
   end
 
   def destroy
@@ -64,7 +70,25 @@ class Vendor::OrderChitsController < Vendor::MainController
 
   def new_order_chit_params
     params.require(:order_chit).permit(
-      :id,
+      :customer_user_id,
+      :customer_address_id,
+      :offline_customer_name,
+      :offline_customer_address,
+      :offline_customer_phone,
+      :items_attributes => [
+        :food_menu_id,
+        :quantity,
+        :remarks,
+        :extras_attributes => [
+          :food_option_choice_id,
+          :quantity,
+        ]
+      ]
+    )
+  end
+
+  def update_order_chit_params
+    params.require(:order_chit).permit(
       :customer_user_id,
       :customer_address_id,
       :offline_customer_name,

@@ -42,19 +42,32 @@ script#chow_item_row[type="text/x-handlebars-template"]
       .small-12.large-4.large-offset-8.columns
         a.button.alert.expand.item_remove_button Remove
   
-  / form
-  .hide
-    input[
-      name="order_chit[items_attributes][][food_menu_id]"
-      value="{{ food_menu_id }}"
-    ]
-    | {{#each extras}}
-    input[
-      name="order_chit[items_attributes][][extras_attributes][][food_option_choice_id]"
-      value="{{ food_option_choice_id }}"
-    ]
-    input[
-      name="order_chit[items_attributes][][extras_attributes][][quantity]"
-      value="{{ quantity }}"
-    ]
-    | {{/each}}
+    / form
+    .hide
+      | {{#if edit_mode}}
+      / this is for existing item in editing form
+      input[
+        name="order_chit[items_attributes][][id]"
+        value="{{ item_id }}"
+      ]
+      input.destroy_checkbox[
+        name="order_chit[items_attributes][][_destroy]"
+        type="checkbox"
+        value="1"
+      ]
+      | {{/if}}
+      input[
+        name="order_chit[items_attributes][][food_menu_id]"
+        value="{{ food_menu_id }}"
+      ]
+      | {{#each extras}}
+      input[
+        name="order_chit[items_attributes][][extras_attributes][][food_option_choice_id]"
+        value="{{ food_option_choice_id }}"
+      ]
+      input[
+        name="order_chit[items_attributes][][extras_attributes][][quantity]"
+        value="{{ quantity }}"
+      ]
+      | {{/each}}
+    
