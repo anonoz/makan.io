@@ -6,7 +6,8 @@ class Order::Item < ActiveRecord::Base
 
   belongs_to :order_chit, class_name: "Order::Chit"
   belongs_to :food_menu, -> { with_deleted }, class_name: "Food::Menu"
-  has_many :extras, class_name: "Order::ItemExtra", foreign_key: "order_item_id"
+  has_many :extras, class_name: "Order::ItemExtra", foreign_key: "order_item_id",
+           after_add: :update_subtotal, after_remove: :update_subtotal
 
   accepts_nested_attributes_for :extras
 
@@ -17,14 +18,14 @@ class Order::Item < ActiveRecord::Base
   def amount
     set_correct_version_of_food_menu
 
-    cost = @food_menu.base_price + (extras.collect(&:amount).reduce(:+) || 0)
+    cost = @food_menu.base_price + (extras.reload.collect(&:amount).reduce(:+) || 0)
     delivery_fee = @food_menu.kena_delivery_fee? ? cost * 0.1 : 0
     gst = @food_menu.kena_gst? ? cost * 0.06 : 0
 
     cost + delivery_fee + gst
   end
 
-  def update_subtotal
+  def update_subtotal(*args)
     order_chit.update_subtotal
   end
 
