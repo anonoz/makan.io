@@ -9,6 +9,7 @@ class Order::ItemExtra < ActiveRecord::Base
 
   after_save :update_subtotal
   after_destroy :update_subtotal
+  before_update :editable?
 
   def amount
     set_food_option_choice_correct_version
@@ -17,6 +18,10 @@ class Order::ItemExtra < ActiveRecord::Base
 
   def update_subtotal
     order_item && order_item.update_subtotal
+  end
+
+  def editable?
+    order_item.editable?
   end
 
   private

@@ -3,6 +3,7 @@ class Order::Item < ActiveRecord::Base
 
   after_save :check_if_quantity_zero_then_delete, :update_subtotal
   after_destroy :update_subtotal
+  before_update :editable?
 
   belongs_to :order_chit, class_name: "Order::Chit"
   belongs_to :food_menu, -> { with_deleted }, class_name: "Food::Menu"
@@ -27,6 +28,10 @@ class Order::Item < ActiveRecord::Base
 
   def update_subtotal(*args)
     order_chit.update_subtotal
+  end
+
+  def editable?
+    order_chit.editable?
   end
 
   private

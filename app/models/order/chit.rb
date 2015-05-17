@@ -52,7 +52,7 @@ class Order::Chit < ActiveRecord::Base
 
   validates :vendor_vendor, presence: true
 
-  before_update :check_if_delivered
+  before_update :editable?
 
   def delivery_destination_info
     if customer_user.present? && customer_address.present?
@@ -82,9 +82,14 @@ class Order::Chit < ActiveRecord::Base
     update subtotal: calculate_subtotal
   end
 
+  def editable?
+    check_if_delivered
+  end
+
   private
 
   def check_if_delivered
-    status_changed? || !delivered?
+    status_changed? || !delivered? && !finished?
   end
+
 end

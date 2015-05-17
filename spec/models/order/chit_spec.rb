@@ -65,4 +65,12 @@ describe Order::Chit do
     expect(order_chit.update(offline_customer_name: "Test")).to be_falsy
   end
   
+  it "disallows update if order is finished" do
+    order_chit = create(:order_chit)
+    order_chit.accept!
+    order_chit.deliver!
+    order_chit.finish!
+    expect(order_chit.update(offline_customer_name: "Test")).to be_falsy
+  end
+  
 end

@@ -20,6 +20,27 @@ describe Order::Item do
     expect(exile.deleted?).to be_truthy
   end
 
+  it "allows update if chit is not delivered/finished" do
+    chit = create(:order_chit)
+    item = create(:order_item, order_chit: chit)
+    expect(item.update(quantity: 2)).to be_truthy
+    
+    chit.reject!
+    expect(item.update(quantity: 3)).to be_truthy
+  end
+
+  it "disallows update if chit is delivered/finished" do
+    chit = create(:order_chit)
+    item = create(:order_item, order_chit: chit)
+
+    chit.accept!
+    chit.deliver!
+    expect(item.update(quantity: 2)).to be_falsy
+
+    chit.finish!
+    expect(item.update(quantity: 3)).to be_falsy
+  end
+
   it "costs $3 if Nasi Lemak is $3 without extras and other charges" do
     nasi_lemak = create(:food_menu, base_price: 3)
     nasi_lemak_line = build(:order_item, food_menu: nasi_lemak)

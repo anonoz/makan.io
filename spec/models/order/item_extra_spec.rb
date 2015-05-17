@@ -15,6 +15,29 @@ describe Order::ItemExtra do
       include "must be greater than or equal to 0")
   end
 
+  it "allows update if chit is not delivered/finished" do
+    chit = create(:order_chit)
+    item = create(:order_item, order_chit: chit)
+    extra = create(:order_item_extra, order_item: item)
+    expect(extra.update(quantity: 2)).to be_truthy
+    
+    chit.reject!
+    expect(extra.update(quantity: 3)).to be_truthy
+  end
+
+  it "disallows update if chit is delivered/finished" do
+    chit = create(:order_chit)
+    item = create(:order_item, order_chit: chit)
+    extra = create(:order_item_extra, order_item: item)
+
+    chit.accept!
+    chit.deliver!
+    expect(extra.update(quantity: 2)).to be_falsy
+
+    chit.finish!
+    expect(extra.update(quantity: 3)).to be_falsy
+  end
+
   it "has amount of $1 if its chosen with food option choice of $1" do
     choice = create(:food_option_choice, unit_amount: 1)
     extra = build(:order_item_extra, food_option_choice: choice)
