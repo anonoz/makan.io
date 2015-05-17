@@ -14,18 +14,20 @@ describe Order::Chit do
     expect(build(:order_chit_for_offline_guest)).to be_valid
   end
 
-  it "jumps from ordered to rejected when reject event happens" do
-    order_chit = build(:order_chit)
-    order_chit.reject
-    expect(order_chit.status).to eq "rejected"
-  end
+  context "AASM" do
+    it "jumps from ordered to rejected when reject event happens" do
+      order_chit = build(:order_chit)
+      order_chit.reject
+      expect(order_chit.status).to eq "rejected"
+    end
 
-  it "disallows direct assignment on order chit status" do
-    expect {
-      build(:order_chit).update(status: :delivered)
-    }.to raise_error AASM::NoDirectAssignmentError
+    it "disallows direct assignment on order chit status" do
+      expect {
+        build(:order_chit).update(status: :delivered)
+      }.to raise_error AASM::NoDirectAssignmentError
+    end
   end
-
+  
   it "returns delivery destination info correctly for offline customer" do
     order_chit = build(:order_chit,
                        customer_user: nil,
@@ -53,24 +55,26 @@ describe Order::Chit do
     expect(info[:phone]).to eq user.phone
   end
 
-  it "allows updates if order is not yet delivered" do
-    order_chit = create(:order_chit)
-    expect(order_chit.update(offline_customer_name: "Test")).to be_truthy
-  end
+  context "Editability" do
+    it "allows updates if order is not yet delivered" do
+      order_chit = create(:order_chit)
+      expect(order_chit.update(offline_customer_name: "Test")).to be_truthy
+    end
 
-  it "disallows update if order is delivered" do
-    order_chit = create(:order_chit)
-    order_chit.accept!
-    order_chit.deliver!
-    expect(order_chit.update(offline_customer_name: "Test")).to be_falsy
-  end
-  
-  it "disallows update if order is finished" do
-    order_chit = create(:order_chit)
-    order_chit.accept!
-    order_chit.deliver!
-    order_chit.finish!
-    expect(order_chit.update(offline_customer_name: "Test")).to be_falsy
+    it "disallows update if order is delivered" do
+      order_chit = create(:order_chit)
+      order_chit.accept!
+      order_chit.deliver!
+      expect(order_chit.update(offline_customer_name: "Test")).to be_falsy
+    end
+    
+    it "disallows update if order is finished" do
+      order_chit = create(:order_chit)
+      order_chit.accept!
+      order_chit.deliver!
+      order_chit.finish!
+      expect(order_chit.update(offline_customer_name: "Test")).to be_falsy
+    end
   end
   
 end
