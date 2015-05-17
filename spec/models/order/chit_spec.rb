@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe Order::Chit do
+
   it "is invalid without a vendor id" do
     expect(build(:order_chit, vendor_vendor_id: nil)).to be_invalid
   end

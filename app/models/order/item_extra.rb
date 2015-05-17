@@ -7,9 +7,15 @@ class Order::ItemExtra < ActiveRecord::Base
     greater_than_or_equal_to: 0
   }
 
+  after_save :update_subtotal
+
   def amount
     set_food_option_choice_correct_version
     quantity * @choice.unit_amount
+  end
+
+  def update_subtotal
+    order_item && order_item.update_subtotal
   end
 
   private

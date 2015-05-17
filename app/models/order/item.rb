@@ -1,7 +1,8 @@
 class Order::Item < ActiveRecord::Base
   acts_as_paranoid
 
-  after_save :check_if_quantity_zero_then_delete
+  after_save :check_if_quantity_zero_then_delete, :update_subtotal
+  after_destroy :update_subtotal
 
   belongs_to :order_chit, class_name: "Order::Chit"
   belongs_to :food_menu, -> { with_deleted }, class_name: "Food::Menu"
@@ -23,6 +24,10 @@ class Order::Item < ActiveRecord::Base
     cost + delivery_fee + gst
   end
 
+  def update_subtotal
+    order_chit.update_subtotal
+  end
+
   private
 
   def check_if_quantity_zero_then_delete
@@ -36,4 +41,5 @@ class Order::Item < ActiveRecord::Base
   def check_if_order_chit_delivered
     !order_chit.delivered?
   end
+
 end
