@@ -25,6 +25,7 @@ class Order::Chit < ActiveRecord::Base
     state :rejected
     state :accepted
     state :delivered
+    state :finished
 
     ##
     # Rejected order can be edited, and thus accepted later on
@@ -42,6 +43,10 @@ class Order::Chit < ActiveRecord::Base
     # Delivered order is not modifiable
     event :deliver do
       transitions from: :accepted, to: :delivered
+    end
+
+    event :finish do
+      transitions from: :delivered, to: :finished
     end
   end
 
