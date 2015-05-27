@@ -1,0 +1,19 @@
+#incoming-orders-column.kanban-column.small-12.large-3.columns
+  h3 Incoming Orders
+  - @incoming_orders.each do |order|
+    == render "order_mini_card", order: order
+
+#rejected-orders-column.kanban-column.small-12.large-3.columns
+  h3 Rejected Orders
+  - @rejected_orders.each do |order|
+    == render "order_mini_card", order: order
+
+#accepted-orders-column.kanban-column.small-12.large-3.columns
+  h3 Accepted Orders
+  - @accepted_orders.each do |order|
+    == render "order_mini_card", order: order
+
+#delivered-orders-column.kanban-column.small-12.large-3.columns
+  h3 Delivered Orders
+  - @delivered_orders.each do |order|
+    == render "order_mini_card", order: order

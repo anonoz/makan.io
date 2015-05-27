@@ -3,7 +3,8 @@ class Vendor::MainController < ApplicationController
   before_action :authenticate_vendor!, :set_vendor
 
   def index
-    @vendor_title = current_vendor.vendor.title
+    @title = "kanban"
+    load_kanban
   end
 
   private
@@ -16,6 +17,13 @@ class Vendor::MainController < ApplicationController
     if vendor_signed_in?
       "vendor_#{ current_vendor.id } #{ current_vendor.email }"
     end
+  end
+
+  def load_kanban
+    @incoming_orders  = @vendor.order_chits.ordered
+    @rejected_orders  = @vendor.order_chits.rejected
+    @accepted_orders  = @vendor.order_chits.accepted
+    @delivered_orders = @vendor.order_chits.delivered
   end
 
 end

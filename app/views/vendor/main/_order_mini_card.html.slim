@@ -1,0 +1,7 @@
+.order-mini-card
+  .order-info
+    .customer-name= order.delivery_destination_info[:name]
+    .order-summary= "#{ order.items.count } items - #{ humanized_money_with_symbol order.subtotal }"
+  .order-timer
+    .int 4
+    .caption Seconds Left

@@ -1,11 +1,50 @@
 .kanban-column {
-  width: 200px;
+  // width: 300px;
+  // float: left;
+  // margin: 5px;
 
   h3 {
-    font-size: 16pt;
+    font-size: 16px;
   }
 
+  // Default values as per incoming orders
   .order-mini-card {
     background-color: #9B9B9B;
+    width: 300px;
+    height: 76px;
+    color: white;
+    font-size: 16px;
+
+    & > * {
+      padding: 5px;
+      float: left;
+    }
+
+    .order-info {
+      width: 220px;
+      padding-top: 10px;
+
+      .customer-name {
+        font-weight: bold;
+      }
+
+      .order-summary {
+      	font-size: 14px;
+        margin-top: 5px;
+      }
+    }
+
+    .order-timer {
+      width: 80px;
+      text-align: center;
+
+      .int {
+        font-size: 28px;
+      }
+
+      .caption {
+        font-size: 12px;
+      }
+    }
   }
 }
