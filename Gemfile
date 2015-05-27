@@ -14,6 +14,7 @@ gem 'raygun4ruby'
 gem 'foreman'
 gem 'puma'
 gem 'newrelic_rpm'
+gem 'heroku'
 
 # Databases
 gem 'pg', '~> 0.17.1'
