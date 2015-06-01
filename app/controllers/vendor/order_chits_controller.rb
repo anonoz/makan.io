@@ -75,6 +75,7 @@ class Vendor::OrderChitsController < Vendor::MainController
       :offline_customer_name,
       :offline_customer_address,
       :offline_customer_phone,
+      :remarks,
       :items_attributes => [
         :food_menu_id,
         :quantity,
@@ -94,6 +95,7 @@ class Vendor::OrderChitsController < Vendor::MainController
       :offline_customer_name,
       :offline_customer_address,
       :offline_customer_phone,
+      :remarks,
       :items_attributes => [
         :id,
         :food_menu_id,
