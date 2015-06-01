@@ -14,6 +14,7 @@
     height: 76px;
     color: white;
     font-size: 16px;
+    margin-bottom: 5px;
 
     & > * {
       padding: 5px;
@@ -46,5 +47,23 @@
         font-size: 12px;
       }
     }
+  }
+}
+
+#rejected-orders-column {
+  .order-mini-card {
+    background: #D0021B;
+  }
+}
+
+#accepted-orders-column {
+  .order-mini-card {
+    background: #417505;
+  }
+}
+
+#delivered-orders-column {
+  .order-mini-card {
+    background: #4A90E2;
   }
 }
