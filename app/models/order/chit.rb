@@ -11,8 +11,8 @@ class Order::Chit < ActiveRecord::Base
   belongs_to :customer_user, class_name: "Customer::User"
   belongs_to :customer_address, class_name: "Customer::Address"
 
-  has_many :items, class_name: "Order::Item", foreign_key: "order_chit_id",
-           after_add: :update_subtotal,
+  has_many :items, class_name: "Order::Item",
+           foreign_key: "order_chit_id",
            after_remove: :update_subtotal
 
   accepts_nested_attributes_for :items, reject_if: proc { |attrs| 
@@ -53,6 +53,7 @@ class Order::Chit < ActiveRecord::Base
   validates :vendor_vendor, presence: true
 
   before_update :editable?
+  after_create :update_subtotal
 
   def delivery_destination_info
     if customer_user.present? && customer_address.present?
@@ -79,6 +80,7 @@ class Order::Chit < ActiveRecord::Base
   end
 
   def update_subtotal(*args)
+    # puts "Chit: Updating subtotal = #{calculate_subtotal}"
     update subtotal: calculate_subtotal
   end
 

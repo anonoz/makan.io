@@ -76,5 +76,21 @@ describe Order::Chit do
       expect(order_chit.update(offline_customer_name: "Test")).to be_falsy
     end
   end
+
+  it "has 2 order items upon saving if 2 order items are added by << create(:order_item)" do
+    order_chit = build(:order_chit)
+    order_chit.items << create(:order_item)
+    order_chit.items << create(:order_item)
+    order_chit.save
+
+    expect(order_chit.items.count).to eq 2
+  end
+
+  it "has order items added via item creation and update items' order chit id" do
+    order_chit = create(:order_chit)
+    3.times { create(:order_item, order_chit_id: order_chit.id) }
+
+    expect(order_chit.items.count).to eq 3
+  end
   
 end

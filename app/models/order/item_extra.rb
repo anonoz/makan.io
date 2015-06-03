@@ -7,6 +7,8 @@ class Order::ItemExtra < ActiveRecord::Base
     greater_than_or_equal_to: 0
   }
 
+  # after_create :update_subtotal
+  # after_update :update_subtotal
   after_save :update_subtotal
   after_destroy :update_subtotal
   before_update :editable?
@@ -16,12 +18,12 @@ class Order::ItemExtra < ActiveRecord::Base
     quantity * @choice.unit_amount
   end
 
-  def update_subtotal
+  def update_subtotal(*args)
     order_item && order_item.update_subtotal
   end
 
   def editable?
-    order_item.editable?
+    order_item.nil? || order_item.editable?
   end
 
   private

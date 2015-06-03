@@ -7,14 +7,13 @@ class Order::Item < ActiveRecord::Base
 
   belongs_to :order_chit, class_name: "Order::Chit"
   belongs_to :food_menu, -> { with_deleted }, class_name: "Food::Menu"
-  has_many :extras, class_name: "Order::ItemExtra", foreign_key: "order_item_id",
-           after_add: :update_subtotal, after_remove: :update_subtotal
+  has_many :extras, class_name: "Order::ItemExtra",
+           foreign_key: "order_item_id",
+           after_remove: :update_subtotal
 
   accepts_nested_attributes_for :extras
 
   validates :food_menu, presence: true
-
-  # delegate :kena_gst?, :kena_delivery_fee?, to: :food_menu
 
   def amount
     set_correct_version_of_food_menu
@@ -27,11 +26,11 @@ class Order::Item < ActiveRecord::Base
   end
 
   def update_subtotal(*args)
-    order_chit.update_subtotal
+    order_chit && order_chit.update_subtotal
   end
 
   def editable?
-    order_chit.editable?
+    order_chit.present? ? order_chit.editable? : true
   end
 
   private
