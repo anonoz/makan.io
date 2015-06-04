@@ -26,6 +26,13 @@ class Order::Item < ActiveRecord::Base
   end
 
   def update_subtotal(*args)
+
+    # Say an item's order chit ID is changed to nil, or another chit's ID,
+    # we need to update subtotals of both order chits.
+    if order_chit_id_changed?
+      order_chit_id_was && Order::Chit.find(order_chit_id_was).update_subtotal
+    end
+
     order_chit && order_chit.update_subtotal
   end
 

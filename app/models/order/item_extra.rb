@@ -19,6 +19,10 @@ class Order::ItemExtra < ActiveRecord::Base
   end
 
   def update_subtotal(*args)
+    if order_item_id_changed?
+      order_item_id_was && Order::Item.find(order_item_id_was).update_subtotal
+    end
+    
     order_item && order_item.update_subtotal
   end
 
