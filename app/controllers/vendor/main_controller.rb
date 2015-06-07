@@ -20,10 +20,12 @@ class Vendor::MainController < ApplicationController
   end
 
   def load_kanban
-    @incoming_orders  = @vendor.order_chits.ordered.includes(:customer_user, :customer_address)
-    @rejected_orders  = @vendor.order_chits.rejected.includes(:customer_user, :customer_address)
-    @accepted_orders  = @vendor.order_chits.accepted.includes(:customer_user, :customer_address)
-    @delivered_orders = @vendor.order_chits.delivered.includes(:customer_user, :customer_address)
+    @order_chits = @vendor.order_chits.includes(:customer_user, :customer_address).reverse_order
+
+    @incoming_orders  = @order_chits.ordered
+    @rejected_orders  = @order_chits.rejected
+    @accepted_orders  = @order_chits.accepted
+    @delivered_orders = @order_chits.delivered
   end
 
 end
