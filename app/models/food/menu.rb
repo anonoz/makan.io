@@ -2,6 +2,9 @@ class Food::Menu < ActiveRecord::Base
   acts_as_paranoid
   has_paper_trail ignore: [:availability]
   monetize :base_price_cents
+
+  extend FriendlyId
+  friendly_id :title, use: [:slugged, :finders]
   
   belongs_to :food_category, class_name: "Food::Category"
   belongs_to :vendor_subvendor, class_name: "Vendor::Subvendor"
