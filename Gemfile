@@ -28,6 +28,7 @@ gem 'money-rails'
 gem 'active_model_serializers'
 gem 'will_paginate'
 gem 'aasm'
+gem 'friendly_id', '~> 5.1.0'
 
 # Authentication
 gem 'devise'
