@@ -9,10 +9,12 @@ This web app will serve as the online food delivery platform of Running Man Food
 git clone git@bitbucket.org:makanio/makanio.git makan
 
 # go into postgres and create the db users
-create role makanio with password 'makanio';
-create role makaniotest with password 'makaniotest';
-alter role makanio with createdb;
-alter role makaniotest with createdb;
+psql
+  create role makanio with password 'makanio';
+  create role makaniotest with password 'makaniotest';
+  alter role makanio with createdb;
+  alter role makaniotest with createdb;
+  \q
 
 # for osx: make sure these are installed
 brew install imagemagick
