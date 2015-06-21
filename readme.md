@@ -2,9 +2,20 @@
 
 This web app will serve as the online food delivery platform of Running Man Food Delivery.
 
+## Requirements
+
+- Ruby 2.2.0
+- Postgresql 9.4
+
 ## Setting up
 
 ```sh
+# for osx: make sure these are installed
+brew install imagemagick
+
+# for ubuntu:
+sudo apt-get install imagemagick libmagickwand-dev
+
 # clone this repo
 git clone git@bitbucket.org:makanio/makanio.git makan
 
@@ -15,9 +26,6 @@ psql
   alter role makanio with createdb;
   alter role makaniotest with createdb;
   \q
-
-# for osx: make sure these are installed
-brew install imagemagick
 
 # go into repo and install dependencies
 cd makan
