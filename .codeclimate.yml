@@ -1,0 +1,6 @@
+languages:
+  Ruby: true
+  JavaScript: true
+exclude_paths:
+- "app/assets/javascripts/typeahead.bundle.js"
+- "app/assets/javascripts/handlebars-v3.0.1.js"
