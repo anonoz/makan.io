@@ -10,15 +10,30 @@ class Vendor::Subvendor < ActiveRecord::Base
   
   belongs_to :vendor_vendor, class_name: "Vendor::Vendor"
 
-  has_many :food_menus, class_name: "Food::Menu",
-           foreign_key: "vendor_subvendor_id"
+  has_many :food_menus, class_name: "Food::Menu", foreign_key: FKEY
   has_many :weekly_opening_hours, class_name: "Vendor::WeeklyOpeningHour",
-           foreign_key: "vendor_subvendor_id"
+           foreign_key: FKEY
   has_many :special_closing_hours, class_name: "Vendor::SpecialClosingHour",
-           foreign_key: "vendor_subvendor_id"
+           foreign_key: FKEY
 
   validates :vendor_vendor, presence: true
   validates :city, presence: true
+
+  def order_items(from: Time.at(0), to: Time.now)
+    Order::Item.
+      where(food_menu_id: food_menus.pluck(:id)).
+      where(created_at: from..to)
+  end
+
+  def items_ordered
+    order_items.sum(:quantity) || 0
+  end
+
+  def amount_payable(date_range = {})
+    order_items(date_range).collect(&:subvendor_payable).reduce(:+) || 0
+  end
+
+  private
 
   def check_if_no_food_menus
     unless food_menus.empty?
@@ -26,18 +41,4 @@ class Vendor::Subvendor < ActiveRecord::Base
       return false
     end
   end
-
-  def closure_reason
-    if normally_closed?
-      "normally closed"
-    elsif specially_closed?
-      "specially closed"
-    else
-      # This isn't supposed to happen
-      raise CurrentlyOpenYouIdiot,
-            subvendor_id: id, subvendor_title: title
-    end
-  end
-
-  class CurrentlyOpenYouIdiot < StandardError; end
 end

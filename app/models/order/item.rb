@@ -29,6 +29,11 @@ class Order::Item < ActiveRecord::Base
     quantity * (cost + delivery_fee + gst)
   end
 
+  def subvendor_payable
+    set_correct_version_of_food_menu
+    quantity * @food_menu.subvendor_price
+  end
+
   def update_subtotal(*args)
 
     # Say an item's order chit ID is changed to nil, or another chit's ID,
@@ -51,7 +56,7 @@ class Order::Item < ActiveRecord::Base
   end
 
   def set_correct_version_of_food_menu
-    @food_menu ||= food_menu.version_at(created_at)
+    @food_menu ||= food_menu.version_at(created_at || Time.now)
   end
 
   def check_if_order_chit_delivered

@@ -82,7 +82,6 @@ class Order::Chit < ActiveRecord::Base
   end
 
   def update_subtotal(*args)
-    # puts "Chit: Updating subtotal = #{calculate_subtotal}"
     update subtotal: calculate_subtotal
   end
 
