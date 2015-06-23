@@ -16,7 +16,8 @@ class Order::Item < ActiveRecord::Base
 
   validates :food_menu, presence: true
 
-  delegate :title, to: :set_correct_version_of_food_menu
+  delegate :title, :base_price,
+           to: :set_correct_version_of_food_menu
 
   def amount
     set_correct_version_of_food_menu
@@ -25,7 +26,7 @@ class Order::Item < ActiveRecord::Base
     delivery_fee = @food_menu.kena_delivery_fee? ? cost * 0.1 : 0
     gst = @food_menu.kena_gst? ? cost * 0.06 : 0
 
-    cost + delivery_fee + gst
+    quantity * (cost + delivery_fee + gst)
   end
 
   def update_subtotal(*args)

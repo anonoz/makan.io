@@ -1,6 +1,17 @@
 require 'spec_helper'
 
 describe "Order Chit Subtotal" do
+  it "calculates properly with item of multiple quantity" do
+    chit = create(:order_chit,
+                  items: [
+                    build(:order_item,
+                      food_menu: create(:food_menu, base_price: 2.9),
+                      quantity: 2
+                    )
+                  ])
+    expect(chit.subtotal).to eq 5.8
+  end
+
   it "updates when item is added" do
     chit = create(:order_chit)
     chit.items.create(food_menu: create(:food_menu, base_price: 2.00))

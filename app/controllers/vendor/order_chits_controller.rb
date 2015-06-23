@@ -51,51 +51,19 @@ class Vendor::OrderChitsController < Vendor::MainController
   end
 
   def reject
-    begin
-      @order_chit.reject!
-
-      redirect_to vendor_order_chit_path(@order_chit),
-                  flash: {success: "Chit is now #{ @order_chit.status }"}
-    rescue AASM::InvalidTransition => e
-      redirect_to vendor_order_chit_path(@order_chit),
-                  flash: {error: e.message}
-    end
+    change_chit_status_to :reject
   end
 
   def accept
-    begin
-      @order_chit.accept!
-
-      redirect_to vendor_order_chit_path(@order_chit),
-                flash: {success: "Chit is now #{ @order_chit.status }"}
-    rescue AASM::InvalidTransition => e
-      redirect_to vendor_order_chit_path(@order_chit),
-                  flash: {error: e.message}
-    end
+    change_chit_status_to :accept
   end
 
   def deliver
-    begin
-      @order_chit.deliver!
-
-      redirect_to vendor_order_chit_path(@order_chit),
-                flash: {success: "Chit is now #{ @order_chit.status }"}
-    rescue AASM::InvalidTransition => e
-      redirect_to vendor_order_chit_path(@order_chit),
-                  flash: {error: e.message}
-    end
+    change_chit_status_to :deliver
   end
 
   def finish
-    begin
-      @order_chit.finish!
-
-      redirect_to vendor_order_chit_path(@order_chit),
-                flash: {success: "Chit is now #{ @order_chit.status }"}
-    rescue AASM::InvalidTransition => e
-      redirect_to vendor_order_chit_path(@order_chit),
-                  flash: {error: e.message}
-    end
+    change_chit_status_to :finish
   end
 
   private
@@ -114,6 +82,18 @@ class Vendor::OrderChitsController < Vendor::MainController
 
   def set_order_chit
     @order_chit = @vendor.order_chits.find_by_id params[:id]
+  end
+
+  def change_chit_status_to(new_status)
+    begin
+      @order_chit.send("#{ new_status }!")
+
+      redirect_to vendor_order_chit_path(@order_chit),
+                flash: {success: "Chit is now #{ @order_chit.status }"}
+    rescue AASM::InvalidTransition => e
+      redirect_to vendor_order_chit_path(@order_chit),
+                  flash: {error: e.message}
+    end
   end
 
   def new_order_chit_params
