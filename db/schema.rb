@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150608183459) do
+ActiveRecord::Schema.define(version: 20150623072311) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -105,6 +105,7 @@ ActiveRecord::Schema.define(version: 20150608183459) do
     t.boolean  "kena_delivery_fee",          default: false
     t.boolean  "availability",               default: true
     t.string   "slug"
+    t.integer  "subvendor_price_cents",      default: 0
   end
 
   add_index "food_menus", ["slug"], name: "index_food_menus_on_slug", unique: true, using: :btree
