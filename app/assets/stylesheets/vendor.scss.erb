@@ -8,20 +8,16 @@ body {
   font-family: "Lato", Helvetica, Arial, sans-serif;
 }
 
-@media #{$small-up} {
-  .container {
+.container {
+  @media #{$small-up} {
     padding-top: 5px;
   }
-}
 
-@media #{$medium-up} {
-  .container {
+  @media #{$medium-up} {
     padding: 5px;
   }
-}
 
-@media #{$large-up} {
-  .container {
+  @media #{$large-up} {
     padding: 10px;
   }
 }

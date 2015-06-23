@@ -13,5 +13,7 @@ tr[valign="top"]
           ul
             - item.extras.each do |extra|
               li = "#{extra.food_option_choice.title} x #{extra.quantity}"
+            - if item.remarks.present?
+              li == "<b>Remarks: </b> #{item.remarks}"
   td = humanized_money_with_symbol chit.subtotal
   td = chit.status

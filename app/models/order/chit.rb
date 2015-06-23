@@ -45,6 +45,8 @@ class Order::Chit < ActiveRecord::Base
       transitions from: :accepted, to: :delivered
     end
 
+    ##
+    # Serves as archive
     event :finish do
       transitions from: :delivered, to: :finished
     end
@@ -56,7 +58,7 @@ class Order::Chit < ActiveRecord::Base
   after_create :update_subtotal
 
   def delivery_destination_info
-    if customer_user.present? && customer_address.present?
+    @delivery_info ||= if customer_user.present? && customer_address.present?
       {
         web: true,
         name: customer_user.name,

@@ -11,7 +11,14 @@ Rails.application.routes.draw do
 
   namespace "vendor" do
     get "/" => "main#index", as: :root
-    resources :order_chits
+    resources :order_chits do
+      member do
+        post :reject
+        post :accept
+        post :deliver
+        post :finish
+      end
+    end
     resources :subvendors
     resources :subvendors_opening_hours
     resources :subvendors_closing_hours

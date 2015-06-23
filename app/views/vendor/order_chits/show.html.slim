@@ -1,0 +1,56 @@
+.row: h2 Order Info
+
+.row
+  .small-12.large-4.columns
+    small Status
+    h4 = @order_chit.status
+
+    small Name
+    h4 = @order_chit.delivery_destination_info[:name]
+
+    small Address
+    h4 = @order_chit.delivery_destination_info[:address]
+
+    small Phone
+    h4 = @order_chit.delivery_destination_info[:phone]
+
+    small Via
+    h4 = @order_chit.customer_user_id ? "online" : "offline"
+
+    small Subtotal
+    h4 = humanized_money_with_symbol @order_chit.subtotal
+
+    small Action
+    ul.button-group
+      - if @order_chit.editable?
+        li = link_to "Edit",
+                     edit_vendor_order_chit_path(@order_chit),
+                     class: "button tiny"
+
+    ul.button-group
+      - if @order_chit.may_reject?
+        li = link_to "Reject",
+                     reject_vendor_order_chit_path(@order_chit),
+                     method: :post,
+                     class: "button tiny alert"
+      - if @order_chit.may_accept?
+        li = link_to "Accept",
+                     accept_vendor_order_chit_path(@order_chit),
+                     method: :post,
+                     class: "button tiny success"
+      - if @order_chit.may_deliver?
+        li = link_to "Deliver",
+                     deliver_vendor_order_chit_path(@order_chit),
+                     method: :post,
+                     class: "button tiny success"
+      - if @order_chit.may_finish?
+        li = link_to "Finish",
+                     finish_vendor_order_chit_path(@order_chit),
+                     method: :post,
+                     class: "button tiny success"
+
+
+  .small-12.large-8.columns
+    .row
+      - @order_chit.items.each do |item|
+        == render "item", item: item

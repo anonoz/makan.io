@@ -1,0 +1,11 @@
+.chit-item.row
+  .small-12.medium-7.columns
+    h4 = item.title
+    ul
+      - item.extras.each do |extra|
+        li = "#{extra.food_option_choice.title} x #{extra.quantity}"
+      - if item.remarks.present?
+    p == "<b>Remarks: </b> #{item.remarks}"
+
+  .small-12.medium-5.columns
+    h4 = humanized_money_with_symbol item.amount

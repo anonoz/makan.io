@@ -7,6 +7,7 @@ class Order::Item < ActiveRecord::Base
 
   belongs_to :order_chit, class_name: "Order::Chit"
   belongs_to :food_menu, -> { with_deleted }, class_name: "Food::Menu"
+
   has_many :extras, class_name: "Order::ItemExtra",
            foreign_key: "order_item_id",
            after_remove: :update_subtotal
@@ -14,6 +15,8 @@ class Order::Item < ActiveRecord::Base
   accepts_nested_attributes_for :extras
 
   validates :food_menu, presence: true
+
+  delegate :title, to: :set_correct_version_of_food_menu
 
   def amount
     set_correct_version_of_food_menu
@@ -47,7 +50,7 @@ class Order::Item < ActiveRecord::Base
   end
 
   def set_correct_version_of_food_menu
-    @food_menu = food_menu.version_at(created_at)
+    @food_menu ||= food_menu.version_at(created_at)
   end
 
   def check_if_order_chit_delivered

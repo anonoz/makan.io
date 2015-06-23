@@ -50,6 +50,54 @@ class Vendor::OrderChitsController < Vendor::MainController
   def destroy
   end
 
+  def reject
+    begin
+      @order_chit.reject!
+
+      redirect_to vendor_order_chit_path(@order_chit),
+                  flash: {success: "Chit is now #{ @order_chit.status }"}
+    rescue AASM::InvalidTransition => e
+      redirect_to vendor_order_chit_path(@order_chit),
+                  flash: {error: e.message}
+    end
+  end
+
+  def accept
+    begin
+      @order_chit.accept!
+
+      redirect_to vendor_order_chit_path(@order_chit),
+                flash: {success: "Chit is now #{ @order_chit.status }"}
+    rescue AASM::InvalidTransition => e
+      redirect_to vendor_order_chit_path(@order_chit),
+                  flash: {error: e.message}
+    end
+  end
+
+  def deliver
+    begin
+      @order_chit.deliver!
+
+      redirect_to vendor_order_chit_path(@order_chit),
+                flash: {success: "Chit is now #{ @order_chit.status }"}
+    rescue AASM::InvalidTransition => e
+      redirect_to vendor_order_chit_path(@order_chit),
+                  flash: {error: e.message}
+    end
+  end
+
+  def finish
+    begin
+      @order_chit.finish!
+
+      redirect_to vendor_order_chit_path(@order_chit),
+                flash: {success: "Chit is now #{ @order_chit.status }"}
+    rescue AASM::InvalidTransition => e
+      redirect_to vendor_order_chit_path(@order_chit),
+                  flash: {error: e.message}
+    end
+  end
+
   private
 
   def set_data_for_forms
