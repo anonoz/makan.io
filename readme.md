@@ -1,5 +1,7 @@
 # makan.io
 
+[![Code Climate](https://codeclimate.com/repos/558296a16956804692007412/badges/77f634e6aa36bc3d63c4/gpa.svg)](https://codeclimate.com/repos/558296a16956804692007412/feed)
+
 This web app will serve as the online food delivery platform of Running Man Food Delivery.
 
 ## Requirements
