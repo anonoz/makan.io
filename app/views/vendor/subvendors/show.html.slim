@@ -1,0 +1,8 @@
+.row
+  h2.small-12.medium-10.columns = @subvendor.title
+  .small-12.medium-2.columns = link_to "Update", edit_vendor_subvendor_path(@subvendor), class: "button"
+
+.row
+  / for performance query
+  h3 Last 30 Days
+  

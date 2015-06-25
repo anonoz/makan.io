@@ -84,4 +84,7 @@ describe Vendor::Subvendor, "Accounting" do
     expect(bifc.amount_payable(to: "2015-06-14")).to eq 5.7
   end
 
+  it "does not factor in items that are rejected"
+  it "does not factor in items that are not accepted"
+
 end

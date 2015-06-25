@@ -25,7 +25,7 @@ class Vendor::OrderChitsController < Vendor::MainController
     @order_chit = @vendor.order_chits.new(new_order_chit_params)
 
     if @order_chit.save
-      redirect_to vendor_order_chits_path, flash: {success: "Ordered"}
+      redirect_to vendor_root_path, flash: {success: "Ordered"}
     else
       render json: @order_chit.errors
     end

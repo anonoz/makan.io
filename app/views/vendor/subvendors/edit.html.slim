@@ -1,0 +1,44 @@
+.row
+  h2 = "Edit #{ @subvendor.title }"
+
+= simple_form_for @subvendor do |f|
+
+  fieldset.row
+    legend Basics
+
+    .row
+      .small-12.medium-3.columns
+        label[for="vendor_subvendor_title"] Name
+      .small-12.medium-9.columns
+        = f.input :title, required: true, label: false
+
+    .row
+      .small-12.medium-3.columns
+        label[for="vendor_subvendor_city"] City
+      .small-12.medium-9.columns
+        = f.input :city, collection: Vendor::Subvendor.city.values, required: true, label: false
+
+  fieldset.row
+    legend Login Info
+
+    .row
+      .small-12.medium-3.columns
+        label[for="vendor_subvendor_email"] E-mail
+      .small-12.medium-9.columns
+        = f.input :email, label: false
+
+    .row
+      .small-12.medium-3.columns
+        label[for="vendor_subvendor_password"] New Password
+      .small-12.medium-9.columns
+        = f.input :password, label: false
+
+    .row
+      .small-12.medium-3.columns
+        label[for="vendor_subvendor_password_confirmation"] Confirm Password
+      .small-12.medium-9.columns
+        = f.input :password_confirmation, label: false
+
+  .row
+    .small-12.large-8.large-centered.columns
+      = f.submit "Save", class: "button success expand"

@@ -8,13 +8,15 @@ class Vendor::SubvendorsController < Vendor::MainController
   end
 
   def show
+    # Earning performance
+    
   end
 
   def new
   end
 
   def create
-    @subvendor= @vendor.subvendors.new(subvendor_params)
+    @subvendor = @vendor.subvendors.new(subvendor_params)
 
     if @subvendor.save
       redirect_to vendor_subvendors_path,
@@ -29,6 +31,14 @@ class Vendor::SubvendorsController < Vendor::MainController
   end
 
   def update
+    @subvendor.attributes = subvendor_params
+
+    if @subvendor.save
+      redirect_to vendor_subvendor_path(@subvendor),
+                  flash: {success: "Subvendor #{ @subvendor.title } updated."}
+    else
+      render "edit", flash: {error: @subvendor.errors.full_messages.to_sentence}
+    end
   end
 
   def destroy
@@ -48,6 +58,6 @@ class Vendor::SubvendorsController < Vendor::MainController
   end
 
   def subvendor_params
-    params.require(:vendor_subvendor).permit(:title, :place_city_id)
+    params.require(:vendor_subvendor).permit(:title, :city, :email, :password, :password_confirmation)
   end
 end

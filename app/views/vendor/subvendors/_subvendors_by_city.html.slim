@@ -8,7 +8,7 @@
       - @subvendors.in_city(city).each do |subvendor|
         tr
           td = subvendor.id
-          td = subvendor.title
+          td = link_to subvendor.title, [subvendor]
           td 
             - if subvendor.food_menus.empty?
               - if can? :destroy, subvendor

@@ -6,9 +6,9 @@ Rails.application.routes.draw do
 
   root 'prelaunch#index'
 
-  devise_for :vendor, class_name: "Vendor::User"
   devise_for :user, class_name: "Customer::User"
 
+  devise_for :vendor, class_name: "Vendor::User"
   namespace "vendor" do
     get "/" => "main#index", as: :root
     resources :order_chits do
@@ -34,6 +34,11 @@ Rails.application.routes.draw do
     resource :cart do
       resources :items
     end
+  end
+
+  devise_for :subvendors, class_name: "Vendor::Subvendor"
+  namespace "subvendor" do
+    get "/" => "main#index", as: :root
   end
 
   if Rails.env.development?

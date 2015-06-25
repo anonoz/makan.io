@@ -6,6 +6,11 @@ class Vendor::Subvendor < ActiveRecord::Base
   acts_as_paranoid
   enumerize :city, in: {setapak: 1}, default: :setapak, scope: :in_city
 
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable
+
   before_destroy :check_if_no_food_menus
   
   belongs_to :vendor_vendor, class_name: "Vendor::Vendor"

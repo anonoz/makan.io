@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+html lang="en"
+  head
+    meta charset="UTF-8"/
+    title = @title || "Running Man Subvendor Panel"
+    = javascript_include_tag :vendor
+    = stylesheet_link_tag :vendor
+    = csrf_meta_tags
+    == render "layouts/google_fonts"
+    meta[
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    ]
+
+  body
+    == render "layouts/subvendor/navbar"
+
+    .container
+      .row
+        .small-12.large-8.large-offset-2.columns
+          - if flash[:success]
+            .alert-box.success.radius[data-alert=""]
+              = flash[:success]
+              a.close[href="#"] &times;
+              
+          - if flash[:error]
+            .alert-box.alert.radius[data-alert=""]
+              = flash[:error]
+              a.close[href="#"] &times;
+
+      ==yield
+
+    javascript:
+      $(document).foundation();
