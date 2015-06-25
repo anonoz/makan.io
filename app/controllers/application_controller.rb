@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
     #   "subvendors_sign_in"
     if devise_controller?
       case resource_name
-        when :vendor    then "vendor_signed_in"
+        when :vendor    then "vendor_sign_in"
         when :subvendor then  "subvendor_sign_in"
         else false
       end
