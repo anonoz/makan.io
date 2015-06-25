@@ -70,6 +70,8 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'capybara-webkit'
   gem 'faker'
+  gem 'pry-rails'
+  gem 'pry-remote'
 end
 
 group :test do
@@ -87,8 +89,6 @@ group :development do
   gem 'sextant'
   gem 'thin'
   gem 'traceroute'
-  gem 'pry-rails'
-  gem 'pry-remote'
   gem 'quiet_assets'
 end
 

@@ -9,18 +9,8 @@ class ApplicationController < ActionController::Base
   protected
 
   def layout_by_resource
-    # if devise_controller? && resource_name == :vendor
-    #   "vendor_sign_in"
-    # elsif devise_controller? && resource_name == :user
-    #   false
-    # elsif devise_controller? && resource_name == :subvendor
-    #   "subvendors_sign_in"
     if devise_controller?
-      case resource_name
-        when :vendor    then "vendor_sign_in"
-        when :subvendor then  "subvendor_sign_in"
-        else false
-      end
+      "#{ resource_name }_sign_in"
     else
       "application"
     end

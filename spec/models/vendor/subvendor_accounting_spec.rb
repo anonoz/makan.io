@@ -2,11 +2,21 @@ require 'spec_helper'
 
 describe Vendor::Subvendor, "Accounting" do
 
-  let(:mamak) { create(:vendor_subvendor) }
-  let(:bifc) { create(:vendor_subvendor) }
+  let(:running_man) { create(:vendor_vendor) }
 
-  let(:chit) { create(:order_chit) }
-  let(:chit2) { create(:order_chit) }
+  let(:mamak) { create(:vendor_subvendor, vendor_vendor: running_man) }
+  let(:bifc) { create(:vendor_subvendor, vendor_vendor: running_man) }
+
+  let(:chit) { create(:order_chit, vendor_vendor: running_man).tap(&:accept!) }
+  let(:chit2) { create(:order_chit, vendor_vendor: running_man).tap(&:accept!) }
+  let(:ordered_chit) { create(:order_chit, vendor_vendor: running_man) }
+  let(:rejected_chit) { create(:order_chit, vendor_vendor: running_man).tap(&:reject!) }
+  let(:delivered_chit) do 
+    create(:order_chit, vendor_vendor: running_man).tap do |chit| 
+      chit.accept!
+      chit.deliver!
+    end
+  end
 
   let(:nasi_lemak) {
     create(:food_menu, vendor_subvendor: mamak,
@@ -68,11 +78,11 @@ describe Vendor::Subvendor, "Accounting" do
     chit.items << nasi_lemak_order
     roti_kosong_order.quantity = 4
     chit.items << roti_kosong_order
-    chit.items.update_all(created_at: "2015-05-01")
+    chit.update(created_at: "2015-05-01")
 
     chit2.items << maggi_goreng_order
     chit2.items << thosai_masala_order
-    chit2.items.update_all(created_at: "2015-06-01")
+    chit2.update(created_at: "2015-06-01")
 
     expect(mamak.amount_payable(from: "2015-04-25")).to eq 3.80
     expect(mamak.amount_payable(from: "2015-04-30", to: "2015-05-02")).to eq 1.4
@@ -84,7 +94,20 @@ describe Vendor::Subvendor, "Accounting" do
     expect(bifc.amount_payable(to: "2015-06-14")).to eq 5.7
   end
 
-  it "does not factor in items that are rejected"
-  it "does not factor in items that are not accepted"
+  it "does not factor in items that are rejected" do
+    rejected_chit.items << nasi_lemak_order
+    expect(mamak.amount_payable).to eq 0
+  end
+
+  it "does not factor in items that are not accepted yet" do
+    ordered_chit.items << nasi_lemak_order
+    expect(mamak.amount_payable).to eq 0
+  end
+
+  it "factors in items on an accepted chit" do
+    ordered_chit.items << maggi_goreng_order
+    ordered_chit.accept!
+    expect(mamak.amount_payable).to eq 2.4
+  end
 
 end

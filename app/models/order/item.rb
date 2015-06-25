@@ -21,12 +21,22 @@ class Order::Item < ActiveRecord::Base
 
   def amount
     set_correct_version_of_food_menu
-
-    cost = @food_menu.base_price + (extras.reload.collect(&:amount).reduce(:+) || 0)
-    delivery_fee = @food_menu.kena_delivery_fee? ? cost * 0.1 : 0
-    gst = @food_menu.kena_gst? ? cost * 0.06 : 0
-
     quantity * (cost + delivery_fee + gst)
+  end
+
+  def cost
+    set_correct_version_of_food_menu
+    @cost = @food_menu.base_price + (extras.reload.collect(&:amount).reduce(:+) || 0)
+  end
+
+  def delivery_fee
+    set_correct_version_of_food_menu
+    @food_menu.kena_delivery_fee ? cost * 0.1 : 0
+  end
+
+  def gst
+    set_correct_version_of_food_menu
+    @food_menu.kena_gst ? cost * 0.06 : 0
   end
 
   def subvendor_payable
