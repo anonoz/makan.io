@@ -20,28 +20,23 @@ class Order::Item < ActiveRecord::Base
            to: :set_orderable
 
   def amount
-    set_orderable
     quantity * (cost + delivery_fee + gst)
   end
 
   def cost
-    set_orderable
-    @cost = @orderable_item.base_price + (extras.reload.collect(&:amount).reduce(:+) || 0)
+    @cost = set_orderable.base_price + (extras.reload.collect(&:amount).reduce(:+) || 0)
   end
 
   def delivery_fee
-    set_orderable
-    @orderable_item.kena_delivery_fee ? cost * 0.1 : 0
+    set_orderable.kena_delivery_fee ? cost * 0.1 : 0
   end
 
   def gst
-    set_orderable
-    @orderable_item.kena_gst ? cost * 0.06 : 0
+    set_orderable.kena_gst ? cost * 0.06 : 0
   end
 
   def subvendor_payable
-    set_orderable
-    quantity * @orderable_item.subvendor_price
+    quantity * set_orderable.subvendor_price
   end
 
   def update_subtotal(*args)
@@ -66,7 +61,7 @@ class Order::Item < ActiveRecord::Base
   end
 
   def set_orderable
-    @orderable_item ||= if orderable_type == "Food::Menu"
+    @orderable_item ||= if orderable.paper_trail_enabled_for_model?
       orderable.version_at(created_at || Time.now)
     else
       orderable
