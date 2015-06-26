@@ -18,6 +18,7 @@ class Food::Menu < ActiveRecord::Base
   has_many :food_allergy_tags, class_name: "Food::AllergyTag",
            foreign_key: "food_menu_id"
   has_many :food_allergens, through: :food_allergy_tags
+  has_many :order_items, as: :orderable
 
   validates :food_category, presence: true
   validates :vendor_subvendor, presence: true

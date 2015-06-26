@@ -6,7 +6,7 @@ class Order::Item < ActiveRecord::Base
   before_update :editable?
 
   belongs_to :order_chit, class_name: "Order::Chit"
-  belongs_to :food_menu, -> { with_deleted }, class_name: "Food::Menu"
+  belongs_to :orderable, -> { with_deleted }, polymorphic: true
 
   has_many :extras, class_name: "Order::ItemExtra",
            foreign_key: "order_item_id",
@@ -14,34 +14,34 @@ class Order::Item < ActiveRecord::Base
 
   accepts_nested_attributes_for :extras
 
-  validates :food_menu, presence: true
+  validates :orderable, presence: true
 
   delegate :title, :base_price,
-           to: :set_correct_version_of_food_menu
+           to: :set_orderable
 
   def amount
-    set_correct_version_of_food_menu
+    set_orderable
     quantity * (cost + delivery_fee + gst)
   end
 
   def cost
-    set_correct_version_of_food_menu
-    @cost = @food_menu.base_price + (extras.reload.collect(&:amount).reduce(:+) || 0)
+    set_orderable
+    @cost = @orderable_item.base_price + (extras.reload.collect(&:amount).reduce(:+) || 0)
   end
 
   def delivery_fee
-    set_correct_version_of_food_menu
-    @food_menu.kena_delivery_fee ? cost * 0.1 : 0
+    set_orderable
+    @orderable_item.kena_delivery_fee ? cost * 0.1 : 0
   end
 
   def gst
-    set_correct_version_of_food_menu
-    @food_menu.kena_gst ? cost * 0.06 : 0
+    set_orderable
+    @orderable_item.kena_gst ? cost * 0.06 : 0
   end
 
   def subvendor_payable
-    set_correct_version_of_food_menu
-    quantity * @food_menu.subvendor_price
+    set_orderable
+    quantity * @orderable_item.subvendor_price
   end
 
   def update_subtotal(*args)
@@ -65,8 +65,12 @@ class Order::Item < ActiveRecord::Base
     destroy if quantity <= 0
   end
 
-  def set_correct_version_of_food_menu
-    @food_menu ||= food_menu.version_at(created_at || Time.now)
+  def set_orderable
+    @orderable_item ||= if orderable_type == "Food::Menu"
+      orderable.version_at(created_at || Time.now)
+    else
+      orderable
+    end
   end
 
   def check_if_order_chit_delivered

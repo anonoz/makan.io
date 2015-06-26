@@ -26,16 +26,15 @@ class Vendor::Subvendor < ActiveRecord::Base
   validates :city, presence: true
 
   def order_items(from: Time.at(0), to: Time.now)
-    if String === from && String === to
-      from, to = Time.zone.parse(from), Time.zone.parse(to)
-    end
+    [from, to].each { |time| time = Time.zone.parse(time) if String === time }
 
     order_chit_ids = vendor.order_chits.
       where(status: [:accepted, :delivered, :finished], created_at: from..to).
       pluck(:id)
     food_menu_ids = food_menus.pluck(:id)
     
-    Order::Item.where(order_chit_id: order_chit_ids, food_menu_id: food_menu_ids)
+    Order::Item.
+      where(order_chit_id: order_chit_ids, orderable: food_menus)
   end
 
   def items_ordered

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150625012539) do
+ActiveRecord::Schema.define(version: 20150626021627) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -162,6 +162,17 @@ ActiveRecord::Schema.define(version: 20150625012539) do
     t.integer  "subtotal_cents",           default: 0
   end
 
+  create_table "order_custom_items", force: :cascade do |t|
+    t.string   "title"
+    t.integer  "base_price_cents"
+    t.integer  "vendor_subvendor_id"
+    t.boolean  "kena_gst"
+    t.boolean  "kena_delivery_fee"
+    t.integer  "subvendor_price_cents"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
   create_table "order_item_extras", force: :cascade do |t|
     t.integer  "order_item_id"
     t.integer  "food_option_choice_id"
@@ -172,13 +183,16 @@ ActiveRecord::Schema.define(version: 20150625012539) do
 
   create_table "order_items", force: :cascade do |t|
     t.integer  "order_chit_id"
-    t.integer  "food_menu_id"
-    t.integer  "quantity",      default: 1
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.integer  "orderable_id"
+    t.integer  "quantity",       default: 1
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
     t.datetime "deleted_at"
     t.text     "remarks"
+    t.string   "orderable_type", default: "Food::Menu"
   end
+
+  add_index "order_items", ["orderable_id"], name: "index_order_items_on_orderable_id", using: :btree
 
   create_table "place_areas", force: :cascade do |t|
     t.string   "name"

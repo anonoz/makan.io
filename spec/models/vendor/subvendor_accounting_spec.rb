@@ -35,10 +35,10 @@ describe Vendor::Subvendor, "Accounting" do
     	   subvendor_price: 2.5, base_price: 3)
   }
 
-  let(:nasi_lemak_order) { build(:order_item, food_menu: nasi_lemak) }
-  let(:maggi_goreng_order) { build(:order_item, food_menu: maggi_goreng) }
-  let(:roti_kosong_order) { build(:order_item, food_menu: roti_kosong) }
-  let(:thosai_masala_order) { build(:order_item, food_menu: thosai_masala) }
+  let(:nasi_lemak_order) { build(:order_item, orderable: nasi_lemak) }
+  let(:maggi_goreng_order) { build(:order_item, orderable: maggi_goreng) }
+  let(:roti_kosong_order) { build(:order_item, orderable: roti_kosong) }
+  let(:thosai_masala_order) { build(:order_item, orderable: thosai_masala) }
 
   it "lists ordered_items from single chit correctly" do
     chit.items << nasi_lemak_order
@@ -78,11 +78,11 @@ describe Vendor::Subvendor, "Accounting" do
     chit.items << nasi_lemak_order
     roti_kosong_order.quantity = 4
     chit.items << roti_kosong_order
-    chit.update(created_at: "2015-05-01")
+    chit.update(created_at: "2015-05-01 12:30")
 
     chit2.items << maggi_goreng_order
     chit2.items << thosai_masala_order
-    chit2.update(created_at: "2015-06-01")
+    chit2.update(created_at: "2015-06-01 11:30")
 
     expect(mamak.amount_payable(from: "2015-04-25")).to eq 3.80
     expect(mamak.amount_payable(from: "2015-04-30", to: "2015-05-02")).to eq 1.4
@@ -94,20 +94,22 @@ describe Vendor::Subvendor, "Accounting" do
     expect(bifc.amount_payable(to: "2015-06-14")).to eq 5.7
   end
 
-  it "does not factor in items that are rejected" do
-    rejected_chit.items << nasi_lemak_order
-    expect(mamak.amount_payable).to eq 0
-  end
+  context "Chit status related" do
+    it "does not factor in items that are rejected" do
+      rejected_chit.items << nasi_lemak_order
+      expect(mamak.amount_payable).to eq 0
+    end
 
-  it "does not factor in items that are not accepted yet" do
-    ordered_chit.items << nasi_lemak_order
-    expect(mamak.amount_payable).to eq 0
-  end
+    it "does not factor in items that are not accepted yet" do
+      ordered_chit.items << nasi_lemak_order
+      expect(mamak.amount_payable).to eq 0
+    end
 
-  it "factors in items on an accepted chit" do
-    ordered_chit.items << maggi_goreng_order
-    ordered_chit.accept!
-    expect(mamak.amount_payable).to eq 2.4
+    it "factors in items on an accepted chit" do
+      ordered_chit.items << maggi_goreng_order
+      ordered_chit.accept!
+      expect(mamak.amount_payable).to eq 2.4
+    end
   end
 
 end

@@ -15,9 +15,7 @@ class Order::Chit < ActiveRecord::Base
            foreign_key: "order_chit_id",
            after_remove: :update_subtotal
 
-  accepts_nested_attributes_for :items, reject_if: proc { |attrs| 
-    attrs["food_menu_id"].blank?
-  }, allow_destroy: true
+  accepts_nested_attributes_for :items, allow_destroy: true
 
   aasm column: :status, no_direct_assignment: true do
     state :draft
