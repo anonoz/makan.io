@@ -63,6 +63,22 @@ describe Order::Item do
       order_item = create(:order_item, orderable: custom_item)
       expect(order_item.amount).to eq 3.18
     end
+
+    it "takes in custom_item_attributes to be custom item" do
+      order_item = build(:order_item, {
+        quantity: 2,
+        custom_item_attributes: {
+          title: "Better Mineral Water",
+          base_price: 2.00,
+          subvendor_price: 1.00,
+          kena_delivery_fee: true
+        }
+      })
+
+      expect(order_item).to be_valid
+      expect(order_item.title).to eq "Better Mineral Water"
+      expect(order_item.orderable_type).to eq "Order::CustomItem"
+    end
   end
 
   context "Amount Calculation" do

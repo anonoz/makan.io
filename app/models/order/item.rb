@@ -20,19 +20,20 @@ class Order::Item < ActiveRecord::Base
            to: :set_orderable
 
   def amount
-    quantity * (cost + delivery_fee + gst)
+    original_cost = cost
+    quantity * (original_cost + delivery_fee(original_cost) + gst(original_cost))
   end
 
   def cost
     @cost = set_orderable.base_price + (extras.reload.collect(&:amount).reduce(:+) || 0)
   end
 
-  def delivery_fee
-    set_orderable.kena_delivery_fee ? cost * 0.1 : 0
+  def delivery_fee(original_cost = cost)
+    set_orderable.kena_delivery_fee ? original_cost * 0.1 : 0
   end
 
-  def gst
-    set_orderable.kena_gst ? cost * 0.06 : 0
+  def gst(original_cost = cost)
+    set_orderable.kena_gst ? original_cost * 0.06 : 0
   end
 
   def subvendor_payable
@@ -52,6 +53,10 @@ class Order::Item < ActiveRecord::Base
 
   def editable?
     order_chit.present? ? order_chit.editable? : true
+  end
+
+  def custom_item_attributes= (params)
+    self.orderable = Order::CustomItem.new(params)
   end
 
   private
