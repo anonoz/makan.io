@@ -9,7 +9,7 @@ tr[valign="top"]
     ul
       - chit.items.each do |item|
         li
-          = "#{item.food_menu.title} x #{item.quantity}"
+          = "#{item.title} x #{item.quantity}"
           ul
             - item.extras.each do |extra|
               li = "#{extra.food_option_choice.title} x #{extra.quantity}"

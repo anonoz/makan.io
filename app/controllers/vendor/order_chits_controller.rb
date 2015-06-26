@@ -6,7 +6,7 @@ class Vendor::OrderChitsController < Vendor::MainController
     @order_chits = @vendor.order_chits.
                            paginate(page: params[:page]).
                            includes(:customer_user,
-                                    :items => [:food_menu, :extras => [:food_option_choice]]).
+                                    :items => [:orderable, :extras => [:food_option_choice]]).
                            order(created_at: :desc)
   end
 
