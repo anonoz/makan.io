@@ -60,6 +60,12 @@ script#chit_custom_item_line_template[type="text/x-handlebars-template"]
         name="order_chit[items_attributes][][orderable_id]"
         value="{{ orderable_id }}"
       ]
+      | {{#if edit_mode}}
+      input[
+        name="order_chit[items_attributes][][custom_item_attributes][id]"
+        value="{{ orderable_id }}"
+      ]
+      | {{/if}}
       input[
         name="order_chit[items_attributes][][custom_item_attributes][title]"
         value="{{ custom_item.title }}"

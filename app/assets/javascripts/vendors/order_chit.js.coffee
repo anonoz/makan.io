@@ -238,10 +238,16 @@ $(document).ready ->
         kena_gst: item.orderable.kena_gst
         kena_delivery_fee: item.orderable.kena_delivery_fee
         amount_cents: count_item_amount item.orderable, item.extras, false
+        orderable_id: item.orderable.id
+        orderable_type: item.orderable.type
+        custom_item: item.orderable
 
     # Inflate DOM for each items & Bind quantity + remove
     for item in window.cart
-      items_list.append Handlebars.compile($('#chit_menu_item_line_template').html()) item
+      if item.orderable_type == "Order::CustomItem"
+        items_list.append Handlebars.compile($('#chit_custom_item_line_template').html()) item
+      else if item.orderable_type == "Food::Menu"
+        items_list.append Handlebars.compile($('#chit_menu_item_line_template').html()) item
 
       # Update quantity
       item_fieldset = $("fieldset[data-order-item-temp-id=#{ item.temp_id }]")
@@ -283,7 +289,41 @@ $(document).ready ->
   # Bind Add button to add line item, reset modal's form
   $('#custom_item_add_button').click ->
     # Prepare the item object
-    
+    food_menu = custom_food_menu()
+    item =
+      temp_id: ++temp_id
+      quantity: 1
+      title: food_menu.title
+      extras: []
+      kena_gst: food_menu.kena_gst
+      kena_delivery_fee: food_menu.kena_delivery_fee
+      amount_cents: count_item_amount food_menu, [], false
+      custom_item: food_menu
+
+    # Handlebar: compile it
+    items_list.append Handlebars.compile($('#chit_custom_item_line_template').html()) item
+
+    # Model stuff, trigger calculation of subtotal of chit too
+    window.cart.push item
+    $("#total_amount").change()
+
+    # Bind quantity change
+    item_fieldset = $("fieldset[data-order-item-temp-id=#{ item.temp_id }]")
+    item_fieldset.find("input.chit_row_qty_input").change ->
+      item.quantity = Number this.value
+      $("#total_amount").change()
+
+    # Bind remove button
+    item_fieldset.find(".item_remove_button").click ->
+      window.cart = _.reject window.cart, (cart_item)->
+        cart_item.temp_id == item.temp_id
+      $("#total_amount").change()
+      item_fieldset.remove()
+
+    # Clear the form, close modal
+    $("form#add_custom_form input[type=text]").val("")
+    $("form#add_custom_form input[type=checkbox]").removeAttr("checked")
+    $("#add_custom_modal").foundation "reveal", "close"
 
 # Method to calculate charge for a single item
 count_item_amount = (food_menu = {base_price_cents: 0}, extras = [], element = $("#amount_sum"))->

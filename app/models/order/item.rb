@@ -60,7 +60,12 @@ class Order::Item < ActiveRecord::Base
   end
 
   def custom_item_attributes= (params)
-    self.orderable = Order::CustomItem.new(params)
+    if params[:id]
+      # self.orderable = Order::CustomItem.find_by_id(params[:id])
+      orderable.update(params)
+    else
+      self.orderable = Order::CustomItem.new(params)
+    end
   end
 
   private
