@@ -32,7 +32,7 @@ class Vendor::OrderChitsController < Vendor::MainController
   end
 
   def edit
-    @items = @order_chit.items.includes(:food_menu)
+    @items = @order_chit.items.includes(:orderable, :extras => [:food_option_choice])
     @items_json = ActiveModel::ArraySerializer.
                     new(@items, each_serializer: Order::ItemSerializer).
                     to_json
@@ -40,10 +40,12 @@ class Vendor::OrderChitsController < Vendor::MainController
 
   def update
     @order_chit.attributes = update_order_chit_params
+    
     if @order_chit.save
-      render json: @order_chit
+      redirect_to vendor_order_chit_path(@order_chit),
+                  flash: {success: "Chit updated."}
     else
-      render json: @order_chit.errors
+      render "edit", flash: {error: @order_chit.errors.full_messages.to_sentence}
     end
   end
 
@@ -71,6 +73,7 @@ class Vendor::OrderChitsController < Vendor::MainController
   def set_data_for_forms
     @food_menus = @vendor.food_menus.includes(:vendor_subvendor, :food_options => [:food_option_choices])
     @food_options = @vendor.food_options.includes(:food_option_choices)
+    @subvendors = @vendor.subvendors
 
     @food_menus_json = ActiveModel::ArraySerializer.
                          new(@food_menus, each_serializer: Food::MenuSerializer).
@@ -78,6 +81,7 @@ class Vendor::OrderChitsController < Vendor::MainController
     @food_options_json = ActiveModel::ArraySerializer.
                            new(@food_options, each_serializer: Food::OptionSerializer).
                            to_json
+    @subvendors_json = Vendor::SubvendorSerializer.list(@subvendors).to_json
   end
 
   def set_order_chit
@@ -104,13 +108,23 @@ class Vendor::OrderChitsController < Vendor::MainController
       :offline_customer_address,
       :offline_customer_phone,
       :remarks,
-      :items_attributes => [
+      :items_attributes => [ # Order::Item
         :food_menu_id,
         :quantity,
         :remarks,
-        :extras_attributes => [
+        :extras_attributes => [ # Order::ItemExtra
           :food_option_choice_id,
-          :quantity,
+          :quantity
+        ],
+        :custom_item_attributes => [ # Order::CustomItem
+          :title,
+          :base_price_cents,
+          :base_price,
+          :vendor_subvendor_id,
+          :subvendor_price_cents,
+          :subvendor_price,
+          :kena_gst,
+          :kena_delivery_fee
         ]
       ]
     )
@@ -134,6 +148,18 @@ class Vendor::OrderChitsController < Vendor::MainController
           :id,
           :food_option_choice_id,
           :quantity,
+          :_destroy
+        ],
+        :custom_item_attributes => [
+          :id,
+          :title,
+          :base_price_cents,
+          :base_price,
+          :vendor_subvendor_id,
+          :subvendor_price_cents,
+          :subvendor_price,
+          :kena_gst,
+          :kena_delivery_fee,
           :_destroy
         ]
       ]

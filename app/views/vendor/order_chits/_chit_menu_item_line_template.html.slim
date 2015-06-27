@@ -1,4 +1,4 @@
-script#chow_item_row[type="text/x-handlebars-template"]
+script#chit_menu_item_line_template[type="text/x-handlebars-template"]
   li: fieldset[
     data-order-item-temp-id="{{ temp_id }}"
   ]
@@ -44,8 +44,8 @@ script#chow_item_row[type="text/x-handlebars-template"]
   
     / form
     .hide
-      | {{#if edit_mode}}
       / this is for existing item in editing form
+      | {{#if edit_mode}}
       input[
         name="order_chit[items_attributes][][id]"
         value="{{ item_id }}"
@@ -60,7 +60,17 @@ script#chow_item_row[type="text/x-handlebars-template"]
         name="order_chit[items_attributes][][food_menu_id]"
         value="{{ food_menu_id }}"
       ]
+      / input[
+      /   name="order_chit[items_attributes][][orderable_type]"
+      /   value="Food::Menu"
+      / ]
       | {{#each extras}}
+      | {{#if edit_mode}}
+      input[
+        name="order_chit[items_attributes][][extras_attributes][][id]"
+        value="{{ id }}"
+      ]
+      | {{/if}}
       input[
         name="order_chit[items_attributes][][extras_attributes][][food_option_choice_id]"
         value="{{ food_option_choice_id }}"

@@ -1,0 +1,57 @@
+#add_custom_modal.reveal-modal.large[data-reveal role="dialog"]
+  h3 Add Custom Item
+  
+  form#add_custom_form
+    .small-12.large-8.columns
+      .step1
+        .row
+          fieldset
+            legend Item Details
+            label
+              | Custom Item Title
+              input#custom_item_title[
+                type="text"
+              ]
+            label
+              | Base Price 
+              small in cents
+              input#custom_item_base_price_cents[
+                type="text"
+                placeholder="250"
+              ]
+            label
+              | Subvendor's Price 
+              small in cents
+              input#custom_item_subvendors_price_cents[
+                type="text"
+                placeholder="100"
+              ]
+            label
+              | Subvendor 
+              small optional
+              select#custom_item_vendor_subvendor_id
+                option[value="" selected]  
+            label
+              | Other Charges
+            input#custom_item_kena_gst[
+              type="checkbox"
+              name="kena_gst"
+              value="1"
+            ]
+            label[for="custom_item_kena_gst"] Kena GST 6%
+            input#custom_item_kena_delivery_fee[
+              type="checkbox"
+              name="kena_delivery_fee"
+              value="1"
+            ]
+            label[for="custom_item_kena_delivery_fee"] Kena Delivery Fee 10%
+
+    .small-12.large-4.columns
+      .step2
+        .row
+          fieldset
+            legend Summary
+            h2#custom_item_total RM 0.00
+            a.button.expand#custom_item_add_button[href="#"] Add
+
+  a.close-reveal-modal &#215;

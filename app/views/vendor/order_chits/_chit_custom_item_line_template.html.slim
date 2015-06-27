@@ -1,0 +1,83 @@
+script#chit_custom_item_line_template[type="text/x-handlebars-template"]
+  li: fieldset[
+    data-order-item-temp-id="{{ temp_id }}"
+  ]
+    .row
+      .small-12.large-4.columns
+        h3
+          | {{ title }}
+        | {{#if extras}}
+        p Extras:
+        | {{/if}}
+        ul
+          | {{#each extras}}
+          li
+            | {{ title }}
+          | {{/each}}
+      .small-12.large-4.columns
+        textarea[
+          name="order_chit[items_attributes][][remarks]"
+          placeholder="Remarks. Eg. tak mau telur."
+          rows="5"
+        ]
+      .small-12.large-4.columns
+        h3.chit_row_amount
+          | {{ ringgit amount_cents }}
+        ul
+          | {{#if kena_gst}}
+          li 6% GST included
+          li 10% Delivery Fee included
+          | {{/if}}
+        .row
+          .small-3.columns
+            label.right.inline Quantity
+          .small-9.columns
+            input.chit_row_qty_input[
+              name="order_chit[items_attributes][][quantity]"
+              type="number"
+              value="{{ quantity }}"
+              min="1"
+            ]
+    .row
+      .small-12.large-4.large-offset-8.columns
+        a.button.alert.expand.item_remove_button Remove
+  
+    / form
+    .hide
+      / this is for existing item in editing form
+      | {{#if edit_mode}}
+      input[
+        name="order_chit[items_attributes][][id]"
+        value="{{ item_id }}"
+      ]
+      input.destroy_checkbox[
+        name="order_chit[items_attributes][][_destroy]"
+        type="checkbox"
+        value="1"
+      ]
+      | {{/if}}
+      input[
+        name="order_chit[items_attributes][][orderable_id]"
+        value="{{ orderable_id }}"
+      ]
+      input[
+        name="order_chit[items_attributes][][custom_item_attributes][title]"
+        value="{{ custom_item.title }}"
+      ]
+      input[
+        name="order_chit[items_attributes][][custom_item_attributes][base_price_cents]"
+        value="{{ custom_item.base_price_cents }}"
+      ]
+      input[
+        name="order_chit[items_attributes][][custom_item_attributes][subvendor_price_cents]"
+        value="{{ custom_item.subvendor_price_cents }}"
+      ]
+      input[
+        name="order_chit[items_attributes][][custom_item_attributes][vendor_subvendor_id]"
+        value="{{ custom_item.vendor_subvendor_id }}"
+      ]
+      input[
+        name="order_chit[items_attributes][][custom_item_attributes][base_price_cents]"
+        value="{{ custom_item.base_price_cents }}"
+      ]
+    

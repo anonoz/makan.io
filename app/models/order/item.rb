@@ -55,6 +55,10 @@ class Order::Item < ActiveRecord::Base
     order_chit.present? ? order_chit.editable? : true
   end
 
+  def food_menu_id=(food_menu_id)
+    self.orderable = Food::Menu.find_by_id(food_menu_id)
+  end
+
   def custom_item_attributes= (params)
     self.orderable = Order::CustomItem.new(params)
   end

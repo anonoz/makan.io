@@ -30,23 +30,25 @@
           .small-12.columns
             a.button.expand#food_menu_confirm[href="#"]Confirm
 
-script#choose_multiple_form[type="text/x-handlebars-template"]
-    h5
-      | {{ title }}
+  a.close-reveal-modal &#215;
 
-      .row
-        .small-offset-1.small-11
-          | {{#each choices}}
-          .row
-            / = check_box_tag "choices_for_{{ ../id }}", "{{ id }}", false, :id => "food_option_choice_{{ id }}", class: "choose_multiple_input"
-            input.choose_multiple_input[
-              type="checkbox"
-              name="choices_for_{{ ../id }}"
-              value="{{ id }}"
-              id="food_option_choice_{{ id }}"
-            ]
-            label[for="food_option_choice_{{ id }}"] {{ title }} - {{ price }}
-          | {{/each}}
+script#choose_multiple_form[type="text/x-handlebars-template"]
+  h5
+    | {{ title }}
+
+    .row
+      .small-offset-1.small-11
+        | {{#each choices}}
+        .row
+          / = check_box_tag "choices_for_{{ ../id }}", "{{ id }}", false, :id => "food_option_choice_{{ id }}", class: "choose_multiple_input"
+          input.choose_multiple_input[
+            type="checkbox"
+            name="choices_for_{{ ../id }}"
+            value="{{ id }}"
+            id="food_option_choice_{{ id }}"
+          ]
+          label[for="food_option_choice_{{ id }}"] {{ title }} - {{ price }}
+        | {{/each}}
 
 script#choose_one_form[type="text/x-handlebars-template"]
     h5

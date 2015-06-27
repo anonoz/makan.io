@@ -2,6 +2,7 @@
 #= require handlebars-v3.0.1
 #= require typeahead.bundle
 
+currencify = (cents = 0)-> "RM #{ (cents/100).toFixed 2 }"
 Handlebars.registerHelper 'ringgit', (amount, options)-> currencify amount
 
 $(document).ready ->
@@ -12,6 +13,7 @@ $(document).ready ->
   # Unpack the data
   food_menus = JSON.parse $('#food_menus_data').text()
   food_options = JSON.parse $('#food_options_data').text()
+  subvendors = JSON.parse $('#subvendors_data').text()
   all_food_option_choices = _.flatten _.pluck food_options, "choices"
 
   customizer = $('#food_customizer')
@@ -28,8 +30,6 @@ $(document).ready ->
     identify: (menu)-> menu.id
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace("title")
     queryTokenizer: Bloodhound.tokenizers.whitespace
-
-  console.log food_menu_typeahead_engine
 
   $("#food_menu_typeahead").typeahead {
     hint: true
@@ -48,10 +48,9 @@ $(document).ready ->
         ].join "\n"
   }
 
-  $("#food_menu_typeahead").bind "typeahead:select", (e, suggestion)->
-    onFoodMenuChange suggestion
+  $("#food_menu_typeahead").bind "typeahead:select", (e, suggestion)-> onFoodMenuChange suggestion
 
-  # In modal
+  # In food menu modal
   onFoodMenuChange = (food_menu = null)->
     window.chosen_menu = food_menu
 
@@ -182,7 +181,7 @@ $(document).ready ->
       window.cart.push item
 
       # Populate table
-      items_list.append Handlebars.compile($('#chow_item_row').html()) item
+      items_list.append Handlebars.compile($('#chit_menu_item_line_template').html()) item
       $("#total_amount").change()
 
       # Handle input change
@@ -202,7 +201,7 @@ $(document).ready ->
       customizer.html ""
       $("#add_item_modal").foundation "reveal", "close"
 
-  # The element itself doesn't actuallt change, but it's the 
+  # The element itself doesn't actually change, but it's the 
   # total amount in model changing, liddis code more DRY,
   # albeit inappropriate lah.
   $("#total_amount").change ->
@@ -224,6 +223,7 @@ $(document).ready ->
       # Dirty hack for extras
       for extra in item.extras
         choice = extra.food_option_choice
+        extra.edit_mode = true
         extra.title = "#{ choice.title } - #{currencify choice.unit_amount_cents}"
         extra.amount_cents = extra.quantity * choice.unit_amount_cents
 
@@ -231,17 +231,17 @@ $(document).ready ->
         temp_id: ++temp_id
         item_id: item.id
         edit_mode: true
-        food_menu_id: item.food_menu.id
+        food_menu_id: item.orderable.id
         quantity: item.quantity
         extras: item.extras
-        title: item.food_menu.title
-        kena_gst: item.food_menu.kena_gst
-        kena_delivery_fee: item.food_menu.kena_delivery_fee
-        amount_cents: count_item_amount item.food_menu, item.extras, false
+        title: item.orderable.title
+        kena_gst: item.orderable.kena_gst
+        kena_delivery_fee: item.orderable.kena_delivery_fee
+        amount_cents: count_item_amount item.orderable, item.extras, false
 
     # Inflate DOM for each items & Bind quantity + remove
     for item in window.cart
-      items_list.append Handlebars.compile($('#chow_item_row').html()) item
+      items_list.append Handlebars.compile($('#chit_menu_item_line_template').html()) item
 
       # Update quantity
       item_fieldset = $("fieldset[data-order-item-temp-id=#{ item.temp_id }]")
@@ -261,6 +261,29 @@ $(document).ready ->
 
     # Update subtotal
     $("#total_amount").change()
+
+  # Add Custom Item Modal
+  # Populate subvendor choice
+  for subvendor in subvendors
+    option = $("<option></option>").attr('value', subvendor.id).text(subvendor.title)
+    $('#custom_item_vendor_subvendor_id').append(option)
+
+  # Bind base price + kena gst + kena deliver fee
+  custom_food_menu = ->
+    title: $('#custom_item_title').val()
+    base_price_cents: Number $('#custom_item_base_price_cents').val()
+    subvendor_price_cents: Number $('#custom_item_subvendors_price_cents').val()
+    vendor_subvendor_id: Number $('#custom_item_vendor_subvendor_id').val()
+    kena_gst: $('#custom_item_kena_gst').is(':checked')
+    kena_delivery_fee: $('#custom_item_kena_delivery_fee').is(':checked')
+
+  $("#custom_item_base_price_cents, #custom_item_kena_gst, #custom_item_kena_delivery_fee").change ->
+    count_item_amount(custom_food_menu(), [], $("#custom_item_total"))
+
+  # Bind Add button to add line item, reset modal's form
+  $('#custom_item_add_button').click ->
+    # Prepare the item object
+    
 
 # Method to calculate charge for a single item
 count_item_amount = (food_menu = {base_price_cents: 0}, extras = [], element = $("#amount_sum"))->
@@ -282,5 +305,3 @@ count_item_amount = (food_menu = {base_price_cents: 0}, extras = [], element = $
   element && element.text currencify final_price
 
   return final_price
-
-currencify = (cents = 0)-> "RM #{ (cents/100).toFixed 2 }"

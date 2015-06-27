@@ -18,7 +18,12 @@
       ul#items_list
 
       .small-12.large-4.columns
-        a.button.success.expand[href="#" data-reveal-id="add_item_modal"] Add Item
+        a.button.success.expand[href="#" data-reveal-id="add_item_modal"] Add From Menu
+
+      .small-12.large-4.columns
+        a.button.secondary.expand[href="#" data-reveal-id="add_custom_modal"] Add Custom
+
+      .small-12.large-4.columns
 
     h1.text-center
       span#total_amount RM 0.00
@@ -26,19 +31,18 @@
     - if params[:action] == "new"
       = f.submit "Order", class: "button expand"
     - else
-      = f.submit "Update and Accept", class: "button expand"
+      = f.submit "Update", class: "button expand"
 
 == render "add_item_modal"
-== render "chit_row_template"
+== render "add_custom_modal"
+== render "chit_menu_item_line_template"
+== render "chit_custom_item_line_template"
 
-script#food_menus_data[type="application/json"]
-  = @food_menus_json.html_safe
-
-script#food_options_data[type="application/json"]
-  = @food_options_json.html_safe
+script#food_menus_data[type="application/json"]== @food_menus_json
+script#food_options_data[type="application/json"]== @food_options_json
+script#subvendors_data[type="application/json"]== @subvendors_json
 
 - if @items_json.present?
-  script#items_data[type="application/json"]
-    = @items_json.html_safe
+  script#items_data[type="application/json"]== @items_json 
 
 = javascript_include_tag "vendors/order_chit"
