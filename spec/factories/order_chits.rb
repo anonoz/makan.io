@@ -6,6 +6,7 @@ FactoryGirl.define do
     remarks ""
 
     trait :offline_guest do
+      from_web false
       customer_user nil
       customer_address nil
       offline_customer_name "Ah Beng"

@@ -32,6 +32,7 @@ describe Order::Chit do
     order_chit = build(:order_chit,
                        customer_user: nil,
                        customer_address: nil,
+                       from_web: false,
                        offline_customer_name: "Ah Beng",
                        offline_customer_address: "PV10 A-8-8",
                        offline_customer_phone: "017-3009142")
