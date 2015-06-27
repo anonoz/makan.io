@@ -22,7 +22,7 @@ class Vendor::OrderChitsController < Vendor::MainController
   end
 
   def create
-    @order_chit = @vendor.order_chits.new(new_order_chit_params)
+    @order_chit = @vendor.order_chits.new(new_order_chit_params.merge({from_web: false}))
 
     if @order_chit.save
       redirect_to vendor_root_path, flash: {success: "Ordered"}

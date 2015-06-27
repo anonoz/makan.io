@@ -56,16 +56,14 @@ class Order::Chit < ActiveRecord::Base
   after_create :update_subtotal
 
   def delivery_destination_info
-    @delivery_info ||= if customer_user.present? && customer_address.present?
+    @delivery_info ||= if from_web?
       {
-        web: true,
         name: customer_user.name,
         address: customer_address.human_readable,
         phone: customer_user.phone
       }
     else
       {
-        web: false,
         name: offline_customer_name,
         address: offline_customer_address,
         phone: offline_customer_phone
