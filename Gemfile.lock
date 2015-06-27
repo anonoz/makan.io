@@ -438,7 +438,7 @@ DEPENDENCIES
   raygun4ruby
   responders (~> 2.0)
   rmagick (~> 2.13.2)
-  rspec-rails (~> 2.0)
+  rspec-rails
   sass-rails (~> 5.0.1)
   sdoc (= 0.3.20)
   selenium-webdriver

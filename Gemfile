@@ -64,7 +64,7 @@ gem 'aws-sdk', '~> 1.5.7'
 gem 'activesupport-json_encoder'
 
 group :development, :test do
-  gem 'rspec-rails', '~> 2.0'
+  gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'daemons'
   gem 'dotenv-rails'
