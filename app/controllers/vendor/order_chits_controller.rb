@@ -11,6 +11,8 @@ class Vendor::OrderChitsController < Vendor::MainController
   end
 
   def show
+    @order_items = @order_chit.items.includes(:extras, :orderable)
+
     respond_to do |format|
       format.html
       format.json { render json: @order_chit, serializer: Order::ChitSerializer }
@@ -85,7 +87,7 @@ class Vendor::OrderChitsController < Vendor::MainController
   end
 
   def set_order_chit
-    @order_chit = @vendor.order_chits.find_by_id params[:id]
+    @order_chit = @vendor.order_chits.find_by_id(params[:id])
   end
 
   def change_chit_status_to(new_status)

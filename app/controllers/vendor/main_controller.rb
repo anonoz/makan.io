@@ -20,7 +20,7 @@ class Vendor::MainController < ApplicationController
   end
 
   def load_kanban
-    @order_chits = @vendor.order_chits.includes(:customer_user, :customer_address).reverse_order
+    @order_chits = @vendor.order_chits.reverse_order
 
     @incoming_orders  = @order_chits.ordered
     @rejected_orders  = @order_chits.rejected

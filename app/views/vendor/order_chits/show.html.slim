@@ -52,7 +52,7 @@
 
   .small-12.large-8.columns
     .row
-      - @order_chit.items.each do |item|
+      - @order_items.each do |item|
         == render "item", item: item
     hr
     .row
