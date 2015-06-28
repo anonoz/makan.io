@@ -3,6 +3,7 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'paper_trail/frameworks/rspec'
+require 'capybara/poltergeist'
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
@@ -22,28 +23,29 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
 
   config.before(:suite) do
-    DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
-    # FactoryGirl.lint
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.strategy = :transaction
   end
 
   config.before(:each, js: true) do
-    page.driver.block_unknown_urls
-    DatabaseCleaner.start
+    DatabaseCleaner.strategy = :truncation
   end
 
-  config.around(:each) do |example|
-    DatabaseCleaner.cleaning do
-      example.run
-    end
+  config.before(:each) do
+    DatabaseCleaner.start
   end
 
   config.after(:each) do
     DatabaseCleaner.clean
   end
+
+  config.include LoginMacros
 end
 
 Capybara.configure do |config|
   config.current_driver = :webkit
-  config.javascript_driver = :webkit
+  config.javascript_driver = :poltergeist
 end
