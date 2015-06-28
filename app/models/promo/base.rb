@@ -20,11 +20,13 @@ class Promo::Base
   end
 
   def is_eligible?
-    true
+    check_if_xxx
+    @ineligibility_reasons.empty?
   end
 
   def is_actionable?
-    true
+    check_if_yyy
+    @unactionable_reasons.empty?
   end
 
   def apply
@@ -37,5 +39,15 @@ class Promo::Base
     end
 
     @promo_adjustments
+  end
+
+  private
+
+  def check_if_xxx
+    @ineligibility_reasons << "this is just a promo handler base"
+  end
+
+  def check_if_yyy
+    @unactionable_reasons << "this is just a promo handler base"
   end
 end
