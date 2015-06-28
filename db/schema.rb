@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150627140235) do
+ActiveRecord::Schema.define(version: 20150628023212) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,12 +26,12 @@ ActiveRecord::Schema.define(version: 20150627140235) do
   end
 
   create_table "customer_users", force: :cascade do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
+    t.string   "email",                  default: "",    null: false
+    t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 20150627140235) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
+    t.boolean  "student",                default: false
   end
 
   add_index "customer_users", ["confirmation_token"], name: "index_customer_users_on_confirmation_token", unique: true, using: :btree
@@ -155,12 +156,13 @@ ActiveRecord::Schema.define(version: 20150627140235) do
     t.string   "offline_customer_phone"
     t.string   "status"
     t.text     "remarks"
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
     t.datetime "deleted_at"
     t.integer  "vendor_vendor_id"
     t.integer  "subtotal_cents",           default: 0
     t.boolean  "from_web",                 default: true
+    t.boolean  "caller_is_student",        default: false
   end
 
   create_table "order_custom_items", force: :cascade do |t|
@@ -203,6 +205,20 @@ ActiveRecord::Schema.define(version: 20150627140235) do
     t.integer  "city",       default: 1
     t.integer  "zone"
   end
+
+  create_table "promo_usages", force: :cascade do |t|
+    t.integer  "order_chit_id"
+    t.integer  "promo_id"
+    t.string   "promo_type"
+    t.datetime "deleted_at"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.string   "title"
+    t.integer  "adjustment_cents"
+  end
+
+  add_index "promo_usages", ["deleted_at"], name: "index_promo_usages_on_deleted_at", using: :btree
+  add_index "promo_usages", ["order_chit_id"], name: "index_promo_usages_on_order_chit_id", using: :btree
 
   create_table "vendor_special_closing_hours", force: :cascade do |t|
     t.integer  "vendor_subvendor_id"

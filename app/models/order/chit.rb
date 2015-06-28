@@ -1,4 +1,6 @@
 class Order::Chit < ActiveRecord::Base
+  attr :promos
+
   extend Enumerize
   include AASM
   acts_as_paranoid
@@ -14,6 +16,8 @@ class Order::Chit < ActiveRecord::Base
   has_many :items, class_name: "Order::Item",
            foreign_key: "order_chit_id",
            after_remove: :update_subtotal
+  has_many :promo_usages, class_name: "Promo::Usage",
+           foreign_key: "order_chit_id"
 
   accepts_nested_attributes_for :items, allow_destroy: true
 
@@ -24,6 +28,10 @@ class Order::Chit < ActiveRecord::Base
     state :accepted
     state :delivered
     state :finished
+
+    event :order do
+      transitions from: :draft, to: :ordered
+    end
 
     ##
     # Rejected order can be edited, and thus accepted later on
@@ -71,14 +79,23 @@ class Order::Chit < ActiveRecord::Base
     end
   end
 
-  def calculate_subtotal
-    # If you don't put the reload there, it just loads the existing items from 
-    # the cache
+  def item_total
     items.reload.collect(&:amount).reduce(:+) || 0
   end
 
+  def promo_adjustments
+    Promo::Chain.new(self).execute
+  end
+
+  def calculate_subtotal
+    # If you don't put the reload there, it just loads the existing items from 
+    # the cache
+    # binding.remote_pry if promo_adjustments.any?
+    item_total + (promo_adjustments.collect(&:amount).reduce(:+) || 0)
+  end
+
   def update_subtotal(*args)
-    update subtotal: calculate_subtotal
+    update subtotal: calculate_subtotal, promo_usages: promo_adjustments.collect(&:to_usage)
   end
 
   def editable?

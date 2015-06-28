@@ -16,7 +16,7 @@ class Order::Item < ActiveRecord::Base
 
   validates :orderable, presence: true
 
-  delegate :title, :base_price,
+  delegate :title, :base_price, :total_delivery_fee, :kena_delivery_fee?,
            to: :set_orderable
 
   def amount
@@ -30,6 +30,10 @@ class Order::Item < ActiveRecord::Base
 
   def delivery_fee(original_cost = cost)
     set_orderable.kena_delivery_fee ? original_cost * 0.1 : 0
+  end
+
+  def total_delivery_fee(original_cost = cost)
+    quantity * delivery_fee(cost)
   end
 
   def gst(original_cost = cost)
