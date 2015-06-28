@@ -22,6 +22,18 @@ describe Order::Chit, "Promotable Spec" do
       }.to change(Promo::Usage, :count).by 1
     end
 
+    it "doesn't save more than 1 promo usage of same promo type" do
+      expect {
+        order_chit.items << nasi_lemak_order
+        order_chit.save
+      }.to change(Promo::Usage, :count).by 1
+
+      expect {
+        order_chit.items << nasi_lemak_order
+        order_chit.save
+      }.to change(Promo::Usage, :count).by 0
+    end
+
     it "updates the delivery waiver if one more item is added" do
       order_chit.items << nasi_lemak_order
       order_chit.save
@@ -30,7 +42,7 @@ describe Order::Chit, "Promotable Spec" do
       	order_chit.items << maggi_goreng_order
       	order_chit.save
       }.to change {
-      	order_chit.promo_usages.reload.first.adjustment
+      	order_chit.promo_usages.reload.last.reload.adjustment
       }.by -0.45
     end
 
@@ -64,8 +76,10 @@ describe Order::Chit, "Promotable Spec" do
 
     it "disables delivery waiver if item with delivery fee is destroyed" do
       nasi_lemak_order.update(order_chit_id: order_chit.id)
+      expect(order_chit.promo_usages.count).to eq 1
 
       expect {
+        # binding.remote_pry
         nasi_lemak_order.destroy
       }.to change {
         order_chit.promo_usages.reload.count

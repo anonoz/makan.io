@@ -43,7 +43,7 @@ class Promo::StudentDeliveryFeeWaiver
   ##
   # Calculate the adjustment and add it to order_chit
 
-  def apply
+  def apply(usage: Promo::Usage.new)
     unless is_eligible?
       raise Promo::IneligibilityError.new ineligibility_reasons.to_sentence
     end
@@ -58,7 +58,8 @@ class Promo::StudentDeliveryFeeWaiver
     @promo_adjustments << Promo::Adjustment.new(
       title: "Student Delivery Fee Waiver",
       amount: -delivery_fee_waiver,
-      promo_type: self.class.name
+      promo_type: self.class.name,
+      usage: usage
     )
 
   	@promo_adjustments

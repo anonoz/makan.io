@@ -26,7 +26,11 @@ class Promo::Chain
       promo_previous_use = @previous_usages.find_by(promo_type: promo_class)
 
       if promo_instance.is_eligible? && promo_instance.is_actionable?
-        @promo_adjustments += promo_instance.apply
+        if promo_previous_use.present? && promo_previous_use.persisted?
+          @promo_adjustments += promo_instance.apply(usage: promo_previous_use)
+        else
+          @promo_adjustments += promo_instance.apply
+        end
 
       elsif promo_previous_use.present?
         @promo_adjustments << promo_previous_use.to_adjustment(revoke: true)

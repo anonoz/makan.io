@@ -19,7 +19,7 @@ class Order::Chit < ActiveRecord::Base
   has_many :promo_usages, class_name: "Promo::Usage",
            foreign_key: "order_chit_id"
 
-  accepts_nested_attributes_for :items, allow_destroy: true
+  accepts_nested_attributes_for :items, :promo_usages, allow_destroy: true
 
   aasm column: :status, no_direct_assignment: true do
     state :draft
@@ -95,7 +95,8 @@ class Order::Chit < ActiveRecord::Base
   end
 
   def update_subtotal(*args)
-    update subtotal: calculate_subtotal, promo_usages: promo_adjustments.collect(&:to_usage)
+    update subtotal: calculate_subtotal,
+           promo_usages_attributes: promo_adjustments.collect(&:usage).collect(&:attributes)
   end
 
   def editable?

@@ -19,6 +19,15 @@ class Promo::Adjustment
     @usage = usage
     @promo_type = promo_type
     @revoke = revoke
+
+    @usage.attributes= {title: @title, adjustment: @amount,
+                        promo_type: @promo_type.to_s}
+                        
+    if @revoke
+      @usage.deleted_at = Time.now
+    end
+
+    self
   end
 
   ##
@@ -30,14 +39,15 @@ class Promo::Adjustment
   #
   # Then it's up to Order::Chit instance to push this into their promos[] collection
 
-  def to_usage
-    @usage.attributes= {title: @title, adjustment: @amount,
-    	                  promo_type: @promo_type.to_s}
+  # def to_usage
+  #   @usage.attributes= {title: @title, adjustment: @amount,
+  #                       promo_type: @promo_type.to_s}
 
-    if @revoke
-      @usage.deleted_at = Time.now
-    end
+  #   if @revoke
+  #     @usage.deleted_at = Time.now
+  #   end
     
-    @usage
-  end
+  #   @usage
+  # end
+  alias_method :to_usage, :usage
 end
