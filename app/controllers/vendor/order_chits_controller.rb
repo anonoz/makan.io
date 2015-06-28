@@ -108,6 +108,7 @@ class Vendor::OrderChitsController < Vendor::MainController
       :offline_customer_address,
       :offline_customer_phone,
       :remarks,
+      :caller_is_student,
       :items_attributes => [ # Order::Item
         :orderable_id,
         :food_menu_id,
@@ -139,6 +140,7 @@ class Vendor::OrderChitsController < Vendor::MainController
       :offline_customer_address,
       :offline_customer_phone,
       :remarks,
+      :caller_is_student,
       :items_attributes => [
         :id,
         :orderable_id,

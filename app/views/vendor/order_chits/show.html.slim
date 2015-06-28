@@ -54,3 +54,7 @@
     .row
       - @order_chit.items.each do |item|
         == render "item", item: item
+    hr
+    .row
+      - @order_chit.promo_usages.each do |promo_usage|
+        == render "promo_usage", promo_usage: promo_usage

@@ -32,7 +32,7 @@ class Promo::Adjustment
 
   def to_usage
     @usage.attributes= {title: @title, adjustment: @amount,
-    	                promo_type: @promo_type.to_s}
+    	                  promo_type: @promo_type.to_s}
 
     if @revoke
       @usage.deleted_at = Time.now

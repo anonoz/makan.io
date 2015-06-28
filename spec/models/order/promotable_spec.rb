@@ -53,7 +53,7 @@ describe Order::Chit, "Promotable Spec" do
     end
   end
 
-  xcontext "from Order::Item" do
+  context "from Order::Item" do
     it "enables student delivery waiver if item with delivery fee is saved" do
       expect {
         nasi_lemak_order.update(order_chit_id: order_chit.id)
@@ -64,7 +64,6 @@ describe Order::Chit, "Promotable Spec" do
 
     it "disables delivery waiver if item with delivery fee is destroyed" do
       nasi_lemak_order.update(order_chit_id: order_chit.id)
-      # binding.remote_pry
 
       expect {
         nasi_lemak_order.destroy
