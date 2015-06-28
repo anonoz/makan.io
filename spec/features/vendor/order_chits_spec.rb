@@ -1,7 +1,4 @@
 require 'spec_helper'
 
-feature "Vendor Order Chit Management" do
-  background do
-    
-  end
+describe "Vendor Order Chit Management", js: true do
 end

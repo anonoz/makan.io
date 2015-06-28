@@ -26,8 +26,11 @@ script#chit_custom_item_line_template[type="text/x-handlebars-template"]
         ul
           | {{#if kena_gst}}
           li 6% GST included
+          | {{/if}}
+          | {{#if kena_delivery_fee}}
           li 10% Delivery Fee included
           | {{/if}}
+          
         .row
           .small-3.columns
             label.right.inline Quantity
@@ -86,4 +89,16 @@ script#chit_custom_item_line_template[type="text/x-handlebars-template"]
         name="order_chit[items_attributes][][custom_item_attributes][base_price_cents]"
         value="{{ custom_item.base_price_cents }}"
       ]
+      | {{#if kena_delivery_fee}}
+      input[
+        name="order_chit[items_attributes][][custom_item_attributes][kena_delivery_fee]"
+        value="1"
+      ]
+      | {{/if}}
+      | {{#if kena_delivery_fee}}
+      input[
+        name="order_chit[items_attributes][][custom_item_attributes][kena_gst]"
+        value="1"
+      ]
+      | {{/if}}
     
