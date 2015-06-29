@@ -1,22 +1,7 @@
 ##
 # Example of a passively called promo
 
-class Promo::StudentDeliveryFeeWaiver
-  attr_reader :ineligibility_reasons, :unactionable_reasons, :promo_adjustments
-              :explicit_ineligibility_reason
-
-  def initialize(order_chit)
-    unless order_chit.kind_of? Order::Chit
-      raise ArgumentError.new "Promo Handler must be initialized with order chit"
-    end
-
-    @order_chit = order_chit
-    @ineligibility_reasons = []
-    @unactionable_reasons = []
-    @promo_adjustments = []
-
-    self
-  end
+class Promo::StudentDeliveryFeeWaiver < Promo::Base
 
   ##
   # Kami kena check pelajar tu ke pelajar kan?
@@ -28,7 +13,7 @@ class Promo::StudentDeliveryFeeWaiver
       check_order_by_student
     end
 
-    @ineligibility_reasons.empty?
+    super
   end
 
   ##
@@ -37,23 +22,16 @@ class Promo::StudentDeliveryFeeWaiver
   def is_actionable?
     check_order_chit_has_delivery_charges
 
-    @unactionable_reasons.empty?
+    super
   end
 
   ##
   # Calculate the adjustment and add it to order_chit
 
   def apply(usage: Promo::Usage.new)
-    unless is_eligible?
-      raise Promo::IneligibilityError.new ineligibility_reasons.to_sentence
-    end
-
-    unless is_actionable?
-      raise Promo::ActionabilityError.new unactionable_reasons.to_sentence
-    end
+    check_eligibility_and_actionability
 
   	delivery_fee_waiver = @order_chit.items.collect(&:total_delivery_fee).reduce(:+)
-  	# @promo_adjustments << {title: "Student Delivery Fee Waiver",amount: - delivery_fee_waiver}
 
     @promo_adjustments << Promo::Adjustment.new(
       title: "Student Delivery Fee Waiver",
@@ -61,8 +39,6 @@ class Promo::StudentDeliveryFeeWaiver
       promo_type: self.class.name,
       usage: usage
     )
-
-  	@promo_adjustments
   end
 
   private

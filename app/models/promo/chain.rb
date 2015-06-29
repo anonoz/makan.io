@@ -5,7 +5,6 @@ class Promo::Chain
   attr_reader :promo_adjustments
 
   PROMO_CLASSES = %W(
-  	Promo::Base
     Promo::StudentDeliveryFeeWaiver
   )
 
