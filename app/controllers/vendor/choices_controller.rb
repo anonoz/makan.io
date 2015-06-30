@@ -57,8 +57,8 @@ class Vendor::ChoicesController < Vendor::MainController
 
   def choice_params
     params.require(:food_option_choice).
-           permit(:title, :min, :max, :unit_amount, :default_quantity,
-           	      :default_chosen)
+           permit(:title, :min, :max, :unit_amount, :subvendor_price,
+                  :default_quantity, :default_chosen)
   end
 
 end

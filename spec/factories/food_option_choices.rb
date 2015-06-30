@@ -4,6 +4,7 @@ FactoryGirl.define do
     title "Food Option Choice Title"
     min 0
     max 0
+    subvendor_price 0.50
     unit_amount 1.00
     default_quantity 0
     default_chosen false

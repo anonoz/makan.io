@@ -2,6 +2,7 @@ class Food::OptionChoice < ActiveRecord::Base
   acts_as_paranoid
   has_paper_trail
   monetize :unit_amount_cents
+  monetize :subvendor_price_cents
   
   belongs_to :food_option, class_name: "Food::Option"
   

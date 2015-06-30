@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150628114927) do
+ActiveRecord::Schema.define(version: 20150630013924) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,9 @@ ActiveRecord::Schema.define(version: 20150628114927) do
     t.datetime "updated_at",       null: false
     t.datetime "deleted_at"
   end
+
+  add_index "customer_addresses", ["customer_user_id"], name: "index_customer_addresses_on_customer_user_id", using: :btree
+  add_index "customer_addresses", ["place_area_id"], name: "index_customer_addresses_on_place_area_id", using: :btree
 
   create_table "customer_users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false
@@ -62,6 +65,8 @@ ActiveRecord::Schema.define(version: 20150628114927) do
     t.datetime "deleted_at"
   end
 
+  add_index "food_allergens", ["vendor_vendor_id"], name: "index_food_allergens_on_vendor_vendor_id", using: :btree
+
   create_table "food_allergy_tags", force: :cascade do |t|
     t.integer  "food_menu_id"
     t.integer  "food_allergen_id"
@@ -70,6 +75,9 @@ ActiveRecord::Schema.define(version: 20150628114927) do
     t.datetime "deleted_at"
   end
 
+  add_index "food_allergy_tags", ["food_allergen_id"], name: "index_food_allergy_tags_on_food_allergen_id", using: :btree
+  add_index "food_allergy_tags", ["food_menu_id"], name: "index_food_allergy_tags_on_food_menu_id", using: :btree
+
   create_table "food_categories", force: :cascade do |t|
     t.string   "title"
     t.datetime "created_at",       null: false
@@ -77,6 +85,8 @@ ActiveRecord::Schema.define(version: 20150628114927) do
     t.integer  "vendor_vendor_id"
     t.datetime "deleted_at"
   end
+
+  add_index "food_categories", ["vendor_vendor_id"], name: "index_food_categories_on_vendor_vendor_id", using: :btree
 
   create_table "food_menu_options", force: :cascade do |t|
     t.integer  "food_menu_id"
@@ -109,20 +119,25 @@ ActiveRecord::Schema.define(version: 20150628114927) do
     t.integer  "subvendor_price_cents",      default: 0
   end
 
+  add_index "food_menus", ["food_category_id"], name: "index_food_menus_on_food_category_id", using: :btree
   add_index "food_menus", ["slug"], name: "index_food_menus_on_slug", unique: true, using: :btree
+  add_index "food_menus", ["vendor_subvendor_id"], name: "index_food_menus_on_vendor_subvendor_id", using: :btree
 
   create_table "food_option_choices", force: :cascade do |t|
     t.integer  "food_option_id"
     t.string   "title"
-    t.integer  "min",               default: 0
-    t.integer  "max",               default: 0
-    t.integer  "unit_amount_cents", default: 0
-    t.integer  "default_quantity",  default: 0
+    t.integer  "min",                   default: 0
+    t.integer  "max",                   default: 0
+    t.integer  "unit_amount_cents",     default: 0
+    t.integer  "default_quantity",      default: 0
     t.boolean  "default_chosen"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.datetime "deleted_at"
+    t.integer  "subvendor_price_cents", default: 0
   end
+
+  add_index "food_option_choices", ["food_option_id"], name: "index_food_option_choices_on_food_option_id", using: :btree
 
   create_table "food_options", force: :cascade do |t|
     t.string   "title"
@@ -134,6 +149,8 @@ ActiveRecord::Schema.define(version: 20150628114927) do
     t.datetime "deleted_at"
     t.integer  "vendor_vendor_id"
   end
+
+  add_index "food_options", ["vendor_vendor_id"], name: "index_food_options_on_vendor_vendor_id", using: :btree
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",                      null: false
@@ -165,6 +182,10 @@ ActiveRecord::Schema.define(version: 20150628114927) do
     t.boolean  "caller_is_student",        default: false
   end
 
+  add_index "order_chits", ["customer_address_id"], name: "index_order_chits_on_customer_address_id", using: :btree
+  add_index "order_chits", ["customer_user_id"], name: "index_order_chits_on_customer_user_id", using: :btree
+  add_index "order_chits", ["vendor_vendor_id"], name: "index_order_chits_on_vendor_vendor_id", using: :btree
+
   create_table "order_custom_items", force: :cascade do |t|
     t.string   "title"
     t.integer  "base_price_cents"
@@ -177,6 +198,8 @@ ActiveRecord::Schema.define(version: 20150628114927) do
     t.datetime "deleted_at"
   end
 
+  add_index "order_custom_items", ["vendor_subvendor_id"], name: "index_order_custom_items_on_vendor_subvendor_id", using: :btree
+
   create_table "order_item_extras", force: :cascade do |t|
     t.integer  "order_item_id"
     t.integer  "food_option_choice_id"
@@ -184,6 +207,9 @@ ActiveRecord::Schema.define(version: 20150628114927) do
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
   end
+
+  add_index "order_item_extras", ["food_option_choice_id"], name: "index_order_item_extras_on_food_option_choice_id", using: :btree
+  add_index "order_item_extras", ["order_item_id"], name: "index_order_item_extras_on_order_item_id", using: :btree
 
   create_table "order_items", force: :cascade do |t|
     t.integer  "order_chit_id"
@@ -196,6 +222,8 @@ ActiveRecord::Schema.define(version: 20150628114927) do
     t.string   "orderable_type", default: "Food::Menu"
   end
 
+  add_index "order_items", ["order_chit_id"], name: "index_order_items_on_order_chit_id", using: :btree
+  add_index "order_items", ["orderable_id", "orderable_type"], name: "index_order_items_on_orderable_id_and_orderable_type", using: :btree
   add_index "order_items", ["orderable_id"], name: "index_order_items_on_orderable_id", using: :btree
 
   create_table "place_areas", force: :cascade do |t|
@@ -220,6 +248,7 @@ ActiveRecord::Schema.define(version: 20150628114927) do
 
   add_index "promo_usages", ["deleted_at"], name: "index_promo_usages_on_deleted_at", using: :btree
   add_index "promo_usages", ["order_chit_id"], name: "index_promo_usages_on_order_chit_id", using: :btree
+  add_index "promo_usages", ["promo_id", "promo_type"], name: "index_promo_usages_on_promo_id_and_promo_type", using: :btree
 
   create_table "vendor_special_closing_hours", force: :cascade do |t|
     t.integer  "vendor_subvendor_id"
@@ -229,6 +258,8 @@ ActiveRecord::Schema.define(version: 20150628114927) do
     t.datetime "updated_at",          null: false
     t.datetime "deleted_at"
   end
+
+  add_index "vendor_special_closing_hours", ["vendor_subvendor_id"], name: "index_vendor_special_closing_hours_on_vendor_subvendor_id", using: :btree
 
   create_table "vendor_subvendors", force: :cascade do |t|
     t.integer  "vendor_vendor_id"
@@ -250,6 +281,7 @@ ActiveRecord::Schema.define(version: 20150628114927) do
   end
 
   add_index "vendor_subvendors", ["reset_password_token"], name: "index_vendor_subvendors_on_reset_password_token", unique: true, using: :btree
+  add_index "vendor_subvendors", ["vendor_vendor_id"], name: "index_vendor_subvendors_on_vendor_vendor_id", using: :btree
 
   create_table "vendor_users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -273,6 +305,7 @@ ActiveRecord::Schema.define(version: 20150628114927) do
 
   add_index "vendor_users", ["email"], name: "index_vendor_users_on_email", unique: true, using: :btree
   add_index "vendor_users", ["reset_password_token"], name: "index_vendor_users_on_reset_password_token", unique: true, using: :btree
+  add_index "vendor_users", ["vendor_vendor_id"], name: "index_vendor_users_on_vendor_vendor_id", using: :btree
 
   create_table "vendor_vendors", force: :cascade do |t|
     t.string   "title"
@@ -293,6 +326,8 @@ ActiveRecord::Schema.define(version: 20150628114927) do
     t.datetime "updated_at",                      null: false
     t.datetime "deleted_at"
   end
+
+  add_index "vendor_weekly_opening_hours", ["vendor_subvendor_id"], name: "index_vendor_weekly_opening_hours_on_vendor_subvendor_id", using: :btree
 
   create_table "versions", force: :cascade do |t|
     t.string   "item_type",  null: false

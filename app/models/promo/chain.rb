@@ -1,5 +1,5 @@
 ##
-# This serves as the bridge betwene
+# This serves as the bridge between order chit and the promotions applied to it
 
 class Promo::Chain
   attr_reader :promo_adjustments

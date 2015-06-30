@@ -1,19 +1,15 @@
 table.small-12
   thead
-    th.small-5 Title
+    th.small-6 Title
     th.small-2 Unit Amount
-    th.small-1 Default Quantity
-    th.small-1 Min
-    th.small-1 Max
+    th.small-2 Subvendor's Price
     th.small-2
   tbody
     - @choices.each do |choice|
       tr
         td = choice.title
         td = humanized_money_with_symbol choice.unit_amount
-        td = choice.default_quantity
-        td = choice.min
-        td = choice.max
+        td = humanized_money_with_symbol choice.subvendor_price
         td = link_to vendor_food_option_choice_path(@food_option, choice), method: :delete, data: {confirm: "Sure delete ah?"}
           .button.tiny.expand.alert Archive
     = form_for Food::OptionChoice.new, url: {action: :create} do |f|
@@ -25,7 +21,10 @@ table.small-12
               span.prefix = currency_symbol
             .small-9.columns
               = f.text_field :unit_amount, placeholder: "2.50", required: true
-        td = f.text_field :default_quantity, placeholder: "For Quantities only", required: true
-        td = f.text_field :min, placeholder: "Min", required: true
-        td = f.text_field :max, placeholder: "0 for no ceiling", required: true
+        td
+          .row.collapse.prefix-radius
+            .small-3.columns
+              span.prefix = currency_symbol
+            .small-9.columns
+              = f.text_field :subvendor_price, placeholder: "1.50", required: true
         td = f.submit "Save", class: "button tiny expand success"
