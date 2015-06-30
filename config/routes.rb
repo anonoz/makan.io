@@ -7,6 +7,9 @@ Rails.application.routes.draw do
   root 'prelaunch#index'
 
   devise_for :user, class_name: "Customer::User"
+  scope '/:city', constraints: {city: /setapak|sungailong/} do
+    get "/" => "dojo#main"
+  end
 
   devise_for :vendor, class_name: "Vendor::User"
   namespace "vendor" do
