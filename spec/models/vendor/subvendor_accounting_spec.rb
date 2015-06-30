@@ -83,9 +83,9 @@ describe Vendor::Subvendor, "Accounting" do
     chit2.items << maggi_goreng_order
     chit2.items << thosai_masala_order
     chit2.update(created_at: "2015-06-01 11:30")
-
+    
     expect(mamak.amount_payable(from: "2015-04-25")).to eq 3.80
-    expect(mamak.amount_payable(from: "2015-04-30", to: "2015-05-02")).to eq 1.4
+    expect(mamak.amount_payable(from: "2015-04-30", to: "2015-05-01")).to eq 1.4
     expect(mamak.amount_payable(from: "2015-06-01", to: "2015-06-05")).to eq 2.4
     expect(mamak.amount_payable(from: "2015-06-07")).to eq 0
 
