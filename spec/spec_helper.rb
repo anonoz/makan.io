@@ -45,6 +45,10 @@ RSpec.configure do |config|
   config.include LoginMacros
 end
 
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, {js_errors:true})
+end
+
 Capybara.configure do |config|
   config.current_driver = :poltergeist
   config.javascript_driver = :poltergeist
