@@ -7,6 +7,7 @@ describe 'Vendor Admin Subvendor Weekly Opening Hours', js: true do
     nasi_lemak = create(:food_menu, vendor_subvendor: ah_beng)
     
     vendor_sign_in vendor_user
+    find_link("Subvendors").hover
     click_link "Weekly Opening Hours"
     expect(page).to have_content ah_beng.title
 

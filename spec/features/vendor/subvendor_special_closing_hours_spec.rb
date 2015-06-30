@@ -8,6 +8,7 @@ describe "Vendor Admin Subvendor Special Closing Hours", js: true do
     create(:vendor_weekly_opening_hour, vendor_subvendor: ah_beng)
 
     vendor_sign_in vendor_user
+    find_link("Subvendors").hover
     click_link "Special Closing Hours"
 
     Timecop.travel 2015, 06, 29, 12, 00 # Monday noon

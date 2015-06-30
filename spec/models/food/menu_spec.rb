@@ -31,7 +31,8 @@ describe Food::Menu do
  
   it "is unavailable outside subvendor normal opening hours" do
     subvendor = create(:vendor_subvendor)
-    create(:vendor_weekly_opening_hour, vendor_subvendor: subvendor)
+    create(:vendor_weekly_opening_hour, vendor_subvendor: subvendor,
+           start_at: 1100, end_at: 1500)
  
     Timecop.freeze Time.local 2015, 3, 2, 10, 00
     expect(build(:food_menu, vendor_subvendor: subvendor).available?).to be_falsy

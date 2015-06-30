@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe Vendor::Subvendor do
+  let(:subvendor) { create(:vendor_subvendor) }
+
   it "is invalid without belonging to vendor_vendor" do
     vendorless_sub = build(:vendor_subvendor, vendor_vendor: nil)
     vendorless_sub.valid?
@@ -27,19 +29,16 @@ describe Vendor::Subvendor do
   end
 
   it "can be deleted if got no food menus under them" do
-    subvendor = create(:vendor_subvendor)
     subvendor.destroy
     expect(subvendor.deleted_at).to_not be_nil
   end
 
   it "cannot be deleted if still got food menus under them" do
-    subvendor = create(:vendor_subvendor)
     food_menu = create(:food_menu, vendor_subvendor: subvendor)
     expect(subvendor.destroy).to be false
   end
 
   it "is open in 12PM if it normally opens from 11AM-3PM" do
-    subvendor = create(:vendor_subvendor)
     create(:vendor_weekly_opening_hour, vendor_subvendor: subvendor)
 
     Timecop.freeze Time.local 2015, 3, 2, 12, 00
@@ -48,8 +47,8 @@ describe Vendor::Subvendor do
   end
 
   it "is closed in 10AM if it normally opens from 11AM-3PM" do
-    subvendor = create(:vendor_subvendor)
-    create(:vendor_weekly_opening_hour, vendor_subvendor: subvendor)
+    create(:vendor_weekly_opening_hour, vendor_subvendor: subvendor,
+           start_at: 1100, end_at: 1500)
 
     Timecop.freeze Time.local 2015, 3, 2, 10, 00
     expect(subvendor.open?).to be_falsy
@@ -57,7 +56,6 @@ describe Vendor::Subvendor do
   end
 
   it "is closed if it normally opens but closed for daughter wedding" do
-    subvendor = create(:vendor_subvendor)
     create(:vendor_special_closing_hour, vendor_subvendor: subvendor)
 
     Timecop.freeze Time.local 2015, 3, 31, 8
