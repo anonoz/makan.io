@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :vendor_weekly_opening_hour, :class => 'Vendor::WeeklyOpeningHour' do
     vendor_subvendor
     wday :monday
-    start_at 1100
+    start_at 800
     end_at 1500
 
     trait :all_day do

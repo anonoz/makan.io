@@ -46,6 +46,6 @@ RSpec.configure do |config|
 end
 
 Capybara.configure do |config|
-  config.current_driver = :poltergeist
-  config.javascript_driver = :poltergeist
+  config.current_driver = :selenium
+  config.javascript_driver = :selenium
 end
