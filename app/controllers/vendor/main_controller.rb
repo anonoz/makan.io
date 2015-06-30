@@ -20,12 +20,12 @@ class Vendor::MainController < ApplicationController
   end
 
   def load_kanban
-    @order_chits = @vendor.order_chits.reverse_order
+    @order_chits = @vendor.order_chits
 
-    @incoming_orders  = @order_chits.ordered
-    @rejected_orders  = @order_chits.rejected
-    @accepted_orders  = @order_chits.accepted
-    @delivered_orders = @order_chits.delivered
+    @incoming_orders  = Order::ChitDecorator.decorate_collection @order_chits.incoming_today
+    @rejected_orders  = Order::ChitDecorator.decorate_collection @order_chits.rejected_today
+    @accepted_orders  = Order::ChitDecorator.decorate_collection @order_chits.accepted_today
+    @delivered_orders = Order::ChitDecorator.decorate_collection @order_chits.delivered_today
   end
 
 end

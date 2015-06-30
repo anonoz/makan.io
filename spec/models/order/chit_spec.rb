@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe Order::Chit do
+  let(:order_chit) { create(:order_chit) }
 
   it "is invalid without a vendor id" do
     expect(build(:order_chit, vendor_vendor_id: nil)).to be_invalid
@@ -21,10 +22,13 @@ describe Order::Chit do
       expect(order_chit.status).to eq "rejected"
     end
 
-    it "disallows direct assignment on order chit status" do
-      expect {
-        build(:order_chit).update(status: :delivered)
-      }.to raise_error AASM::NoDirectAssignmentError
+    it "sets state_updated_at when state changes" do
+      Timecop.freeze 2015, 2, 1, 12, 00
+      
+      order_chit.reject!
+      expect(order_chit.state_updated_at).to eq Time.new(2015, 2, 1, 12, 00)
+
+      Timecop.return
     end
   end
   
@@ -92,6 +96,26 @@ describe Order::Chit do
     3.times { create(:order_item, order_chit_id: order_chit.id) }
 
     expect(order_chit.items.count).to eq 3
+  end
+
+  it "selects orders placed today for scope :today" do
+    yesterday_chit = create(:order_chit, created_at: Time.zone.parse("2015-06-28 11:00"))
+    today_chit = create(:order_chit, created_at: Time.zone.parse("2015-06-29 11:00"))
+    tomorrow_chit = create(:order_chit, created_at: Time.zone.parse("2015-06-30 11:00"))
+
+    Timecop.travel 2015, 6, 29, 12, 00
+
+    expect(Order::Chit.today).to eq [today_chit]
+
+    Timecop.return
+  end
+
+  it "selects incoming orders placed today for scope :incoming_today in reverse order" do
+    today_incoming_chit = create(:order_chit, status: :ordered)
+    today_incoming_chit_2 = create(:order_chit, status: :ordered)
+    today_rejected_chit = create(:order_chit, status: :rejected)
+
+    expect(Order::Chit.incoming_today).to eq [today_incoming_chit_2, today_incoming_chit]
   end
   
 end

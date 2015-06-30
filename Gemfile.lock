@@ -116,6 +116,11 @@ GEM
     dotenv-rails (2.0.2)
       dotenv (= 2.0.2)
       railties (~> 4.0)
+    draper (2.1.0)
+      actionpack (>= 3.0)
+      activemodel (>= 3.0)
+      activesupport (>= 3.0)
+      request_store (~> 1.0)
     enumerize (0.11.0)
       activesupport (>= 3.2)
     erubis (2.7.0)
@@ -294,6 +299,7 @@ GEM
     rdoc (3.12.2)
       json (~> 1.4)
     ref (1.0.5)
+    request_store (1.1.0)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
     rest-client (1.8.0)
@@ -424,6 +430,7 @@ DEPENDENCIES
   default_value_for (~> 3.0.0)
   devise
   dotenv-rails
+  draper
   enumerize
   factory_girl_rails
   faker

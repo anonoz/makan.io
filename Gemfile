@@ -51,6 +51,7 @@ gem 'foundation-rails'
 # View
 gem 'simple_form'
 gem "nested_form"
+gem 'draper'
 
 # Bootstrap
 gem "therubyracer"

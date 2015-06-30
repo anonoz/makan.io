@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150630013924) do
+ActiveRecord::Schema.define(version: 20150630124541) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -180,10 +180,12 @@ ActiveRecord::Schema.define(version: 20150630013924) do
     t.integer  "subtotal_cents",           default: 0
     t.boolean  "from_web",                 default: true
     t.boolean  "caller_is_student",        default: false
+    t.datetime "state_updated_at"
   end
 
   add_index "order_chits", ["customer_address_id"], name: "index_order_chits_on_customer_address_id", using: :btree
   add_index "order_chits", ["customer_user_id"], name: "index_order_chits_on_customer_user_id", using: :btree
+  add_index "order_chits", ["state_updated_at"], name: "index_order_chits_on_state_updated_at", using: :btree
   add_index "order_chits", ["vendor_vendor_id"], name: "index_order_chits_on_vendor_vendor_id", using: :btree
 
   create_table "order_custom_items", force: :cascade do |t|

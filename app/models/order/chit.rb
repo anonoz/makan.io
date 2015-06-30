@@ -1,12 +1,12 @@
 class Order::Chit < ActiveRecord::Base
-  attr :promos
-
   extend Enumerize
   include AASM
   acts_as_paranoid
   has_paper_trail
   monetize :subtotal_cents
   self.per_page = 30
+
+  default_value_for(:state_updated_at) { Time.now }
 
   belongs_to :vendor_vendor, class_name: "Vendor::Vendor"
   alias_method :vendor, :vendor_vendor
@@ -21,7 +21,13 @@ class Order::Chit < ActiveRecord::Base
 
   accepts_nested_attributes_for :items, :promo_usages, allow_destroy: true
 
-  aasm column: :status, no_direct_assignment: true do
+  scope :today, ->{ where(created_at: Date.today.beginning_of_day..Date.today.end_of_day).order(created_at: :desc) }
+  scope :incoming_today, ->{ today.ordered }
+  scope :rejected_today, ->{ today.rejected }
+  scope :accepted_today, ->{ today.accepted }
+  scope :delivered_today, ->{ today.delivered }
+
+  aasm column: :status do
     state :draft
     state :ordered, initial: true
     state :rejected
@@ -30,31 +36,31 @@ class Order::Chit < ActiveRecord::Base
     state :finished
 
     event :order do
-      transitions from: :draft, to: :ordered
+      transitions from: :draft, to: :ordered, after: :touch_state_updated_at
     end
 
     ##
     # Rejected order can be edited, and thus accepted later on
     event :reject do
-      transitions from: :ordered, to: :rejected
+      transitions from: :ordered, to: :rejected, after: :touch_state_updated_at
     end
 
     ##
     # Accepted order gets sent into pending mode
     event :accept do
-      transitions from: [:ordered, :rejected], to: :accepted
+      transitions from: [:ordered, :rejected], to: :accepted, after: :touch_state_updated_at
     end
 
     ##
     # Delivered order is not modifiable
     event :deliver do
-      transitions from: :accepted, to: :delivered
+      transitions from: :accepted, to: :delivered, after: :touch_state_updated_at
     end
 
     ##
     # Serves as archive
     event :finish do
-      transitions from: :delivered, to: :finished
+      transitions from: :delivered, to: :finished, after: :touch_state_updated_at
     end
   end
 
@@ -107,6 +113,10 @@ class Order::Chit < ActiveRecord::Base
 
   def check_if_delivered
     status_changed? || !delivered? && !finished?
+  end
+
+  def touch_state_updated_at(*args)
+    update(state_updated_at: Time.now)
   end
 
 end
