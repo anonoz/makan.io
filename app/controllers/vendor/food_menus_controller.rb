@@ -43,7 +43,7 @@ class Vendor::FoodMenusController < Vendor::MainController
   end
 
   def edit
-    @menu = @vendor.food_menus.find_by_id params[:id]
+    # @menu = @vendor.food_menus.find params[:id]
 
     if session[:food_menu]
       @menu.attributes = session[:food_menu]
@@ -71,7 +71,7 @@ class Vendor::FoodMenusController < Vendor::MainController
   private
 
   def set_menu
-    @menu = @vendor.food_menus.find_by_id params[:id]
+    @menu = @vendor.food_menus.find params[:id]
   end
 
   def set_food_options_and_allergens
@@ -83,7 +83,7 @@ class Vendor::FoodMenusController < Vendor::MainController
     params.require(:food_menu).
            permit(:title, :base_price, :food_category_id, :vendor_subvendor_id,
                   :halal, :kena_gst, :kena_delivery_fee, :feature_photo,
-                  :availability,
+                  :availability, :subvendor_price,
                   :food_option_ids => [], :food_allergen_ids => [])
   end
   

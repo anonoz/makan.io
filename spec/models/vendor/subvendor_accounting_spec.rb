@@ -94,6 +94,20 @@ describe Vendor::Subvendor, "Accounting" do
     expect(bifc.amount_payable(to: "2015-06-14")).to eq 5.7
   end
 
+  it "calculates pay to mamak for orders done in certain day correctly" do
+    Timecop.travel 2015, 6, 1, 11, 30
+
+    nasi_lemak_order.update(quantity: 3)
+    chit.items << nasi_lemak_order
+
+    expect(mamak.order_items_on(Date.today)).to eq [nasi_lemak_order]
+    expect(mamak.order_items_on("2015-06-01")).to eq [nasi_lemak_order]
+
+    expect(mamak.amount_payable_on "2015-06-01").to eq 4.2
+
+    Timecop.return
+  end
+
   context "Chit status related" do
     it "does not factor in items that are rejected" do
       rejected_chit.items << nasi_lemak_order

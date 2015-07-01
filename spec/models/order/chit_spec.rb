@@ -62,19 +62,16 @@ describe Order::Chit do
 
   context "Editability" do
     it "allows updates if order is not yet delivered" do
-      order_chit = create(:order_chit)
       expect(order_chit.update(offline_customer_name: "Test")).to be_truthy
     end
 
     it "disallows update if order is delivered" do
-      order_chit = create(:order_chit)
       order_chit.accept!
       order_chit.deliver!
       expect(order_chit.update(offline_customer_name: "Test")).to be_falsy
     end
     
     it "disallows update if order is finished" do
-      order_chit = create(:order_chit)
       order_chit.accept!
       order_chit.deliver!
       order_chit.finish!
@@ -92,7 +89,6 @@ describe Order::Chit do
   end
 
   it "has order items added via item creation and update items' order chit id" do
-    order_chit = create(:order_chit)
     3.times { create(:order_item, order_chit_id: order_chit.id) }
 
     expect(order_chit.items.count).to eq 3

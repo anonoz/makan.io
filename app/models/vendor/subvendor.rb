@@ -43,12 +43,27 @@ class Vendor::Subvendor < ActiveRecord::Base
       where(order_chit_id: order_chit_ids, orderable: food_menus)
   end
 
-  def items_ordered
-    order_items.sum(:quantity) || 0
+  def order_items_on(date)
+    date = Date.parse(date) if String === date
+    order_items(from: date.beginning_of_day, to: date.end_of_day)
+  end
+
+  def items_ordered(date_range = {})
+    order_items(date_range).sum(:quantity) || 0
+  end
+
+  def items_ordered_on(date)
+    date = Date.parse(date) if String === date
+    items_ordered(from: date.beginning_of_day, to: date.end_of_day)
   end
 
   def amount_payable(date_range = {})
     order_items(date_range).collect(&:subvendor_payable).reduce(:+) || 0
+  end
+
+  def amount_payable_on(date)
+    date = Date.parse(date) if String === date
+    amount_payable(from: date.beginning_of_day, to: date.end_of_day)
   end
 
   private

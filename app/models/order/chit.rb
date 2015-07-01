@@ -22,10 +22,11 @@ class Order::Chit < ActiveRecord::Base
   accepts_nested_attributes_for :items, :promo_usages, allow_destroy: true
 
   scope :today, ->{ where(created_at: Date.today.beginning_of_day..Date.today.end_of_day).order(created_at: :desc) }
-  scope :incoming_today, ->{ today.ordered }
-  scope :rejected_today, ->{ today.rejected }
-  scope :accepted_today, ->{ today.accepted }
-  scope :delivered_today, ->{ today.delivered }
+  scope :kanban_sort, ->{ order(state_updated_at: :desc) }
+  scope :incoming_today, ->{ today.ordered.kanban_sort }
+  scope :rejected_today, ->{ today.rejected.kanban_sort }
+  scope :accepted_today, ->{ today.accepted.kanban_sort }
+  scope :delivered_today, ->{ today.delivered.kanban_sort }
 
   aasm column: :status do
     state :draft

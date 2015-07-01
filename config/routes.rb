@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   root 'prelaunch#index'
 
-  devise_for :user, class_name: "Customer::User"
+  devise_for :customer, class_name: "Customer::User", path: 'me'
   scope '/:city', constraints: {city: /setapak|sungailong/} do
     get "/" => "dojo#main"
   end
@@ -15,12 +15,7 @@ Rails.application.routes.draw do
   namespace "vendor" do
     get "/" => "main#index", as: :root
     resources :order_chits do
-      member do
-        post :reject
-        post :accept
-        post :deliver
-        post :finish
-      end
+      member { post :reject, :accept, :deliver, :finish }
     end
     resources :subvendors
     resources :subvendors_opening_hours
@@ -33,10 +28,6 @@ Rails.application.routes.draw do
     resources :food_allergens
     resources :vendor_users
     resources :areas
-
-    resource :cart do
-      resources :items
-    end
   end
 
   devise_for :subvendors, class_name: "Vendor::Subvendor"

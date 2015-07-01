@@ -48,4 +48,12 @@ class Food::Menu < ActiveRecord::Base
       return "subvendor #{ subvendor.closure_reason }"
     end
   end
+
+  private
+
+  def slug_candidates
+    [
+      :title
+    ]
+  end
 end

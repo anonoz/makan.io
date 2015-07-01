@@ -1,8 +1,19 @@
 .row
   h2.small-12.medium-10.columns = @subvendor.title
-  .small-12.medium-2.columns = link_to "Update", edit_vendor_subvendor_path(@subvendor), class: "button"
+  .small-12.medium-2.columns = link_to "Edit", edit_vendor_subvendor_path(@subvendor), class: "button"
 
 .row
   / for performance query
-  h3 Last 30 Days
-  
+  .small-12.large-6.columns
+    h3 Last 7 Days
+    table
+      thead
+        th.small-6 Date
+        th.small-3 Items Sold
+        th.small-3 Amount Payable
+      tbody
+        - (7.days.ago.to_date..Date.today).reverse_each.each do |day|
+          tr
+            td = day
+            td = @subvendor.items_ordered_on(day)
+            td = humanized_money_with_symbol @subvendor.amount_payable_on(day)

@@ -22,10 +22,16 @@ class Vendor::MainController < ApplicationController
   def load_kanban
     @order_chits = @vendor.order_chits
 
-    @incoming_orders  = Order::ChitDecorator.decorate_collection @order_chits.incoming_today
-    @rejected_orders  = Order::ChitDecorator.decorate_collection @order_chits.rejected_today
-    @accepted_orders  = Order::ChitDecorator.decorate_collection @order_chits.accepted_today
-    @delivered_orders = Order::ChitDecorator.decorate_collection @order_chits.delivered_today
+    @incoming_orders  = decorate_chits @order_chits.incoming_today
+    @rejected_orders  = decorate_chits @order_chits.rejected_today
+    @accepted_orders  = decorate_chits @order_chits.accepted_today
+    @delivered_orders = decorate_chits @order_chits.delivered_today
+  end
+
+  private
+
+  def decorate_chits(order_chit_collection = [])
+    Order::ChitDecorator.decorate_collection order_chit_collection
   end
 
 end
