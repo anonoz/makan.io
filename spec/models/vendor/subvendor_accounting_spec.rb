@@ -95,7 +95,7 @@ describe Vendor::Subvendor, "Accounting" do
   end
 
   it "calculates pay to mamak for orders done in certain day correctly" do
-    Timecop.travel 2015, 6, 1, 11, 30
+    Timecop.travel Time.local 2015, 6, 1, 11, 30
 
     nasi_lemak_order.update(quantity: 3)
     chit.items << nasi_lemak_order

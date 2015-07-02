@@ -23,7 +23,7 @@ describe Order::Chit do
     end
 
     it "sets state_updated_at when state changes" do
-      Timecop.freeze 2015, 2, 1, 12, 00
+      Timecop.freeze Time.local 2015, 2, 1, 12, 00
       
       order_chit.reject!
       expect(order_chit.state_updated_at).to eq Time.new(2015, 2, 1, 12, 00)
@@ -99,7 +99,7 @@ describe Order::Chit do
     today_chit = create(:order_chit, created_at: Time.zone.parse("2015-06-29 11:00"))
     tomorrow_chit = create(:order_chit, created_at: Time.zone.parse("2015-06-30 11:00"))
 
-    Timecop.travel 2015, 6, 29, 12, 00
+    Timecop.travel Time.local 2015, 6, 29, 12, 00
 
     expect(Order::Chit.today).to eq [today_chit]
 

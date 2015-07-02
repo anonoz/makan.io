@@ -11,7 +11,7 @@ describe 'Vendor Admin Subvendor Weekly Opening Hours', js: true do
     click_link "Weekly Opening Hours"
     expect(page).to have_content ah_beng.title
 
-    Timecop.travel 2015, 06, 29, 12, 00 # Monday noon
+    Timecop.travel Time.local 2015, 06, 29, 12, 00 # Monday noon
 
     expect {
 

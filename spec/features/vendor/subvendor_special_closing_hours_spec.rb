@@ -11,7 +11,7 @@ describe "Vendor Admin Subvendor Special Closing Hours", js: true do
     find_link("Subvendors").hover
     click_link "Special Closing Hours"
 
-    Timecop.travel 2015, 06, 29, 12, 00 # Monday noon
+    Timecop.travel Time.local 2015, 06, 29, 12, 00 # Monday noon
 
     expect {
       
