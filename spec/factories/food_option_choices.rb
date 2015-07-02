@@ -10,14 +10,15 @@ FactoryGirl.define do
     default_chosen false
 
     trait :for_checkboxes do
-      association :food_option_choice, :checkboxes
+      association :food_option, :choose_multiple
       title "Chicken Rendang"
       unit_amount 3.50
+      subvendor_price 2.00
       default_chosen false
     end
 
     trait :for_numbers do
-      association :food_option_choice, :numbers
+      association :food_option, :quantities
       title "Boiled Egg"
       min 0
       max 5
@@ -25,7 +26,7 @@ FactoryGirl.define do
     end
 
     trait :for_radio_buttons do
-      association :food_option_choice, :radio_button
+      association :food_option, :choose_one
       title "Normal"
       unit_amount 0
       default_chosen true

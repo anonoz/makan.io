@@ -18,6 +18,11 @@ class Order::ItemExtra < ActiveRecord::Base
     quantity * @choice.unit_amount
   end
 
+  def subvendor_payable
+    set_food_option_choice_correct_version
+    quantity * @choice.subvendor_price || 0
+  end
+
   def update_subtotal(*args)
     if order_item_id_changed?
       order_item_id_was && Order::Item.find(order_item_id_was).update_subtotal
@@ -33,6 +38,6 @@ class Order::ItemExtra < ActiveRecord::Base
   private
 
   def set_food_option_choice_correct_version
-    @choice = food_option_choice.version_at(created_at)
+    @choice ||= food_option_choice.version_at(created_at)
   end
 end

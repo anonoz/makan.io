@@ -40,6 +40,10 @@ describe Vendor::Subvendor, "Accounting" do
   let(:roti_kosong_order) { build(:order_item, orderable: roti_kosong) }
   let(:thosai_masala_order) { build(:order_item, orderable: thosai_masala) }
 
+  let(:nasi_lemak_meats) { create(:food_option, vendor_vendor: running_man) }
+  let(:ayam_rendang) { create(:food_option_choice_for_checkboxes, food_option: nasi_lemak_meats) }
+  let(:ayam_rendang_order) { create(:order_item_extra, food_option_choice: ayam_rendang) }
+
   it "lists ordered_items from single chit correctly" do
     chit.items << nasi_lemak_order
     chit.items << maggi_goreng_order
@@ -106,6 +110,23 @@ describe Vendor::Subvendor, "Accounting" do
     expect(mamak.amount_payable_on "2015-06-01").to eq 4.2
 
     Timecop.return
+  end
+
+  context "Order Extras" do
+    it "calculates amount payable to mamak for nasi lemak and extra ayam rendang" do
+      nasi_lemak_order.update extras: [ayam_rendang_order]
+      chit.items << nasi_lemak_order
+
+      expect(mamak.amount_payable_on Date.today).to eq 3.4
+    end
+
+    it "calculates amount payable with extras of quantity > 1 correctly" do
+      ayam_rendang_order.update(quantity: 3)
+      nasi_lemak_order.update(extras: [ayam_rendang_order])
+      chit.items << nasi_lemak_order
+
+      expect(mamak.amount_payable_on Date.today).to eq 7.4
+    end
   end
 
   context "Chit status related" do

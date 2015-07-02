@@ -40,8 +40,12 @@ class Order::Item < ActiveRecord::Base
     set_orderable.kena_gst ? original_cost * 0.06 : 0
   end
 
+  def extras_subvendor_payable
+    extras.collect(&:subvendor_payable).reduce(:+) || 0
+  end
+
   def subvendor_payable
-    quantity * set_orderable.subvendor_price
+    quantity * set_orderable.subvendor_price + extras_subvendor_payable
   end
 
   def update_subtotal(*args)
