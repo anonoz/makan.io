@@ -29,6 +29,8 @@ gem 'active_model_serializers'
 gem 'will_paginate'
 gem 'aasm'
 gem 'friendly_id', '~> 5.1.0'
+gem 'geocoder'
+gem 'geokit'
 
 # Authentication
 gem 'devise'
