@@ -71,7 +71,12 @@ class Vendor::FoodMenusController < Vendor::MainController
   private
 
   def set_menu
-    @menu = @vendor.food_menus.find params[:id]
+    begin
+      @menu = @vendor.food_menus.find params[:id]
+    rescue ActiveRecord::RecordNotFound => e
+      render template: "vendor/not_found"
+      Raygun.track_exception(e)
+    end
   end
 
   def set_food_options_and_allergens

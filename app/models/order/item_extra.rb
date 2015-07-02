@@ -7,8 +7,6 @@ class Order::ItemExtra < ActiveRecord::Base
     greater_than_or_equal_to: 0
   }
 
-  # after_create :update_subtotal
-  # after_update :update_subtotal
   after_save :update_subtotal
   after_destroy :update_subtotal
   before_update :editable?
