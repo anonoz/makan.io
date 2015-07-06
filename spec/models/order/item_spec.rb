@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe Order::Item do
+  let(:order_chit) { create(:order_chit) }
+
   it "is invalid without belong to food menu" do
     foodless_item = build(:order_item, orderable: nil)
     foodless_item.valid?
@@ -21,23 +23,21 @@ describe Order::Item do
   end
 
   it "allows update if chit is not delivered/finished" do
-    chit = create(:order_chit)
-    item = create(:order_item, order_chit: chit)
+    item = create(:order_item, order_chit: order_chit)
     expect(item.update(quantity: 2)).to be_truthy
     
-    chit.reject!
+    order_chit.reject!
     expect(item.update(quantity: 3)).to be_truthy
   end
 
   it "disallows update if chit is delivered/finished" do
-    chit = create(:order_chit)
-    item = create(:order_item, order_chit: chit)
+    item = create(:order_item, order_chit: order_chit)
 
-    chit.accept!
-    chit.deliver!
+    order_chit.accept!
+    order_chit.deliver!
     expect(item.update(quantity: 2)).to be_falsy
 
-    chit.finish!
+    order_chit.finish!
     expect(item.update(quantity: 3)).to be_falsy
   end
 
@@ -134,7 +134,6 @@ describe Order::Item do
       food_menu = create(:food_menu, base_price: 6.50)
 
       Timecop.travel Time.parse "November 25"
-      order_chit = create(:order_chit)
       order_item = create(:order_item, orderable: food_menu, order_chit: order_chit)
 
       Timecop.travel Time.parse "December 25"
@@ -148,7 +147,6 @@ describe Order::Item do
     it "won't change the amount on older chit if GST kicks in later", versioning: true do
       Timecop.travel Time.parse "April 1"
       food_menu = create(:food_menu, base_price: 1)
-      order_chit = create(:order_chit)
       order_item = create(:order_item, orderable: food_menu, order_chit: order_chit)
 
       Timecop.travel Time.parse "May 1"
@@ -160,7 +158,6 @@ describe Order::Item do
     it "won't change the amount on older chit if delivery fee kicks in later", versioning: true do
       Timecop.travel Time.parse "April 1"
       food_menu = create(:food_menu, base_price: 1)
-      order_chit = create(:order_chit)
       order_item = create(:order_item, orderable: food_menu, order_chit: order_chit)
 
       Timecop.travel Time.parse "May 1"
@@ -174,7 +171,6 @@ describe Order::Item do
       food_menu = create(:food_menu, base_price: 6.50, kena_gst: false, kena_delivery_fee: false)
 
       Timecop.travel Time.parse "February 1"
-      order_chit = create(:order_chit)
       order_item = create(:order_item, orderable: food_menu, order_chit: order_chit)
 
       Timecop.travel Time.parse "March 1"
@@ -197,7 +193,6 @@ describe Order::Item do
       food_menu = create(:food_menu, base_price: 10, kena_gst: true, kena_delivery_fee: true)
 
       Timecop.travel Time.parse "February 1"
-      order_chit = create(:order_chit)
       order_item = create(:order_item, orderable: food_menu, order_chit: order_chit)
 
       Timecop.travel Time.parse "March 1"
@@ -214,6 +209,27 @@ describe Order::Item do
 
       Timecop.return
     end
+  end
+
+  it "really deletes the associated extras from database if wipe_from_database! is called" do
+    order_item = create(:order_item)
+    order_item.extras << create(:order_item_extra)
+
+    expect {
+      order_item.wipe_from_database!
+    }.to change {
+      Order::ItemExtra.count
+    }.from(1).to(0)
+  end
+
+  it "really deletes itself when wipe_from_database! is called" do
+    order_item = create(:order_item)
+
+    expect {
+      order_item.wipe_from_database!
+    }.to change {
+      Order::Item.with_deleted.count
+    }.by -1
   end
 
 end

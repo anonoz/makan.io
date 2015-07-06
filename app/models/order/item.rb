@@ -10,7 +10,8 @@ class Order::Item < ActiveRecord::Base
 
   has_many :extras, class_name: "Order::ItemExtra",
            foreign_key: "order_item_id",
-           after_remove: :update_subtotal
+           after_remove: :update_subtotal,
+           dependent: :destroy
 
   accepts_nested_attributes_for :extras
 
@@ -74,6 +75,11 @@ class Order::Item < ActiveRecord::Base
     else
       self.orderable = Order::CustomItem.new(params)
     end
+  end
+
+  def wipe_from_database!
+    extras.delete_all
+    really_destroy!
   end
 
   private

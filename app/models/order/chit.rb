@@ -15,7 +15,8 @@ class Order::Chit < ActiveRecord::Base
 
   has_many :items, class_name: "Order::Item",
            foreign_key: "order_chit_id",
-           after_remove: :update_subtotal
+           after_remove: :update_subtotal,
+           dependent: :destroy
   has_many :promo_usages, class_name: "Promo::Usage",
            foreign_key: "order_chit_id"
 
@@ -108,6 +109,11 @@ class Order::Chit < ActiveRecord::Base
 
   def editable?
     check_if_delivered
+  end
+
+  def wipe_from_database!
+    items.find_each(&:wipe_from_database!)
+    really_destroy!
   end
 
   private

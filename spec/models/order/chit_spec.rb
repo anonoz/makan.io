@@ -113,5 +113,16 @@ describe Order::Chit do
 
     expect(Order::Chit.incoming_today).to eq [today_incoming_chit_2, today_incoming_chit]
   end
+
+  it "really deletes itself and associated item from database when wipe_from_database! is called" do
+    order_chit = create(:order_chit)
+    order_item = create(:order_item, order_chit: order_chit)
+
+    expect {
+      order_chit.wipe_from_database!
+    }.to change {
+      [Order::Chit.with_deleted.count, Order::Item.with_deleted.count]
+    }.from([1, 1]).to([0, 0])
+  end
   
 end
