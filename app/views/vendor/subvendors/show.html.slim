@@ -12,6 +12,7 @@
         th.small-3 Items Sold
         th.small-3 Amount Payable
       tbody
+        / TODO: Move these to controller, eliminate N+1 problem too.
         - (7.days.ago.to_date..Date.today).reverse_each.each do |day|
           tr
             td = day

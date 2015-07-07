@@ -3,13 +3,13 @@ class Vendor::SubvendorsController < Vendor::MainController
 
   def index
     @cities = Place::Area.city.values
-    @subvendors = @vendor.subvendors.includes(:food_menus)
+    @subvendors = @vendor.subvendors.includes(:food_menus).order(created_at: :desc)
     @new_subvendor = Vendor::Subvendor.new
   end
 
   def show
     # Earning performance
-    
+    # @subvendor.includes(:items => [:extras])
   end
 
   def new
@@ -54,7 +54,11 @@ class Vendor::SubvendorsController < Vendor::MainController
   private
 
   def set_subvendor
-    @subvendor = @vendor.subvendors.find_by_id(params[:id])
+    begin
+      @subvendor = @vendor.subvendors.find(params[:id])
+    rescue ActiveRecord::RecordNotFound => e
+      render template: "vendor/not_found"
+    end
   end
 
   def subvendor_params

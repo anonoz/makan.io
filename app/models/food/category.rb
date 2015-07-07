@@ -9,6 +9,10 @@ class Food::Category < ActiveRecord::Base
   
   validates :title, presence: true
 
+  def to_s
+    title
+  end
+
   def check_if_no_food_menus
     unless food_menus.empty?
       errors.add :base, "still has food menus"

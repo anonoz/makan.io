@@ -1,6 +1,6 @@
 .chit-item.row
   .small-12.medium-7.columns
-    h4 = item.title
+    h4 = "#{item.title} x #{item.quantity}"
     ul
       - item.extras.each do |extra|
         li = "#{extra.food_option_choice.title} x #{extra.quantity}"

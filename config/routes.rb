@@ -4,13 +4,27 @@ Rails.application.routes.draw do
     match "/(*path)" => redirect {|params, req| "https://www.makan.io/#{params[:path]}"},  via: [:get, :post]
   end
 
-  root 'prelaunch#index'
-
-  devise_for :customer, class_name: "Customer::User", path: 'me'
-  scope '/:city', constraints: {city: /setapak|sungailong/} do
-    get "/" => "dojo#main"
+  # Temporary
+  if Rails.env.production?
+    root 'prelaunch#index'
+  else
+    root 'homepage#index'
   end
 
+  # Marketplace
+  devise_for :customer, class_name: "Customer::User", path: 'me'
+
+  scope module: :marketplace do
+    scope '/:city', constraints: {city: /setapak|sungailong/}, as: :city do
+      resources :menus, only: [:index, :show], path: ""
+    end
+  end
+
+  resource :cart do
+    resources :items
+  end
+
+  # Admin Panel
   devise_for :vendor, class_name: "Vendor::User"
   namespace "vendor" do
     get "/" => "main#index", as: :root
@@ -30,7 +44,7 @@ Rails.application.routes.draw do
     resources :areas
   end
 
-  devise_for :subvendors, class_name: "Vendor::Subvendor"
+  devise_for :subvendor, class_name: "Vendor::Subvendor"
   namespace "subvendor" do
     get "/" => "main#index", as: :root
   end

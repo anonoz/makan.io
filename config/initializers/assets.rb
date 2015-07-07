@@ -16,5 +16,8 @@ Rails.application.config.assets.precompile += [
   "vendors/order_chit.js",
   "vendor.js",
   "vendor/modernizr.js",
-  "angular.min.js"
+  "angular.min.js",
+
+  "runningman.js",
+  "runningman.css"
 ]

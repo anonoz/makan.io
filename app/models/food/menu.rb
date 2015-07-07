@@ -34,6 +34,10 @@ class Food::Menu < ActiveRecord::Base
                     
   validates_attachment_content_type :feature_photo,
                                     content_type: /\Aimage\/.*\Z/
+  
+  def to_s
+    title
+  end
 
   def available?
     subvendor.open? && availability
