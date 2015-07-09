@@ -24,6 +24,7 @@ class Food::Menu < ActiveRecord::Base
   validates :vendor_subvendor, presence: true
   validates :title, presence: true
   validates :base_price_cents, presence: true, numericality: true
+  validates :code, uniqueness: true, allow_blank: true
 
   has_attached_file :feature_photo,
                     styles: {
@@ -57,7 +58,7 @@ class Food::Menu < ActiveRecord::Base
 
   def slug_candidates
     [
-      :title
+      [:code, :title]
     ]
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150706080631) do
+ActiveRecord::Schema.define(version: 20150709144745) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -119,8 +119,10 @@ ActiveRecord::Schema.define(version: 20150706080631) do
     t.boolean  "availability",               default: true
     t.string   "slug"
     t.integer  "subvendor_price_cents",      default: 0
+    t.string   "code"
   end
 
+  add_index "food_menus", ["code"], name: "index_food_menus_on_code", using: :btree
   add_index "food_menus", ["food_category_id"], name: "index_food_menus_on_food_category_id", using: :btree
   add_index "food_menus", ["slug"], name: "index_food_menus_on_slug", unique: true, using: :btree
   add_index "food_menus", ["vendor_subvendor_id"], name: "index_food_menus_on_vendor_subvendor_id", using: :btree
@@ -321,6 +323,8 @@ ActiveRecord::Schema.define(version: 20150706080631) do
     t.datetime "deleted_at"
     t.string   "city"
   end
+
+  add_index "vendor_vendors", ["city"], name: "index_vendor_vendors_on_city", using: :btree
 
   create_table "vendor_weekly_opening_hours", force: :cascade do |t|
     t.integer  "vendor_subvendor_id"
