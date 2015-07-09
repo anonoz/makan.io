@@ -63,4 +63,11 @@ describe Promo::StudentDeliveryFeeWaiver do
     expect {Promo::StudentDeliveryFeeWaiver.new(order_chit).apply}.to raise_error Promo::ActionabilityError
   end
 
+  it "doesn't raise undefined method `student?` when its a guest ordering from online" do
+    order_chit.update(customer_user: nil, customer_address: nil, from_web: true)
+    expect {
+      order_chit.items << create(:order_item, orderable: nasi_lemak)
+    }.not_to raise_error
+  end
+
 end

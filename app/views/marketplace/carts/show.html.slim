@@ -1,3 +1,11 @@
 .row
   .small-12.columns
     h1 Cart
+
+  - @order_chit.items.each do |item|
+    .small-8.columns = item.orderable.title
+    .small-4.columns = humanized_money_with_symbol item.amount
+
+.row
+  .small-12.columns
+    = link_to "Reset Cart", city_cart_path(@city), method: :delete, class: "button expand alert"

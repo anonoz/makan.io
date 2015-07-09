@@ -44,7 +44,7 @@ class Promo::StudentDeliveryFeeWaiver < Promo::Base
   private
 
   def check_customer_user_student_status
-    unless @order_chit.customer_user.student?
+    unless @order_chit.customer_user && @order_chit.customer_user.student?
       @ineligibility_reasons << "customer user not a student"
     end
   end
