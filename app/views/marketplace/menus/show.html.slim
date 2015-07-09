@@ -1,1 +1,18 @@
 .row
+  / Food Main Column
+  .small-12.large-9.columns
+    .row
+      .small-12.medium-3.columns
+        = image_tag @menu.feature_photo.url(:medium)
+      .small-12.medium-9.columns
+        h3 = @menu.title
+        p = humanized_money_with_symbol @menu.base_price
+    .row
+      == render "show_form", menu: @menu
+
+  .show-for-medium-up.large-3.columns
+    panel
+      h4 Cart
+
+/ mobile: cart info fixed to screen bottom
+.show-for-small-only

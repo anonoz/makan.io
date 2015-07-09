@@ -1,9 +1,9 @@
 .row
-  .show-for-medium-up.small-12.large-3.columns
+  .show-for-medium-up.small-12.medium-3.columns
     ul.side-nav.categories-index
       - @categories.each do |category|
-        li = link_to category, "##{ category.to_s.underscore }"
+        li = link_to category, "##{ category.to_s.gsub(/ /, '').underscore }"
 
-  .small-12.large-9.columns
+  .small-12.medium-9.columns
     - @categories.each do |category|
       == render "menus_per_category", category: category

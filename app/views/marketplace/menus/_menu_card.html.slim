@@ -1,5 +1,5 @@
 li
-  .menu-card.row
+  .menu-card: .row
     .menu-image.small-4.medium-12.columns
       = image_tag menu.feature_photo.url(:medium)
     .small-8.medium-12.columns
@@ -8,4 +8,5 @@ li
         .small-6.columns: .menu-base-price 
           = humanized_money_with_symbol menu.base_price
         .small-6.columns
+          / TODO: To handle food menu unavailable and shit
           = link_to "Order", city_menu_path(params[:city], menu), class: "button tiny expand success"

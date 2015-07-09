@@ -1,4 +1,4 @@
-a[name="#{ category.to_s.underscore }"]
+a[name="#{ category.to_s.gsub(/ /, '').underscore }"]
 .row
   h3 = category
   

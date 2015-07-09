@@ -1,6 +1,6 @@
 class Marketplace::MenusController < Marketplace::MainController
   before_action :filter_food_menus, only: [:index]
-  before_action :set_menu, only: [:show]
+  before_action :set_menu, :build_order_item, only: [:show]
 
   def index
     @title = "Setapak Food Delivery by Running Man"
@@ -31,5 +31,9 @@ class Marketplace::MenusController < Marketplace::MainController
     rescue ActiveRecord::RecordNotFound => e
       raise_not_found(e)
     end
+  end
+
+  def build_order_item
+    @order_item = Order::Item.new(orderable: @menu)
   end
 end

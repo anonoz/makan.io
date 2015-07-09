@@ -1,4 +1,4 @@
-class HomepageController < Marketplace::MainController
+class HomepageController < PrelaunchController
   def index
   end
 end

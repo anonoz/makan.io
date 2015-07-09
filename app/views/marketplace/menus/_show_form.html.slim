@@ -1,0 +1,8 @@
+= simple_form_for @order_item, url: city_cart_items_path do |f|
+  = f.hidden_field :orderable_id
+  = f.hidden_field :orderable_type
+
+  - menu.food_options.each do |option|
+    = option
+
+  = f.submit "Add to Cart", class: "button success"

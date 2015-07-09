@@ -91,6 +91,10 @@ class Order::Chit < ActiveRecord::Base
     items.reload.collect(&:amount).reduce(:+) || 0
   end
 
+  def item_quantity
+    items.collect(&:quantity).reduce(:+) || 0
+  end
+
   def promo_adjustments
     Promo::Chain.new(self).execute
   end

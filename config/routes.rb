@@ -16,12 +16,14 @@ Rails.application.routes.draw do
 
   scope module: :marketplace do
     scope '/:city', constraints: {city: /setapak|sungailong/}, as: :city do
+      resource :cart do
+        resources :items, controller: "cart_items"
+      end
+
+      # Food menu resources must be placed at the end, because it matches :city/*
+      # It even matches /setapak/cart
       resources :menus, only: [:index, :show], path: ""
     end
-  end
-
-  resource :cart do
-    resources :items
   end
 
   # Admin Panel

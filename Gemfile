@@ -95,6 +95,7 @@ group :development do
   gem 'thin'
   gem 'traceroute'
   gem 'quiet_assets'
+  gem 'meta_request'
 end
 
 group :doc do

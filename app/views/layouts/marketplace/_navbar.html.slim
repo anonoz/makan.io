@@ -1,18 +1,18 @@
 .fixed: nav.top-bar[data-topbar]
   ul.title-area
     li.name
-      h1: a[href=root_path] Running Man Food Delivery
+      h1 = link_to "Running Man Food Delivery", root_path
     li.toggle-topbar.menu-icon
       a[href="#"]
         span Menu
 
   section.top-bar-section
     ul.left
-      li: a Foods
+      li = link_to "Foods", city_menus_path(@city)
       li: a Restaurants
       li: a Deals
 
     ul.right
       li: a Setapak
-      li: a Cart (0)
+      li = link_to "Cart (#{ @order_chit.item_quantity })", city_cart_path(@city)
       li: a Sign In
