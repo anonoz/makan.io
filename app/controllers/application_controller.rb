@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
   def current_ability
     if vendor_signed_in?
       @current_ability ||= VendorAbility.new(current_vendor)
-    else
+    elsif customer_signed_in?
       @current_ability ||= CustomerAbility.new(current_user)
     end
   end

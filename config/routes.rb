@@ -12,7 +12,8 @@ Rails.application.routes.draw do
   end
 
   # Marketplace
-  devise_for :customer, class_name: "Customer::User", path: 'me'
+  devise_for :customers, class_name: "Customer::User", path: 'me',
+             controllers: { omniauth_callbacks: "customers/omniauth_callbacks" }
 
   scope module: :marketplace do
     scope '/:city', constraints: {city: /setapak|sungailong/}, as: :city do

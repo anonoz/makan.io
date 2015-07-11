@@ -1,6 +1,6 @@
 .row
-  .show-for-medium-up.small-12.medium-3.columns
-    ul.side-nav.categories-index
+  .show-for-medium-up.small-12.medium-2.columns.categories-index
+    ul.side-nav
       - @categories.each do |category|
         li = link_to category, "##{ category.to_s.gsub(/ /, '').underscore }"
 

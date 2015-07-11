@@ -8,11 +8,16 @@
 
   section.top-bar-section
     ul.left
-      li = link_to "Foods", city_menus_path(@city)
+      - if @city
+        li = link_to "Foods", city_menus_path(@city)
       li: a Restaurants
       li: a Deals
 
     ul.right
-      li: a Setapak
-      li = link_to "Cart (#{ @order_chit.item_quantity })", city_cart_path(@city)
-      li: a Sign In
+      - if @city
+        li: a Setapak
+        li = link_to "Cart (#{ @order_chit.item_quantity })", city_cart_path(@city)
+      - if customer_signed_in?
+        li = link_to "Sign Out", destroy_customer_session_path, method: :delete
+      - else
+        li = link_to "Sign In With Facebook", customer_omniauth_authorize_path(:facebook)

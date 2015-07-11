@@ -6,7 +6,7 @@ class Marketplace::MainController < ApplicationController
   private
 
   def set_city
-    @city = params[:city]
+    @city = session[:city] = params[:city]
   end
 
   def set_vendor
