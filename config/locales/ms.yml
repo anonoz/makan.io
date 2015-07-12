@@ -19,6 +19,6 @@
 # To learn more, please read the Rails Internationalization guide
 # available at http://guides.rubyonrails.org/i18n.html.
 
-en:
+ms:
   hello: "Hello world"
-  coming_soon: "Akan datang sekejap lagi."
+  coming_soon: "Akan datang sebentar lagi."

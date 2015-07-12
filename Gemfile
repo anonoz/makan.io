@@ -50,6 +50,11 @@ gem 'markdown'
 gem 'bootstrap-sass', '~> 3.3.4'
 gem 'foundation-rails'
 
+# Rails assets aka bower packages
+source 'https://rails-assets.org' do
+  gem 'rails-assets-sticky'
+end
+
 # View
 gem 'simple_form'
 gem "nested_form"

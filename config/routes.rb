@@ -5,7 +5,8 @@ Rails.application.routes.draw do
   end
 
   # Temporary
-  if Rails.env.production?
+  # if Rails.env.production?
+  if true
     root 'prelaunch#index'
   else
     root 'homepage#index'
