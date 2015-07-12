@@ -22,3 +22,7 @@
 en:
   hello: "Hello world"
   coming_soon: "Coming Soon"
+  city:
+    setapak: "Setapak"
+    sungailong: "Sungai Long"
+    cyberjaya: "Cyberjaya"
