@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
 
   def layout_by_resource
     if devise_controller?
-      "#{ resource_name }_sign_in"
+      "#{ resource_name }_devise"
     else
       "application"
     end
