@@ -1,0 +1,16 @@
+hr
+h4 = food_option.title
+
+ul
+  - food_option.choices.each_with_index do |choice, index|
+    li
+      input[
+        type="radio"
+        id="choice_#{ choice.id }"
+        name="choice_for_#{ food_option.id }"
+        value=choice.id
+        data-food-option-id=food_option.id
+        data-food-option-choice-id=choice.id
+        checked=(index == 0)
+      ]
+      label[for="choice_#{ choice.id }"] = choice.title

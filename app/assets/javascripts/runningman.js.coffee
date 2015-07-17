@@ -4,4 +4,5 @@
 #= require vendor/modernizr
 #= require foundation
 #= require jquery_nested_form
+#= require marketplace/menus_show
 #= require_self

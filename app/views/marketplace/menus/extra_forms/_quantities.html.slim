@@ -1,0 +1,16 @@
+hr
+h4 = food_option.title
+
+ul
+  - food_option.choices.each do |choice|
+    li
+      input[
+        type="number"
+        id="choice_#{ choice.id }"
+        data-food-option-id=food_option.id
+        data-food-option-choice-id=choice.id
+        value="0"
+        min="0"
+        max=(choice.max > 0 ? choice.max : "")
+      ]
+      label[for="choice_#{ choice.id }"] = choice.title

@@ -2,7 +2,7 @@ a[name="#{ category.to_s.gsub(/ /, '').underscore }"]
 .row
   h3 = category
   
-  ul.small-block-grid-1.medium-block-grid-3
+  ul.menu-block-grid
     - category.food_menus.each do |menu|
       == render "menu_card", menu: menu
       / li = link_to menu.title, city_menu_path(params[:city], menu)

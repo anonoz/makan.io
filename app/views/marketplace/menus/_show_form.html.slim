@@ -1,8 +1,14 @@
-= simple_form_for @order_item, url: city_cart_items_path do |f|
-  = f.hidden_field :orderable_id
-  = f.hidden_field :orderable_type
+#visible-food-option-form
+  - @menu.food_options.each do |food_option|
+    = render extra_form_for(food_option), food_option: food_option
 
-  / - menu.food_options.each do |option|
-  /   = option
+= simple_form_for @order_item, url: city_cart_items_path do |f|
+  = f.hidden_field :food_menu_id
+  
+  - @menu.food_options.each do |food_option|
+    .hidden-food-option-form-field[
+      id="hidden_form_field_#{ food_option.id }"
+      data-food-option-id=food_option.id
+    ]
 
   = f.submit "Add to Cart", class: "button success"

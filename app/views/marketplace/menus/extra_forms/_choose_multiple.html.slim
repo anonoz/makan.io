@@ -1,0 +1,13 @@
+hr
+h4 = food_option.title
+
+ul
+  - food_option.choices.each do |choice|
+    li
+      input[
+        type="checkbox"
+        id="choice_#{ choice.id }"
+        data-food-option-id=food_option.id
+        data-food-option-choice-id=choice.id
+      ]
+      label[for="choice_#{ choice.id }"] = choice.title

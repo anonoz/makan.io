@@ -2,6 +2,8 @@ class Marketplace::MenusController < Marketplace::MainController
   before_action :filter_food_menus, only: [:index]
   before_action :set_menu, :build_order_item, only: [:show]
 
+  helper_method :extra_form_for
+
   def index
     @title = "Setapak Food Delivery by Running Man"
   end
@@ -35,5 +37,9 @@ class Marketplace::MenusController < Marketplace::MainController
 
   def build_order_item
     @order_item = Order::Item.new(orderable: @menu)
+  end
+
+  def extra_form_for(food_option)
+    "marketplace/menus/extra_forms/" + food_option.kind
   end
 end

@@ -33,4 +33,8 @@ class ApplicationController < ActionController::Base
       session[:locale] || I18n.default_locale
     end
   end
+
+  def params_json
+    render json: params
+  end
 end

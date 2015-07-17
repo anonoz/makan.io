@@ -7,6 +7,7 @@ class Order::Item < ActiveRecord::Base
 
   belongs_to :order_chit, class_name: "Order::Chit"
   belongs_to :orderable, -> { with_deleted }, polymorphic: true
+  alias_method :food_menu, :orderable
 
   has_many :extras, class_name: "Order::ItemExtra",
            foreign_key: "order_item_id",
@@ -62,6 +63,10 @@ class Order::Item < ActiveRecord::Base
 
   def editable?
     order_chit.present? ? order_chit.editable? : true
+  end
+
+  def food_menu_id
+    orderable_type == "Food::Menu" && orderable_id
   end
 
   def food_menu_id=(food_menu_id)

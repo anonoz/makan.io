@@ -5,9 +5,28 @@
   }
 }
 
+ul.menu-block-grid {
+  list-style: none;
+  margin: 0px;
+
+  @media #{ $medium-up } {
+    @include block-grid(2);
+  }
+
+  @media #{ $large-up } {
+    @include block-grid(3);
+  }
+}
+
 .menu-card {
   padding: 3px;
   border: 1px solid $smoke;
+
+  @media #{ $small-only } {
+    .row {
+      margin: 0px;
+    }
+  }
 
   .menu-image {
     display: block;
@@ -15,11 +34,20 @@
     height: 200px;
 
     @media #{$small-only} {
-      height: 100px;
+      height: auto;
     }
   }
 
   .menu-base-price {
     display: block;
   }
+
+  .button {
+    margin: 0px;
+  }
+}
+
+// show (aka order_item new)
+.hidden-food-option-form-field {
+  display: none;
 }
