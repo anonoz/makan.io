@@ -1,6 +1,7 @@
 class Marketplace::CartsController < Marketplace::MainController
   def show
-    
+    @title = "Cart"
+    @order_items = @order_chit.items.includes(:extras => [:food_option_choice])
   end
 
   def destroy

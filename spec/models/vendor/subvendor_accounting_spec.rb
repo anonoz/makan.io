@@ -75,7 +75,7 @@ describe Vendor::Subvendor, "Accounting" do
     nasi_lemak_order.quantity = 3
     chit.items << nasi_lemak_order
 
-    expect(mamak.amount_payable).to eq 4.2
+    expect(mamak.amount_payable.amount).to eq 4.2
   end
 
   it "calculates pay to mamak and bifc for orders in different date ranges correctly" do
@@ -88,14 +88,14 @@ describe Vendor::Subvendor, "Accounting" do
     chit2.items << thosai_masala_order
     chit2.update(created_at: "2015-06-01 11:30")
     
-    expect(mamak.amount_payable(from: "2015-04-25")).to eq 3.80
-    expect(mamak.amount_payable(from: "2015-04-30", to: "2015-05-01")).to eq 1.4
-    expect(mamak.amount_payable(from: "2015-06-01", to: "2015-06-05")).to eq 2.4
-    expect(mamak.amount_payable(from: "2015-06-07")).to eq 0
+    expect(mamak.amount_payable(from: "2015-04-25").amount).to eq 3.80
+    expect(mamak.amount_payable(from: "2015-04-30", to: "2015-05-01").amount).to eq 1.4
+    expect(mamak.amount_payable(from: "2015-06-01", to: "2015-06-05").amount).to eq 2.4
+    expect(mamak.amount_payable(from: "2015-06-07").amount).to eq 0
 
-    expect(bifc.amount_payable(to: "2015-04-01")).to eq 0
-    expect(bifc.amount_payable(to: "2015-05-15")).to eq 3.2
-    expect(bifc.amount_payable(to: "2015-06-14")).to eq 5.7
+    expect(bifc.amount_payable(to: "2015-04-01").amount).to eq 0
+    expect(bifc.amount_payable(to: "2015-05-15").amount).to eq 3.2
+    expect(bifc.amount_payable(to: "2015-06-14").amount).to eq 5.7
   end
 
   it "calculates pay to mamak for orders done in certain day correctly" do
@@ -107,7 +107,7 @@ describe Vendor::Subvendor, "Accounting" do
     expect(mamak.order_items_on(Date.today)).to eq [nasi_lemak_order]
     expect(mamak.order_items_on("2015-06-01")).to eq [nasi_lemak_order]
 
-    expect(mamak.amount_payable_on "2015-06-01").to eq 4.2
+    expect(mamak.amount_payable_on("2015-06-01").amount).to eq 4.2
 
     Timecop.return
   end
@@ -117,7 +117,7 @@ describe Vendor::Subvendor, "Accounting" do
       nasi_lemak_order.update extras: [ayam_rendang_order]
       chit.items << nasi_lemak_order
 
-      expect(mamak.amount_payable_on Date.today).to eq 3.4
+      expect(mamak.amount_payable_on(Date.today).amount).to eq 3.4
     end
 
     it "calculates amount payable with extras of quantity > 1 correctly" do
@@ -125,25 +125,25 @@ describe Vendor::Subvendor, "Accounting" do
       nasi_lemak_order.update(extras: [ayam_rendang_order])
       chit.items << nasi_lemak_order
 
-      expect(mamak.amount_payable_on Date.today).to eq 7.4
+      expect(mamak.amount_payable_on(Date.today).amount).to eq 7.4
     end
   end
 
   context "Chit status related" do
     it "does not factor in items that are rejected" do
       rejected_chit.items << nasi_lemak_order
-      expect(mamak.amount_payable).to eq 0
+      expect(mamak.amount_payable.amount).to eq 0
     end
 
     it "does not factor in items that are not accepted yet" do
       ordered_chit.items << nasi_lemak_order
-      expect(mamak.amount_payable).to eq 0
+      expect(mamak.amount_payable.amount).to eq 0
     end
 
     it "factors in items on an accepted chit" do
       ordered_chit.items << maggi_goreng_order
       ordered_chit.accept!
-      expect(mamak.amount_payable).to eq 2.4
+      expect(mamak.amount_payable.amount).to eq 2.4
     end
   end
 

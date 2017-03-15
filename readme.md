@@ -1,7 +1,5 @@
 # makan.io
 
-[![Code Climate](https://codeclimate.com/repos/558296a16956804692007412/badges/77f634e6aa36bc3d63c4/gpa.svg)](https://codeclimate.com/repos/558296a16956804692007412/feed)
-
 This web app will serve as the online food delivery platform of Running Man Food Delivery.
 
 ## Requirements
@@ -23,10 +21,8 @@ git clone git@bitbucket.org:makanio/makanio.git makan
 
 # go into postgres and create the db users
 psql
-  create role makanio with password 'makanio';
-  create role makaniotest with password 'makaniotest';
-  alter role makanio with createdb;
-  alter role makaniotest with createdb;
+  create role makanio with password 'makanio' login createdb;
+  create role makaniotest with password 'makaniotest' login createdb;
   \q
 
 # go into repo and install dependencies
@@ -34,9 +30,8 @@ cd makan
 bundle install --jobs 7
 # see: https://robots.thoughtbot.com/parallel-gem-installing-using-bundler
 
-# create database (not tested yet)
-rake db:create # for development
-rake db:create RAILS_ENV=test
+# create databases
+rake db:create
 
 # migrate to test dev db
 rake db:migrate

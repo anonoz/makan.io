@@ -1,4 +1,4 @@
-ruby '2.2.0'
+ruby '2.4.0'
 source 'https://rubygems.org'
 
 # Ruby supports
@@ -43,15 +43,16 @@ gem 'autoprefixer-rails'
 gem 'bourbon'
 gem 'uglifier', '~> 2.1.1'
 gem 'coffee-rails', '~> 4.0.0'
-gem 'jquery-rails', '~> 2.2.1'
+# gem 'jquery-rails', '~> 2.2.1'
 gem 'bcrypt-ruby', '~> 3.1.5'
 gem 'slim-rails'
 gem 'markdown'
 gem 'bootstrap-sass', '~> 3.3.4'
-gem 'foundation-rails'
+gem 'foundation-rails', '~> 5'
 
 # Rails assets aka bower packages
 source 'https://rails-assets.org' do
+  gem 'rails-assets-jquery', '~> 2.0'
   gem 'rails-assets-sticky'
 end
 
@@ -60,15 +61,10 @@ gem 'simple_form'
 gem "nested_form"
 gem 'draper'
 
-# Bootstrap
-gem "therubyracer"
-gem "less-rails"
-gem "twitter-bootstrap-rails"
-
 # Files and Images etc
 gem 'rmagick', '~> 2.13.2', :require => false
 gem "paperclip", "~> 4.2"
-gem 'aws-sdk', '~> 1.5.7'
+gem 'aws-sdk', '~> 2.0.0'
 gem 'activesupport-json_encoder'
 
 group :development, :test do

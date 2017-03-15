@@ -13,7 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require foundation
-//= require twitter/bootstrap
+//= require bootstrap
 //= require_tree .
 
 $(function(){ $(document).foundation(); });

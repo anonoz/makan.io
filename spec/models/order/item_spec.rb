@@ -49,19 +49,19 @@ describe Order::Item do
     it "calculates amount for custom item just fine" do
       custom_item = build(:order_custom_item, base_price: 3)
       order_item = create(:order_item, orderable: custom_item, quantity: 3)
-      expect(order_item.amount).to eq 9
+      expect(order_item.amount.amount).to eq 9
     end
 
     it "calculates amount + delivery fee for custom item" do
       custom_item = build(:order_custom_item, base_price: 3, kena_delivery_fee: true)
       order_item = create(:order_item, orderable: custom_item)
-      expect(order_item.amount).to eq 3.30
+      expect(order_item.amount.amount).to eq 3.30
     end
 
     it "calculates amount + gst for custom item" do
       custom_item = build(:order_custom_item, base_price: 3, kena_gst: true)
       order_item = create(:order_item, orderable: custom_item)
-      expect(order_item.amount).to eq 3.18
+      expect(order_item.amount.amount).to eq 3.18
     end
 
     it "takes in custom_item_attributes to be custom item" do
@@ -85,26 +85,26 @@ describe Order::Item do
     it "costs $3 if Nasi Lemak is $3 without extras and other charges" do
       nasi_lemak = create(:food_menu, base_price: 3)
       nasi_lemak_line = build(:order_item, orderable: nasi_lemak)
-      expect(nasi_lemak_line.amount).to eq(3)
+      expect(nasi_lemak_line.amount.amount).to eq(3)
     end
 
     it "costs $3.30 if Nasi Lemak is $3 with delivery fee and no extras" do
       nasi_lemak = create(:food_menu, base_price: 3, kena_delivery_fee: true)
       nasi_lemak_line = build(:order_item, orderable: nasi_lemak)
-      expect(nasi_lemak_line.amount).to eq(3.3)
+      expect(nasi_lemak_line.amount.amount).to eq(3.3)
     end
 
     it "costs $3.18 if Nasi Lemak is $3 with GST and no extras" do
       nasi_lemak = create(:food_menu, base_price: 3, kena_gst: true)
       nasi_lemak_line = build(:order_item, orderable: nasi_lemak)
-      expect(nasi_lemak_line.amount).to eq(3.18)
+      expect(nasi_lemak_line.amount.amount).to eq(3.18)
     end
 
     it "costs $3.48 if Nasi Lemak is $3 with both delivery + GST" do
       nasi_lemak = create(:food_menu, base_price: 3,
                           kena_delivery_fee: true, kena_gst: true)
       nasi_lemak_line = build(:order_item, orderable: nasi_lemak)
-      expect(nasi_lemak_line.amount).to eq(3.48)
+      expect(nasi_lemak_line.amount.amount).to eq(3.48)
     end
 
     it "costs $6.50 if Nasi Lemak has Ayam Rendang of $3.50 without fees and taxes" do
@@ -114,7 +114,7 @@ describe Order::Item do
       ayam_rendang_extra = create(:order_item_extra, food_option_choice: ayam_rendang,
                                   order_item: nasi_lemak_line)
 
-      expect(nasi_lemak_line.amount).to eq(6.50)
+      expect(nasi_lemak_line.amount.amount).to eq(6.50)
     end
 
     it "costs $7.54 if Nasi Lemak has Ayam Rendang and kena delivery + GST" do
@@ -124,7 +124,7 @@ describe Order::Item do
       ayam_rendang_extra = create(:order_item_extra, food_option_choice: ayam_rendang,
                                   order_item: nasi_lemak_line)
 
-      expect(nasi_lemak_line.amount).to eq(7.54)
+      expect(nasi_lemak_line.amount.amount).to eq(7.54)
     end
   end
 
@@ -139,7 +139,7 @@ describe Order::Item do
       Timecop.travel Time.parse "December 25"
       food_menu.update(base_price: 10.00)
       old_order_item = order_item.reload
-      expect(old_order_item.amount).to eq 6.50
+      expect(old_order_item.amount.amount).to eq 6.50
 
       Timecop.return
     end
@@ -152,7 +152,7 @@ describe Order::Item do
       Timecop.travel Time.parse "May 1"
       food_menu.update(kena_gst: true)
 
-      expect(order_item.amount).to eq 1
+      expect(order_item.amount.amount).to eq 1
     end
 
     it "won't change the amount on older chit if delivery fee kicks in later", versioning: true do
@@ -163,7 +163,7 @@ describe Order::Item do
       Timecop.travel Time.parse "May 1"
       food_menu.update(kena_delivery_fee: true)
 
-      expect(order_item.amount).to eq 1
+      expect(order_item.amount.amount).to eq 1
     end
 
     it "won't change the amount on older chit if both fees and price hike kick in later", versioning: true do
@@ -175,15 +175,15 @@ describe Order::Item do
 
       Timecop.travel Time.parse "March 1"
       food_menu.update(base_price: 10.00)
-      expect(order_item.amount).to eq 6.50
+      expect(order_item.amount.amount).to eq 6.50
 
       Timecop.travel Time.parse "April 1"
       food_menu.update(kena_gst: true)
-      expect(order_item.amount).to eq 6.50
+      expect(order_item.amount.amount).to eq 6.50
 
       Timecop.travel Time.parse "May 1"
       food_menu.update(kena_delivery_fee: true)
-      expect(order_item.amount).to eq 6.50
+      expect(order_item.amount.amount).to eq 6.50
 
       Timecop.return
     end
@@ -197,15 +197,15 @@ describe Order::Item do
 
       Timecop.travel Time.parse "March 1"
       food_menu.update(base_price: 6.50)
-      expect(order_item.amount).to eq 11.6
+      expect(order_item.amount.amount).to eq 11.6
 
       Timecop.travel Time.parse "April 1"
       food_menu.update(kena_gst: true)
-      expect(order_item.amount).to eq 11.6
+      expect(order_item.amount.amount).to eq 11.6
 
       Timecop.travel Time.parse "May 1"
       food_menu.update(kena_delivery_fee: true)
-      expect(order_item.amount).to eq 11.6
+      expect(order_item.amount.amount).to eq 11.6
 
       Timecop.return
     end

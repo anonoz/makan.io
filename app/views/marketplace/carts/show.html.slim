@@ -1,11 +1,23 @@
-.row
-  .small-12.columns
-    h1 Cart
-
-  - @order_chit.items.each do |item|
-    .small-8.columns = item.orderable.title
-    .small-4.columns = humanized_money_with_symbol item.amount
+.header-stripe
+  h2 1. Check Your Order
 
 .row
-  .small-12.columns
-    = link_to "Reset Cart", city_cart_path(@city), method: :delete, class: "button expand alert"
+  .small-12.large-8.columns
+    .paper-shadow
+      / item lines
+      - @order_items.each do |item|
+        
+
+      / calculations for total
+
+      / total grey background
+
+      / promo code field
+
+  .small-12.large-4.columns
+    .paper-shadow
+      / Delivery time options
+
+      / Extra instructions
+
+      / Continue CTA

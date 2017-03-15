@@ -1,5 +1,5 @@
 language: ruby
-rvm: 2.2.0
+rvm: 2.4.0
 
 env:
     - SECRET_KEY_BASE=abc123 DEVISE_SECRET_KEY=abc123

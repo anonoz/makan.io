@@ -32,7 +32,7 @@ module SubvendorAccountable
   end
 
   def amount_payable(date_range = {})
-    order_items(date_range).collect(&:subvendor_payable).reduce(:+) || 0
+    order_items(date_range).collect(&:subvendor_payable).reduce(:+) || 0.to_money
   end
 
   def amount_payable_on(date)

@@ -11,7 +11,7 @@ describe Order::Chit, "Promotable Spec" do
     order_chit.items << build(:order_item, orderable: nasi_lemak)
 
     expect(order_chit.promo_adjustments).to be_any
-    expect(order_chit.calculate_subtotal).to eq 3
+    expect(order_chit.calculate_subtotal.amount).to eq 3
   end
 
   context "#promo_usages" do
@@ -42,7 +42,7 @@ describe Order::Chit, "Promotable Spec" do
       	order_chit.items << maggi_goreng_order
       	order_chit.save
       }.to change {
-      	order_chit.promo_usages.reload.last.reload.adjustment
+      	order_chit.promo_usages.reload.last.reload.adjustment.amount
       }.by -0.45
     end
 
